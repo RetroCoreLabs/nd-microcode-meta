@@ -26,13 +26,20 @@ extension, future C library, FPGA reference, etc.).
   rules, jump-context heuristics
 - **Common** - register naming, condition codes
 
-### Reference binaries
+### Reference material
 
-- `ND-110-RASK.CODE` + `.SYMBOLS.TXT` + `.uc` - user-patched RASK source
-- `ND-120-DELILAH.CODE` + loader variant (DELILAH is a stub placeholder)
-- ROM images for two physical cards:
-  - ND-110 3095: `37948L.bin` (low) + `37949L.bin` (high)
-  - ND-120 AM27256: `AM27256_45132L.bin` (low) + `AM27256_45133L.bin` (high)
+- `ND-110-RASK.uc` - valid hand-patched ND-110 RASK microcode source
+  (ND-120 and ND-100 `.uc` sources will be added as they become
+  available)
+- ROM images organised by CPU family:
+  - `roms/ND110/37948L.bin` + `37949L.bin` (ND-110 3095 card, version L)
+  - `roms/ND120/AM27256_45132L.bin` + `AM27256_45133L.bin` (ND-120, version L)
+  - `roms/ND100/` reserved for ND-100 chip dumps
+
+**Note:** `.CODE` and `.SYMBOLS.TXT` compile outputs do NOT live in
+this repo - they are regenerable from the `.uc` sources and belong
+with the toolchain that produces them. Only ROM chip binaries and
+hand-written `.uc` sources are tracked here.
 
 ### Documentation
 

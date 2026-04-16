@@ -44,18 +44,23 @@ docs/
 ├── special-bits.md             The undocumented 20-27 bit region
 └── ND-06.031.1-...pdf          Official Norsk Data Microprogrammer's Guide
 
-reference/
-├── ND-110-RASK.CODE            Patched RASK binary (user-maintained)
-├── ND-110-RASK.SYMBOLS.TXT
-├── ND-110-RASK.uc              Patched .uc source
-├── ND-120-DELILAH.CODE         ND-120 stub
-├── ND-120-DELILAH-L.CODE
-├── ND-120-DELILAH-L.SYMBOLS.TXT
+reference/                           Read-only hardware reference material
+├── README.md                         What lives here and why
+├── ND-110-RASK.uc                    Valid ND-110 RASK microcode source
+├── ND-120-*.uc                       (work in progress - not yet valid)
+├── ND-100-*.uc                       (not yet available)
 └── roms/
-    ├── 37948L.bin              ND-110 3095 LOW chip  (version L / 0o14)
-    ├── 37949L.bin              ND-110 3095 HIGH chip (version L / 0o14)
-    ├── AM27256_45132L.bin      ND-120 AM27256 LOW chip  (version L / 0o14)
-    └── AM27256_45133L.bin      ND-120 AM27256 HIGH chip (version L / 0o14)
+    ├── ND100/                        (ROMs pending)
+    ├── ND110/
+    │   ├── 37948L.bin                ND-110 3095 LOW chip  (version L / 0o14)
+    │   └── 37949L.bin                ND-110 3095 HIGH chip (version L / 0o14)
+    └── ND120/
+        ├── AM27256_45132L.bin        ND-120 AM27256 LOW chip  (version L / 0o14)
+        └── AM27256_45133L.bin        ND-120 AM27256 HIGH chip (version L / 0o14)
+
+NOTE: compile outputs (.CODE, .SYMBOLS.TXT) are NOT stored here.
+They are regenerable from the .uc sources and live with whichever
+toolchain produced them (ND110Compile C# assembler for now).
 
 schemas/                        (reserved for future JSON Schema files)
 tools/
