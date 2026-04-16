@@ -1,0 +1,47 @@
+# ND-120 Microinstruction Word Field Definitions
+# Source: ND110Compile/ND110Compile/ND120Tokens.cs, src/microcode.h, src/index.html
+# Reference: ND-06.031.1 EN ND-110 and ND-120 Microprogrammer's Guide
+#
+# The ND-120 extends the ND-110 format from 48 bits to 64 bits. The lower 48 bits
+# have the same layout as ND-110; the upper 16 bits add extra ALU function bits
+# and a handful of ND-120-specific control bits.
+
+model: ND-120
+word_size_bits: 64
+byte_count: 8
+byte_order: little-endian
+
+# Inherit all field definitions from ND-110. This file only documents
+# the ND-120-specific deltas.
+inherits_from: nd110-fields.yaml
+
+# Fields modified or added in ND-120
+fields:
+
+  # The ALU function field widens in ND-120 to use the full 9 bits at 63:55.
+  # In ND-110 it is encoded in bits 47:39 (9 bits within the upper 16 of w3).
+  # We model this as the same logical field; the physical bit positions are
+  # identical in the 64-bit canonical form.
+  ALUI:
+    bits: [63, 55]
+    width: 9
+    description: "ALU Function Select (full 9 bits on ND-120)"
+    default: 0
+
+  # The ND-120 adds some extra status bits in the delay region. These are
+  # treated as the ND-110 delay bits and ignored for logical comparisons.
+
+# ROM encoding difference:
+# ND-120 EPROM images store bits 22-27 inverted relative to the canonical
+# assembled form. The ROM combiner applies XOR 0x0FC00000 (bits 22-27) to
+# convert between the two representations.
+rom_bit_flip:
+  applies_to: ND-120
+  description: "ND-120 EPROM images have bits 22-27 inverted vs the assembled form"
+  mask: "0x0FC00000"       # Bits 22..27 set
+  operation: xor
+  purpose: |
+    When reading raw EPROM contents (e.g. from 45132L.bin + 45133L.bin),
+    XOR with this mask to obtain the canonical assembled form used by the
+    assembler and disassembler. When writing ROMs, apply the same XOR in
+    reverse.

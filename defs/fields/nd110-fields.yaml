@@ -1,0 +1,245 @@
+# ND-110 Microinstruction Word Field Definitions
+# Source: ND110Compile/ND110Compile/ND110Tokens.cs, src/microcode.h, src/index.html
+# Reference: ND-06.031.1 EN ND-110 and ND-120 Microprogrammer's Guide
+
+model: ND-110
+word_size_bits: 48          # ND-110 uses 48-bit microinstruction words
+byte_count: 6               # 6 bytes per word in .CODE files
+byte_order: little-endian   # Lowest byte first
+
+# Note on bit numbering:
+# - Bit positions are numbered LSB-first (bit 0 is least significant)
+# - The C# assembler uses 4x 16-bit "words" (w1, w2, w3, w4):
+#     w1 = bits 15:0,   w2 = bits 31:16,  w3 = bits 47:32,  w4 = bits 63:48
+# - For ND-110, only bits 47:0 are used (w1, w2, w3 = 48 bits total)
+# - For ND-120, the upper 16 bits (w4) add extra ALU function bits
+
+fields:
+
+  # ================================================================
+  # LINE 3 FIELDS (lower 16 bits) - Branch Address OR Condition
+  # ================================================================
+
+  # The lower 12 bits have dual meaning depending on SCOND:
+  #   SCOND=0: CSBIT_11_0 encodes the branch address (combined with CSBIT20)
+  #   SCOND=1: lower 12 bits encode condition test fields
+
+  CSBIT_11_0:
+    bits: [11, 0]
+    width: 12
+    description: "Branch address (when SCOND=0). The effective 13-bit branch address is (CSBIT20 << 12) | CSBIT_11_0."
+    default: 0
+    used_when: "SCOND == 0"
+
+  # When SCOND=1, the 12 bits split into:
+  LCC:
+    bits: [11, 8]
+    width: 4
+    description: "Loop Counter Control (only when SCOND=1)"
+    default: 0
+    used_when: "SCOND == 1"
+
+  TSEL:
+    bits: [7, 4]
+    width: 4
+    description: "Test Selector - selects which condition to test (only when SCOND=1)"
+    default: 0
+    used_when: "SCOND == 1"
+
+  F_SEQ:
+    bits: [3, 2]
+    width: 2
+    description: "False-path sequence control (F,JMP / F,NEXT / F,RETURN). Only when SCOND=1."
+    default: 0
+    used_when: "SCOND == 1"
+
+  F_STK:
+    bits: [1, 0]
+    width: 2
+    description: "False-path stack operation (F,HOLD / F,POP / F,LOAD / F,PUSH). Only when SCOND=1."
+    default: 0
+    used_when: "SCOND == 1"
+
+  # ================================================================
+  # A/B OPERAND FIELDS (bits 19:12) - register selection
+  # ================================================================
+
+  AOP:
+    bits: [15, 12]
+    width: 4
+    description: "A-Operand register selection (0-17 octal)"
+    default: 0
+
+  BOP:
+    bits: [19, 16]
+    width: 4
+    description: "B-Operand register selection (0-17 octal)"
+    default: 0
+
+  # ================================================================
+  # CONTROL BITS (bits 20-27)
+  # ================================================================
+
+  CSBIT20:
+    bits: [20, 20]
+    width: 1
+    description: "Address Extension Bit - high bit (bit 12) of the 13-bit branch address"
+    default: 0
+
+  CSDELAY_BIT21:
+    bits: [21, 21]
+    width: 1
+    description: "Delay control bit (timing-related; ignored for logical comparisons)"
+    default: 0
+    notes: "Part of the delay/timing control, see microcode.h and ND110MicroCode/Program.cs"
+
+  LOOP:
+    bits: [22, 22]
+    width: 1
+    description: "LCOUNT - Count loop counter; if result false, return and hold"
+    default: 0
+    token: "LCOUNT"
+
+  CONDENABL:
+    bits: [23, 23]
+    width: 1
+    description: "Enable conditional sequencing. When set, use FALSE-path specs if condition is false."
+    default: 0
+    token: "CONDENABL"
+
+  SCOND:
+    bits: [24, 24]
+    width: 1
+    description: "Set Condition - when set, the lower 12 bits encode condition tests (LCC/TSEL/F_SEQ/F_STK) instead of a branch address."
+    default: 0
+
+  VECT:
+    bits: [25, 25]
+    width: 1
+    description: "Vector Jump Selector"
+    default: 0
+
+  CSDELAY_BITS_27_26:
+    bits: [27, 26]
+    width: 2
+    description: "Delay control bits (timing-related; ignored for logical comparisons)"
+    default: 0
+
+  # ================================================================
+  # SEQUENCING FIELDS (bits 28-31)
+  # ================================================================
+
+  T_STK:
+    bits: [29, 28]
+    width: 2
+    description: "True-path stack operation (T,HOLD / T,POP / T,LOAD / T,PUSH)"
+    default: 0
+
+  T_SEQ:
+    bits: [31, 30]
+    width: 2
+    description: "True-path sequence control (T,JMP / T,RETURN / T,NEXT / T,JMP0-3)"
+    default: 0
+
+  # ================================================================
+  # COMMAND AND BUS FIELDS (bits 32-41)
+  # ================================================================
+
+  COMM:
+    bits: [36, 32]
+    width: 5
+    description: "Command field - selects a 5-bit command code"
+    default: 0
+
+  IDBS:
+    bits: [41, 37]
+    width: 5
+    description: "Internal Data Bus Source - selects what drives the IDB"
+    default: 0
+
+  # ================================================================
+  # ALU CONTROL FIELDS (bits 42-47)
+  # ================================================================
+
+  MIS:
+    bits: [43, 42]
+    width: 2
+    description: "MISO field - shift mode when ALUM=MIC (ROT/ZIN/LIN)"
+    default: 0
+
+  ALUM:
+    bits: [45, 44]
+    width: 2
+    description: "ALU Mode Modifier (FMU/FDV/IR/MIC)"
+    default: 0
+
+  CIN:
+    bits: [47, 46]
+    width: 2
+    description: "Carry-In Select (CRY,C / CRY,GPR)"
+    default: 0
+
+  # ================================================================
+  # ALU B-OPERAND AND FUNCTION FIELDS (bits 48-63 - upper parts used by ND-110)
+  # ================================================================
+
+  RBSEL:
+    bits: [49, 48]
+    width: 2
+    description: "B-Operand Select"
+    default: 0
+
+  XRF:
+    bits: [50, 50]
+    width: 1
+    description: "Extended Register File select"
+    default: 0
+    token: "XRF"
+
+  RASEL:
+    bits: [52, 51]
+    width: 2
+    description: "A-Operand Select"
+    default: 0
+
+  ALUSRC_STS:
+    bits: [54, 53]
+    width: 2
+    description: "ALU Mode Control / Status update (STS,LO / STS,EA / STS,ES)"
+    default: 0
+
+  ALUI:
+    bits: [63, 55]
+    width: 9
+    description: |
+      ALU Function Select. This 9-bit field encodes the composite ALU operation
+      (source operand selector + function + carry-in combination). It is decoded
+      as a single ALUF,xxx token (see tokens/nd110-tokens.yaml for all ALUF,xxx
+      entries and their w4 encodings).
+    default: 0
+    notes: |
+      For ND-110, only bits 55-63 of the 64-bit canonical form map here.
+      In the 48-bit ND-110 word, this field occupies the upper 9 bits.
+
+# Semantic groups used by the disassembler/formatter for line assignment
+categories:
+  line_1:
+    name: "Registers and ALU"
+    description: "A/B register operands, ALU function and destination"
+    fields: [AOP, BOP, RASEL, RBSEL, XRF, ALUI, ALUSRC_STS, CIN, ALUM, MIS]
+
+  line_2:
+    name: "Bus and Sequencing"
+    description: "Internal data bus, commands, true-path sequencing"
+    fields: [IDBS, COMM, T_SEQ, T_STK, LOOP]
+
+  line_3:
+    name: "Branch and Condition"
+    description: "Branch target OR condition test and false-path sequencing"
+    fields: [CSBIT_11_0, CSBIT20, SCOND, CONDENABL, VECT, LCC, TSEL, F_SEQ, F_STK]
+
+# Fields that are considered "ignored" for binary comparison purposes
+# (delay/timing bits that don't change semantic meaning)
+ignored_for_comparison:
+  - CSDELAY_BIT21
+  - CSDELAY_BITS_27_26

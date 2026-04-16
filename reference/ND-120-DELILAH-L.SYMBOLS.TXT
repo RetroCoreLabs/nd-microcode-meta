@@ -1,0 +1,15 @@
+Labels, sorted by address
+=========================
+
+000020=VERSN 
+000027=PVPF
+000032=FTCH
+002001=MACL
+
+Labels, sorted by name
+======================
+
+FTCH=000032
+MACL=002001
+PVPF=000027
+VERSN =000020

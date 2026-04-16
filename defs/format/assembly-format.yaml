@@ -1,0 +1,322 @@
+# ND-100/110/120 Microcode Assembly Format Rules
+#
+# This file is the canonical specification for how microinstructions are
+# formatted as human-readable assembly text. It is consumed by:
+#   - The disassembler (to generate output matching hand-written .uc sources)
+#   - The assembler (to parse .uc sources into binary)
+#   - The VSCode extension (to understand line structure for folding/hover)
+#
+# The format is known as the "3-line format" because each microinstruction
+# typically spans 3 source lines. Simple instructions may collapse to fewer.
+#
+# Reference: ND-06.031.1 EN ND-110 and ND-120 Microprogrammer's Guide
+# Reference implementation: ND110Compile/ND110Compile/uCode/ND-110-RASK.uc
+
+format_name: "ND 3-line microcode assembly"
+models: [nd100, nd110, nd120]
+
+# ============================================================================
+# BASIC SYNTAX
+# ============================================================================
+
+syntax:
+  comment_prefix: "%"           # Comments start with % and continue to end-of-line
+  label_suffix: ":"             # Labels end with :  e.g. "PVPF:"
+  address_prefix_suffix: "/"    # Address markers end with / e.g. "20/"  (sets current address)
+  statement_terminator: ";"     # Each microinstruction ends with ;
+  directive_prefix: "#"         # Pre-processor directives start with # (e.g. #Include)
+  case_sensitive: false         # Tokens are case-insensitive but conventionally UPPERCASE
+  whitespace: "free-form"       # Multiple spaces/tabs treated as single separator
+  continuation: implicit        # Instructions span multiple lines until ; is found
+
+# Numeric literal prefixes (from TokensBase.ParseIntValue)
+numeric_literals:
+  octal_default: true           # Plain digits (e.g. "170") are octal by default
+  octal_prefix: "o"             # o123 = octal explicit
+  hex_prefix_0x: "0x"
+  hex_prefix_dollar: "$"
+  decimal_prefix: "d"           # d123 = decimal
+
+# ============================================================================
+# THE 3-LINE LAYOUT
+# ============================================================================
+#
+# A full microinstruction is typically written across 3 lines:
+#
+#     LABEL:    <line 1: register operands + ALU>
+#               <line 2: IDBS bus + COMM + T-sequencing>
+#               <line 3: branch target OR condition + F-sequencing>;
+#
+# Example (from PVPF: in ND-110-RASK.uc):
+#
+#     PVPF:     AB,PGS              ALUD,NONE
+#               IDBS,PGS            COMM,EWRF           T,NEXT              T,HOLD
+#               COND,FETCH          F,NEXT              F,HOLD;
+
+layout:
+  default_lines: 3
+  line_1:
+    name: "Register and ALU"
+    purpose: "Select register operands and ALU operation"
+    token_categories:
+      # Order reflects typical left-to-right placement in source files
+      - AB_REG          # Combined A,B alias (e.g. AB,PGS, AB,MACL)
+      - A_REG           # A-operand register (e.g. A,D, A,P)
+      - B_REG           # B-operand register (e.g. B,R7, B,P)
+      - PIC             # PIC command (when COMM,EPIC is active)
+      - ALUF            # ALU function (e.g. ALUF,PASSD, ALUF,A+B+1)
+      - ALUD            # ALU destination (e.g. ALUD,NONE, ALUD,B)
+      - ALUM            # ALU mode (FMU/FDV/IR/MIC)
+      - STS             # Status update (STS,LO / STS,EA / STS,ES)
+      - CRY             # Carry-in source (CRY,C / CRY,GPR)
+      - MIS             # Shift mode when ALUM=MIC
+      - XRF             # Extended register file select
+
+  line_2:
+    name: "Bus and sequencing (true path)"
+    purpose: "Select IDB source, issue command, control true-path sequencing"
+    token_categories:
+      - IDBS            # Internal data bus source (IDBS,ALU, IDBS,PGS, etc.)
+      - COMM            # Command code (COMM,EWRF, COMM,LDLC, etc.)
+      - T_SEQ           # True-path next-instruction control (T,JMP / T,NEXT / T,RETURN)
+      - T_STK           # True-path stack operation (T,HOLD / T,POP / T,LOAD / T,PUSH)
+      - LCOUNT          # Loop counter control (when present)
+
+  line_3:
+    name: "Branch or condition"
+    purpose: "Specify branch target or condition test with false-path sequencing"
+    variants:
+      # --- Variant A: Simple branch target ---
+      - name: "branch_only"
+        applies_when: "SCOND == 0 AND CONDENABL == 0"
+        example: |
+          FTCH2:
+          # ... line 1 and line 2 ...
+          PVPF;                             % line 3: jump to label PVPF
+        content_order:
+          - branch_target               # Label name or octal address literal
+
+      # --- Variant B: Condition test (most common) ---
+      - name: "condition_test"
+        applies_when: "SCOND == 1"
+        example: |
+          COND,FETCH          F,NEXT              F,HOLD;
+        content_order:
+          - COND                        # COND,xxx token (see conditions.yaml)
+          - F_SEQ                       # F,JMP / F,NEXT / F,RETURN
+          - F_STK                       # F,HOLD / F,POP / F,LOAD / F,PUSH
+        notes: |
+          When a condition test is active, the instruction also specifies
+          a TRUE path (T,xxx on line 2) and a FALSE path (F,xxx on line 3).
+          The CPU evaluates the condition and picks the appropriate path.
+
+      # --- Variant C: Condition-enabled branch (delayed condition) ---
+      - name: "cond_enable"
+        applies_when: "CONDENABL == 1"
+        example: |
+          FTCH                CONDENABL;
+          NOINT               CONDENABL;
+          FTCH2               CONDENABL;
+        content_order:
+          - branch_target               # Label or octal address
+          - CONDENABL                   # Literal CONDENABL keyword
+        notes: |
+          CONDENABL enables conditional sequencing using a previously set
+          condition. The branch target is taken if the condition was TRUE;
+          otherwise the FALSE-path fields (from a prior instruction, or
+          implicit F,NEXT/F,HOLD) are used.
+          Typically appears PAIRED with a preceding instruction that sets
+          the condition (e.g. COND,FETCH F,NEXT F,HOLD).
+
+# ============================================================================
+# COLLAPSED FORMS
+# ============================================================================
+#
+# Some simple instructions are written on a single line. The assembler must
+# accept any combination of tokens on any line, as long as they are separated
+# by whitespace and terminated by ;.
+#
+# The disassembler should decide when to collapse based on content.
+
+collapse_rules:
+  single_line_allowed_when:
+    - "Only line 2 has non-default fields"
+    - "Branch target is short and fits"
+  examples:
+    - source: "T,JMP 6 COMM,SLOW1;"
+      explanation: "Simple unconditional jump to label 6 with SLOW1 command"
+    - source: "T,JMP 11 COMM,SLOW1;"
+      explanation: "Jump to address 11 (octal), same pattern"
+    - source: "ALUD,NONE IDBS,ALU COMM,SLOW1 T,JMP T,HOLD ILLIN;"
+      explanation: "All three lines on one physical line"
+
+# ============================================================================
+# ZERO-VALUE DISPLAY RULES
+# ============================================================================
+#
+# The central challenge of good disassembly is deciding WHICH zero-valued
+# fields to show. A token with encoding all-zero is indistinguishable from
+# "not set" in the raw bits. Context tells us which to display.
+
+zero_display:
+
+  principle: |
+    Most fields default to zero, and zero-valued fields are NOT emitted.
+    However, certain fields ARE emitted even when zero because:
+      (a) they carry semantic meaning ("explicit NOP" vs "absent")
+      (b) they appear paired with non-zero fields from another category
+      (c) Norsk Data source conventions display them unconditionally
+
+  # Fields whose zero-value encoding is a real, displayed token
+  always_emit_zero_token:
+    - token: "T,JMP"
+      category: T_SEQ
+      encoding_all_zero: true
+      reason: "T,JMP has zero encoding but is the default true-sequence when SCOND=1 or when a branch target is present"
+      emit_when: "Any T_SEQ/T_STK/branch_target is present on line 2"
+
+    - token: "T,HOLD"
+      category: T_STK
+      encoding_all_zero: true
+      reason: "Default true-path stack operation; always paired with T_SEQ"
+      emit_when: "Line 2 has any sequencing tokens"
+
+    - token: "F,JMP"
+      category: F_SEQ
+      encoding_all_zero: true
+      reason: "Default false-path sequence when a condition test is active"
+      emit_when: "SCOND == 1 (condition test active on line 3)"
+
+    - token: "F,HOLD"
+      category: F_STK
+      encoding_all_zero: true
+      reason: "Default false-path stack operation; always paired with F_SEQ when SCOND=1"
+      emit_when: "SCOND == 1"
+
+    - token: "ALUD,Q"
+      category: ALUD
+      encoding_all_zero: true
+      reason: "Zero in ALUD field means 'F -> Q', which is semantically meaningful (not a no-op)"
+      emit_when: "Any ALU operation is specified on line 1"
+
+    - token: "IDBS,ALU"
+      category: IDBS
+      encoding_all_zero: true
+      reason: "Default IDB source is the ALU output; shown when any line 2 activity exists"
+      emit_when: "Line 2 has other non-default fields (COMM, T_SEQ, etc.)"
+
+    - token: "PIC,MCL"
+      category: PIC
+      encoding_all_zero: true
+      reason: "PIC command MASTER CLEAR - zero encoding but real meaning when COMM=EPIC"
+      emit_when: "COMM == EPIC"
+
+    - token: "A,Z"
+      category: A_REG
+      encoding_all_zero: true
+      reason: "A-operand=0 addresses zero/status register; shown when needed contextually"
+      emit_when: "ALU requires A-operand (ALUF uses A) OR COMM requires address"
+
+    - token: "B,Z"
+      category: B_REG
+      encoding_all_zero: true
+      reason: "B-operand=0 addresses zero/status register"
+      emit_when: "ALU requires B-operand (ALUF uses B) OR COMM requires address"
+
+  # Fields that are ONLY shown when non-zero (their zero value = 'absent')
+  suppress_when_zero:
+    - category: ALUF
+      reason: "Zero means no ALU operation specified"
+    - category: COMM
+      reason: "Zero means no command issued"
+    - category: STS
+      reason: "Zero means no status update"
+    - category: CRY
+      reason: "Zero means normal carry-in (not overridden)"
+    - category: MIS
+      reason: "Zero means no shift mode modifier"
+    - category: ALUM
+      reason: "Zero means ALUM,MIC (default, only shown when different)"
+      exception: "ALUM,MIC (the zero-encoded default) may be shown when MIS is non-zero"
+    - category: COND
+      reason: "Zero means no condition test"
+    - category: LCOUNT
+      reason: "Zero means loop counter not active"
+    - category: CONDENABL
+      reason: "Zero means conditional sequencing not enabled"
+
+# ============================================================================
+# OPERAND REQUIREMENTS
+# ============================================================================
+#
+# Some tokens require A, B, or both operands to be specified. The assembler
+# enforces this; the disassembler uses these rules to decide whether to show
+# default A,Z / B,Z tokens.
+
+operand_requirements:
+  # Flags from Constants.cs in the C# assembler:
+  RequireA:       "Token requires an A-operand to be specified"
+  RequireB:       "Token requires a B-operand to be specified"
+  RequireA_B:     "Token requires both A and B operands (AB, tokens)"
+  RequirePIC:     "Token requires a PIC command on the A-operand position (COMM,EPIC must be present)"
+  IsA:            "Token provides the A-operand (mutually exclusive with other A providers)"
+  IsB:            "Token provides the B-operand"
+  IsA_B:          "Token provides both A and B (AB, aliases)"
+  IsPIC:          "Token is a PIC command (occupies A-operand slot when COMM,EPIC is active)"
+  IsIDBS:         "Token sets the IDBS field"
+  IsTrueAddr:     "Token sets the T_SEQ field (T,JMP/T,NEXT/T,RETURN)"
+  IsTrueStack:    "Token sets the T_STK field (T,HOLD/T,POP/T,LOAD/T,PUSH)"
+  IsFalseAddr:    "Token sets the F_SEQ field (F,JMP/F,NEXT/F,RETURN)"
+  IsFalseStack:   "Token sets the F_STK field (F,HOLD/F,POP/F,LOAD/F,PUSH)"
+  IsCond:         "Token sets the COND field (condition selector)"
+
+# ============================================================================
+# BRANCH TARGETS
+# ============================================================================
+
+branch_targets:
+  # When the 12-bit branch address is used (SCOND=0), the target can be:
+  forms:
+    - label: "Symbolic label resolved at assembly time (e.g. PVPF, FTCH2)"
+    - octal_address: "Plain octal number (e.g. 6, 11, 170000)"
+    - self: "Omitted - branch to current address (implicit in some forms)"
+
+  address_extension:
+    description: |
+      The branch address is 13 bits: CSBIT20 (bit 20) is the high bit and
+      CSBIT_11_0 (bits 11:0) are the low bits. Labels are resolved to a full
+      13-bit address by the assembler.
+    effective_width: 13
+    formula: "effective_address = (CSBIT20 << 12) | CSBIT_11_0"
+
+# ============================================================================
+# SPECIAL TOKENS
+# ============================================================================
+
+special_tokens:
+  CONDENABL:
+    category: special
+    bit: 23
+    appears_on: line_3
+    always_displayed: true          # When set, ALWAYS emitted (even though only 1 bit)
+    description: "Enables conditional sequencing based on a prior COND test"
+
+  LCOUNT:
+    category: special
+    bit: 22
+    appears_on: line_2
+    always_displayed: true
+    description: "Count loop counter; if false, return and hold"
+
+  XRF:
+    category: special
+    bit: 50
+    appears_on: line_1
+    always_displayed: true
+    description: "Select extended register file"
+
+  CONT:
+    category: special
+    appears_on: line_3
+    description: "Continue label - commonly jumped to after conditional tests"
+    notes: "Not a special bit; just a conventional label"

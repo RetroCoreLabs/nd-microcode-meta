@@ -1,0 +1,21 @@
+# ND-100 Microinstruction Word Field Definitions
+# STATUS: PLACEHOLDER - ND-100 microcode has not yet been analysed.
+#
+# When ND-100 microcode binaries become available, this file should be
+# filled in based on hardware analysis. The ND-100 likely shares most of
+# the ND-110 layout but may differ in:
+#   - Word size (could be 48-bit like ND-110 or narrower)
+#   - Specific command codes (COMM field values)
+#   - Available IDBS sources
+#   - Missing tokens that were added in ND-110
+#
+# Reference: ND-100 reference manuals and hardware
+
+model: ND-100
+status: unimplemented
+word_size_bits: 48          # Assumed - to be verified
+byte_count: 6
+byte_order: little-endian
+
+# Most fields likely inherit from ND-110; specific deltas to be documented here.
+inherits_from: nd110-fields.yaml

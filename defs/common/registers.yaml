@@ -1,0 +1,25 @@
+# Common Register Name Definitions
+# Registers 0-17 (octal) are selected by the 4-bit A-OP and B-OP fields.
+# Names are shared across ND-100, ND-110, and ND-120.
+
+registers:
+  - { index: 0,  octal: "0",  name: "Z",   alt: "ZERO",  description: "Zero register / status / scratch" }
+  - { index: 1,  octal: "1",  name: "D",   description: "D register (data)" }
+  - { index: 2,  octal: "2",  name: "P",   description: "P register (program counter)" }
+  - { index: 3,  octal: "3",  name: "B",   description: "B register (base)" }
+  - { index: 4,  octal: "4",  name: "L",   description: "L register (link)" }
+  - { index: 5,  octal: "5",  name: "A",   description: "A register (accumulator)" }
+  - { index: 6,  octal: "6",  name: "T",   description: "T register (temporary)" }
+  - { index: 7,  octal: "7",  name: "X",   description: "X register (index)" }
+  - { index: 8,  octal: "10", name: "STS", description: "Register 10 - status or scratch" }
+  - { index: 9,  octal: "11", name: "R1",  description: "Register 11 - address or scratch" }
+  - { index: 10, octal: "12", name: "R2",  description: "Register 12 - scratch" }
+  - { index: 11, octal: "13", name: "R3",  description: "Register 13 - scratch" }
+  - { index: 12, octal: "14", name: "R4",  description: "Register 14 - scratch" }
+  - { index: 13, octal: "15", name: "R5",  description: "Register 15 - scratch" }
+  - { index: 14, octal: "16", name: "R6",  description: "Register 16 - scratch" }
+  - { index: 15, octal: "17", name: "R7",  description: "Register 17 - scratch" }
+
+# Derived register aliases: A,0 == A,Z, B,5 == B,A, etc. These aliases appear
+# both as named (A,Z / A,D / ... / A,R7) and numeric (A,0 / A,1 / ... / A,17)
+# forms. Both are valid assembler input; the disassembler prefers the named form.

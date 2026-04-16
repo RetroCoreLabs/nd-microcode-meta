@@ -1,0 +1,28 @@
+# Condition Code Definitions
+# Used when SCOND=1 to select which condition the microinstruction tests.
+# Values below encode the TSEL field (bits 7:4) and other associated bits.
+
+conditions:
+  - { name: "STP",   description: "Stop / breakpoint condition" }
+  - { name: "PXM",   description: "Prefix mode active" }
+  - { name: "OVF",   description: "ALU Overflow" }
+  - { name: "CRY",   description: "ALU Carry" }
+  - { name: "F11",   description: "Bit 11 of ALU result" }
+  - { name: "F15",   description: "Bit 15 of ALU result" }
+  - { name: "F=0",   description: "ALU result is all zeros" }
+  - { name: "LC=0",  description: "Loop counter equals zero" }
+  - { name: "FETCH", description: "Last memory request was fetch" }
+  - { name: "IRQ",   description: "Interrupt request pending" }
+  - { name: "RESTR", description: "Restricted mode (ring 0-1)" }
+  - { name: "OOD",   description: "One-out-detect flip-flop" }
+  - { name: "DZD",   description: "Double-zero-detect flip-flop" }
+  - { name: "COND",  description: "Outcome of the latest test (delays tests)" }
+
+# Each condition is paired with an F-path sequence and F-path stack operation:
+#   F,JMP    - branch to F address if condition false
+#   F,NEXT   - fall through if condition false
+#   F,RETURN - return if condition false
+#   F,HOLD / F,POP / F,LOAD / F,PUSH - stack op for false path
+#
+# When no condition is set (SCOND=0), the TRUE path is always taken and
+# the F-path fields are ignored.

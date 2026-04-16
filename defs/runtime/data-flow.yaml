@@ -1,0 +1,379 @@
+# ND-100/110/120 Microcode Runtime Data Flow
+#
+# Runtime semantics derived from the ND-110 CPU emulator source
+# (the ND110CPU C# project). Specifically:
+#   BUFALU.cs  (SetRS, ExecuteALUOperation, ExecuteAluDestination)
+#   Cpu.cs     (Execute_1_LatchInternalBus, Execute_2_LatchALU,
+#               Execute_3_Commands, Execute_4_ConditionControl)
+#
+# The ND-110 ALU is built around Am2901 4-bit bit-slices. The operand
+# routing below reflects the Am2901 model with the ND-specific
+# extensions (RASEL/RBSEL, STS, paging, etc.).
+
+model_family: [nd100, nd110, nd120]
+
+# ----------------------------------------------------------------------
+# REGISTER OPERANDS
+# ----------------------------------------------------------------------
+#
+# The A,<name> and B,<name> tokens do NOT assign a value - they SELECT
+# which register feeds the ALU's A and B operand ports respectively.
+# They set the AOP (bits 15:12) and BOP (bits 19:16) fields.
+#
+# Am2901 register file ports:
+#   A port:  read-only, addressed by AOP
+#   B port:  read + write, addressed by BOP
+#
+# So B,<name> has a DUAL role:
+#   1. Selects the register whose contents feed ALU operand S
+#   2. When ALUD,B (or any shift variant) is selected, F is written
+#      back to that SAME register.
+
+operand_roles:
+  a_operand:
+    token_pattern: "A,<name>"
+    field: AOP
+    bits: [15, 12]
+    role: "Selects which register feeds ALU operand R when ALUSrc uses A"
+    write_access: false
+    override_by: RASEL   # bits 52:51 can redirect to macroinstruction bits, PIL, LC
+
+  b_operand:
+    token_pattern: "B,<name>"
+    field: BOP
+    bits: [19, 16]
+    role: "Selects which register feeds ALU operand S when ALUSrc uses B, AND the destination register when ALUD,B is specified"
+    write_access: true
+    dual_use_note: |
+      B is BOTH an ALU input (read) AND the output destination (write)
+      when ALUD,B is used. Example:
+        B,T ALUF,PASSD ALUD,B IDBS,ARG ... 13;
+      Writes 0o13 to the T register via:
+        IDB=13 -> ALU.D=13 -> F=D -> F->B -> T register
+    override_by: RBSEL   # bits 49:48 can redirect to macroinstruction bits, LC
+
+# ----------------------------------------------------------------------
+# ALU SOURCE MODES (ALUI bits 57:55 - the low 3 bits of the composite ALUI)
+# ----------------------------------------------------------------------
+#
+# Maps the 3-bit ALU source field into which producers feed R and S.
+# Source: BUFALU.cs::SetRS() line 642
+
+alu_sources:
+  0: { name: A_Q,  R: "A register",       S: "Q (internal)", am2901: AQ }
+  1: { name: A_B,  R: "A register",       S: "B register",   am2901: AB }
+  2: { name: O_Q,  R: "0 (constant)",     S: "Q (internal)", am2901: ZQ }
+  3: { name: O_B,  R: "0 (constant)",     S: "B register",   am2901: ZB }
+  4: { name: O_A,  R: "0 (constant)",     S: "A register",   am2901: ZA }
+  5: { name: D_A,  R: "D (IDB latched)",  S: "A register",   am2901: DA }
+  6: { name: D_Q,  R: "D (IDB latched)",  S: "Q (internal)", am2901: DQ }
+  7: { name: D_O,  R: "D (IDB latched)",  S: "0 (constant)", am2901: DZ }
+
+# D is always the IDB value latched at the start of Execute_2. Any ALUF
+# whose name mentions D (PASSD, INVD, D+A, D-Q, ANDDA, ...) uses the
+# current IDB as R. Therefore PASSD + IDBS,ARG makes the numeric
+# literal the ALU result.
+
+# ----------------------------------------------------------------------
+# ALU DESTINATION (ALUD bits 63:61)
+# ----------------------------------------------------------------------
+# Source: BUFALU.cs::ExecuteAluDestination() line 821
+
+alud_behavior:
+  0:   # ALUD,Q
+    name: QREG
+    y_bus: F
+    q_update: "Q := F"
+    b_register_write: null
+    shift: none
+
+  1:   # ALUD,NONE
+    name: NOP
+    y_bus: F
+    q_update: null
+    b_register_write: null
+    shift: none
+    note: "ALU result travels on the Y bus (consumed by IDB source 0) but is not stored."
+
+  2:   # ALUD,B,YA
+    name: RAMA
+    y_bus: "Reg[AOP]"       # Y outputs the A operand's register value
+    q_update: null
+    b_register_write: "Reg[BOP] := F"
+    shift: none
+
+  3:   # ALUD,B
+    name: RAMF
+    y_bus: F
+    q_update: null
+    b_register_write: "Reg[BOP] := F"
+    shift: none
+    note: |
+      Standard result write. The B register selected by B,<name> gets F.
+      This is the most common ALU destination.
+
+  4:   # ALUD,SRD
+    name: RAMQD
+    y_bus: F
+    q_update: "Q := Q >> 1 (Q[15] <- QLI)"
+    b_register_write: "Reg[BOP] := F >> 1 (F[15] <- RRI)"
+    shift: right_double
+    note: "Double right-shift for multiply/divide sequences."
+
+  5:   # ALUD,SRB
+    name: RAMD
+    y_bus: F
+    q_update: null
+    b_register_write: "Reg[BOP] := F >> 1 (F[15] <- RRI)"
+    shift: right_single
+
+  6:   # ALUD,SLD
+    name: RAMQU
+    y_bus: F
+    q_update: "Q := Q << 1 (Q[0] <- QLI)"
+    b_register_write: "Reg[BOP] := F << 1 (F[0] <- RLI)"
+    shift: left_double
+
+  7:   # ALUD,SLB
+    name: RAMU
+    y_bus: F
+    q_update: null
+    b_register_write: "Reg[BOP] := F << 1 (F[0] <- RLI)"
+    shift: left_single
+
+# ----------------------------------------------------------------------
+# ALUF COMPOSITE FUNCTION TOKEN -> R/S/OP DECOMPOSITION
+# ----------------------------------------------------------------------
+#
+# The ALUF,<op> tokens pre-bake the ALU source + function fields so the
+# programmer thinks in terms of the high-level operation. These are the
+# actual formulas computed.
+#
+# Note: ALUF,<expr> where <expr> contains D uses the IDB as R.
+
+aluf_formulas:
+  # Pass-through
+  "ALUF,PASSD": "F = D"            # pass IDB through
+  "ALUF,PASSA": "F = A"            # pass A register through
+  "ALUF,PASSB": "F = B"            # pass B register through
+  "ALUF,PASSQ": "F = Q"            # pass Q register through
+  "ALUF,ZERO":  "F = 0"
+
+  # Unary
+  "ALUF,INVD":  "F = ~D"
+  "ALUF,INVA":  "F = ~A"
+  "ALUF,INVB":  "F = ~B"
+  "ALUF,INVQ":  "F = ~Q"
+  "ALUF,D":     "F = D"
+  "ALUF,A":     "F = A"
+  "ALUF,B":     "F = B"
+  "ALUF,Q":     "F = Q"
+
+  # Increment / decrement
+  "ALUF,D+1":   "F = D + 1"
+  "ALUF,A+1":   "F = A + 1"
+  "ALUF,B+1":   "F = B + 1"
+  "ALUF,Q+1":   "F = Q + 1"
+  "ALUF,D-1":   "F = D - 1"
+  "ALUF,A-1":   "F = A - 1"
+  "ALUF,B-1":   "F = B - 1"
+  "ALUF,Q-1":   "F = Q - 1"
+
+  # Negation
+  "ALUF,-D":    "F = -D"
+  "ALUF,-A":    "F = -A"
+  "ALUF,-B":    "F = -B"
+  "ALUF,-Q":    "F = -Q"
+  "ALUF,-D-1":  "F = -D - 1"
+  "ALUF,-A-1":  "F = -A - 1"
+  "ALUF,-B-1":  "F = -B - 1"
+  "ALUF,-Q-1":  "F = -Q - 1"
+
+  # Addition (two-operand)
+  "ALUF,D+A":   "F = D + A"
+  "ALUF,D+Q":   "F = D + Q"
+  "ALUF,A+B":   "F = A + B"
+  "ALUF,A+Q":   "F = A + Q"
+  "ALUF,A+B+1": "F = A + B + 1"
+  "ALUF,D+A+1": "F = D + A + 1"
+  "ALUF,D+Q+1": "F = D + Q + 1"
+  "ALUF,A+Q+1": "F = A + Q + 1"
+
+  # Subtraction
+  "ALUF,Q-A":   "F = Q - A"
+  "ALUF,B-A":   "F = B - A"
+  "ALUF,A-D":   "F = A - D"
+  "ALUF,Q-D":   "F = Q - D"
+  "ALUF,A-Q":   "F = A - Q"
+  "ALUF,A-B":   "F = A - B"
+  "ALUF,D-A":   "F = D - A"
+  "ALUF,D-Q":   "F = D - Q"
+  "ALUF,Q-A-1": "F = Q - A - 1"
+  "ALUF,B-A-1": "F = B - A - 1"
+  "ALUF,A-D-1": "F = A - D - 1"
+  "ALUF,Q-D-1": "F = Q - D - 1"
+  "ALUF,A-Q-1": "F = A - Q - 1"
+  "ALUF,A-B-1": "F = A - B - 1"
+  "ALUF,D-A-1": "F = D - A - 1"
+  "ALUF,D-Q-1": "F = D - Q - 1"
+
+  # Bitwise AND
+  "ALUF,ANDAQ": "F = A & Q"
+  "ALUF,ANDAB": "F = A & B"
+  "ALUF,ANDDA": "F = D & A"
+  "ALUF,ANDDQ": "F = D & Q"
+
+  # Bitwise OR
+  "ALUF,ORAQ":  "F = A | Q"
+  "ALUF,ORAB":  "F = A | B"
+  "ALUF,ORDA":  "F = D | A"
+  "ALUF,ORDQ":  "F = D | Q"
+
+  # Bitwise XOR
+  "ALUF,XORAQ": "F = A ^ Q"
+  "ALUF,XORAB": "F = A ^ B"
+  "ALUF,XORDA": "F = D ^ A"
+  "ALUF,XORDQ": "F = D ^ Q"
+
+  # Bitwise XNOR (NOT(A XOR B))
+  "ALUF,XNORAQ": "F = ~(A ^ Q)"
+  "ALUF,XNORAB": "F = ~(A ^ B)"
+  "ALUF,XNORDA": "F = ~(D ^ A)"
+  "ALUF,XNORDQ": "F = ~(D ^ Q)"
+
+  # Bit masks (NOT A AND B form)
+  "ALUF,MASKAQ": "F = ~A & Q"
+  "ALUF,MASKAB": "F = ~A & B"
+  "ALUF,MASKDA": "F = ~D & A"
+  "ALUF,MASKDQ": "F = ~D & Q"
+
+# ----------------------------------------------------------------------
+# IDBS (IDB SOURCE) - WHAT DRIVES THE IDB EACH CYCLE
+# ----------------------------------------------------------------------
+#
+# Source: Cpu.cs::LatchDataToIDB() line 2575
+
+idbs_sources:
+  "IDBS,ALU":      "ALU Y output (feeds F or A-register depending on ALUD)"
+  "IDBS,BMG":      "Bit-mask generator: 1 << A_Operand (single-bit test/set mask)"
+  "IDBS,GPR":      "General-Purpose shift register"
+  "IDBS,DBR":      "Data Bus Register (latched from last memory read)"
+  "IDBS,ARG":      "Microinstruction bits 15:0 (the literal from source)"
+  "IDBS,REG":      "Register file[AOP, BOP] (selected by RASEL/RBSEL overrides)"
+  "IDBS,STS":      "STATUS register (PIL + ALU flags)"
+  "IDBS,BARG":     "B-operand field (BOP, small 4-5 bit immediate)"
+  "IDBS,SWAP":     "Byte-swapped copy of previous cycle's IDB"
+  "IDBS,PEA":      "Parity Error Address"
+  "IDBS,PES":      "Parity Error Status"
+  "IDBS,AARG":     "A-operand field * 8 (AOP << 3)"
+  "IDBS,PIC":      "PIC internal status (requires EPIC command)"
+  "IDBS,IOR":      "UART data and status"
+  "IDBS,DSABL":    "Disable - IDB not driven by IDBS (PIC may override)"
+  "IDBS,MIPANS":   "Panel status (read without clearing)"
+  "IDBS,MAPANS":   "Panel status (read and clear bit 12)"
+  "IDBS,GPR,SEXT": "GPR sign-extended from bit 7"
+  "IDBS,PGS":      "Paging status (virtual address + fetch indicator)"
+  "IDBS,CSR":      "Cache Status Register"
+  "IDBS,PCR":      "Paging Control Register (selected by PIL)"
+  "IDBS,ALD":      "Auto-Load Descriptor (thumbwheel / boot switches)"
+  "IDBS,PANEL":    "Panel interrupt vector"
+  "IDBS,RCS":      "Read Control Store (microcode RAM)"
+  "IDBS,PICVC":    "PIC vectored interrupt address"
+  "IDBS,LBR":      "Logical Bank Register"
+  "IDBS,LA":       "Logical Address (jump target)"
+  "IDBS,INR":      "Installation Number (unique system ID)"
+  "IDBS,PICM":     "PIC mask register (ND-120)"
+  "IDBS,UART":     "UART data (ND-120)"
+
+# ----------------------------------------------------------------------
+# COMM (COMMAND) - SIDE EFFECTS
+# ----------------------------------------------------------------------
+#
+# Source: Cpu.cs::Execute_3_Commands() line 996
+
+comm_effects:
+  "COMM,LDPIL":
+    reads: IDB
+    writes: "STATUS[15:8] <- IDB[15:8]"
+    uses_a: false
+    uses_b: false
+
+  "COMM,LDGPR":
+    reads: IDB
+    writes: "GPR register"
+    uses_a: false
+    uses_b: false
+
+  "COMM,EWRF":
+    reads: IDB
+    writes: "RegisterFile[AOP, BOP] <- IDB"
+    uses_a: true
+    uses_b: true
+    notes: |
+      The register file written is selected by RASEL_RegisterFile
+      (RF, RF1, RF2, RF3). This is the primary way to update
+      register-file slots with the IDB value.
+
+  "COMM,LDLC":
+    reads: "IDB[5:0]"
+    writes: "Loop Counter"
+    uses_a: false
+    uses_b: false
+    timing_note: |
+      LC is not available as A-operand source until two microinstructions
+      later (pipelined through the MIC sequencer).
+
+  "COMM,LDPCR":
+    reads: IDB
+    writes: "PCR (Paging Control Register, indexed by PIL)"
+    uses_a: false
+
+  "COMM,LDSEG":   { reads: IDB, writes: "Segment Register" }
+  "COMM,LDDOMI":  { reads: IDB, writes: "SINTRAN-IV Domain Register" }
+  "COMM,LDPS":    { reads: IDB, writes: "SINTRAN-IV PS Register" }
+  "COMM,LDIRV":   { reads: IDB, writes: "IR (for OR-logic use)" }
+  "COMM,LDEXM":   { reads: IDB, writes: "Examine Mode" }
+  "COMM,LDPANC":  { reads: "IDB[7:0]", writes: "Panel IR0 (one byte)" }
+  "COMM,SMPID":   { reads: IDB, writes: "PIC micro-PID (set bits only)" }
+  "COMM,SIOC":    { reads: "IDB[7:0]", writes: "I/O Control (RTC, ints)" }
+  "COMM,WCIHM":   { reads: IDB, writes: "Cache Inhibit Map" }
+
+  "COMM,EPIC":
+    uses_a: true
+    notes: "A-operand is the PIC command code. Data direction depends on command."
+
+  "COMM,CLIRQ":   { writes: "Clear INTRQN flip-flop" }
+  "COMM,START":   { writes: "Clear STOP flip-flop" }
+  "COMM,SSTOP":   { writes: "Set STOP flip-flop" }
+  "COMM,CLRTC":   { writes: "Clear 20ms RTC interrupt" }
+  "COMM,CLFF":    { writes: "Clear DZD/OOD flip-flops" }
+
+# ----------------------------------------------------------------------
+# EXECUTION PIPELINE OVERVIEW
+# ----------------------------------------------------------------------
+pipeline:
+  execute_1: "Decode A/B operands (with RASEL/RBSEL overrides); latch IDB from its selected source"
+  execute_2: "Set ALU modes; compute shift bit inputs; execute ALU; latch Y back to IDB"
+  execute_3: "Execute COMM (commands consume IDB, A-operand, B-operand)"
+  execute_4: "Condition testing (SCOND/ECOND); loop counter update; MIC sequencer picks next address"
+
+# ----------------------------------------------------------------------
+# SOURCE REFERENCES
+# ----------------------------------------------------------------------
+source_references:
+  - file: ND110CPU/BUFALU.cs
+    methods:
+      - { name: SetRS,                  line: 642, purpose: "Maps ALU source field to R,S operands" }
+      - { name: ExecuteALUOperation,    line: 700, purpose: "Performs ALU arithmetic/logic" }
+      - { name: ExecuteAluDestination,  line: 821, purpose: "Routes F to Y bus / B register / Q / shifts" }
+      - { name: ExecuteShift,           line: 941, purpose: "Shift operation detail" }
+  - file: ND110CPU/Cpu.cs
+    methods:
+      - { name: Execute_1_LatchInternalBus, line: 2485, purpose: "A/B operand decoding + IDB latch" }
+      - { name: Execute_2_LatchALU,         line: 2076, purpose: "ALU compute cycle" }
+      - { name: Execute_3_Commands,         line: 996,  purpose: "COMM side effects" }
+      - { name: Execute_4_ConditionControl, line: 673,  purpose: "Condition test + sequencer" }
+      - { name: LatchDataToIDB,             line: 2575, purpose: "IDBS source -> IDB" }
+  - file: ND110CPU/RegisterFile.cs
+    lines: [70, 150]
+    purpose: "16-level x 16-register file with 4 RF banks (RF, RF1, RF2, RF3)"
