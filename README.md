@@ -42,6 +42,8 @@ defs/
 
 docs/
 ├── special-bits.md             The undocumented 20-27 bit region
+├── nd100-prom-layout.md        ND-100 CPU PROM layout (slots, bit mapping, roles)
+├── integration-plan.md         How consumer repos wire this in as a submodule
 └── ND-06.031.1-...pdf          Official Norsk Data Microprogrammer's Guide
 
 reference/                           Read-only hardware reference material

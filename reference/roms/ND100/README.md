@@ -100,6 +100,20 @@ are omitted, matching the ND110Compile convention.
 Not yet implemented. Add a `split` subcommand to `nd100-combine.py`
 when burning fresh PROMs becomes a concrete need.
 
+## Full layout reference
+
+See [`docs/nd100-prom-layout.md`](../../../docs/nd100-prom-layout.md)
+for:
+
+- Physical PCB slot diagrams
+- Complete role matrix per variant
+- Signal-flow diagram (microsequencer / decode-PLA / microcode)
+- Per-bit ordering table
+- Combine-formula pseudocode
+- Differences between 3033S and 3033E-CX
+- Comparison with ND-110/ND-120 CPU architectures
+- Open questions (bank-select signal, sequencer bit assignment, ...)
+
 ## Source
 
 ROM dumps provided by Frode (via the zip archive `Nord 100 ROMs.zip`),
