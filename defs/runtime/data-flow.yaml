@@ -349,6 +349,561 @@ comm_effects:
   "COMM,CLFF":    { writes: "Clear DZD/OOD flip-flops" }
 
 # ----------------------------------------------------------------------
+# ND-100 BRANCH-ADDRESS SELECTOR (MAPJ0 / SLWCS0 / VECT0 + MIS)
+# ----------------------------------------------------------------------
+#
+# ND-100 ONLY. On ND-110/120 the three upper selector bits were
+# repurposed (bit 25 = VECT, bits 26:27 = DLY0/DLY1 microcycle delay)
+# and the equivalent "vectored entry / writable-CS load / mapped-jump"
+# functionality is handled differently.
+#
+# Three active-low selector bits (bit 27 = MAPJ0, bit 26 = SLWCS0,
+# bit 25 = VECT0) combine with the 2-bit MIS field (bits 43:42) to
+# pick which source drives bits 0:11 of the next microaddress.
+#
+# Notation below: H = hardware line high (1, inactive), L = low
+# (0, active). "-" = MIS don't-care.
+#
+# Target ":" pseudo-operators:
+#   PROM(hi..lo)  = that bit-range of the branch field (bits 0:11)
+#                   in the current microinstruction
+#   IR(hi..lo)    = macro instruction register bits
+#   ALD(hi..lo)   = auto-load descriptor (thumbwheel/bootstrap) bits
+#   RA(hi..lo)    = RA register bits
+#   map-PROM(IR)  = macro-opcode dispatch PLA lookup
+#   VECT-IRQ      = interrupt vector entry
+
+nd100_branch_address_selector:
+  applies_to: [nd100]
+  mapj0_bit: 27
+  slwcs0_bit: 26
+  vect0_bit: 25
+  mis_bits: [43, 42]
+
+  # Row form: { mapj0, slwcs0, vect0, mis, source, description }
+  # "*" in mis = don't-care.
+  truth_table:
+    - { mapj0: H, slwcs0: H, vect0: H, mis: "*",  source: "PROM(0..11)",              description: "Direct jump to the PROM-supplied 12-bit branch target." }
+    - { mapj0: H, slwcs0: H, vect0: L, mis: 0b00, source: "PROM(4..11) || IR(0..3)",   description: "Upper 8 bits from PROM, lower 4 from macro-IR bits 0..3." }
+    - { mapj0: H, slwcs0: H, vect0: L, mis: 0b01, source: "PROM(4..11) || IR(8..10)",  description: "Upper 8 bits from PROM, lower from macro-IR bits 8..10 (zero-extended to 4 bits)." }
+    - { mapj0: H, slwcs0: H, vect0: L, mis: 0b10, source: "PROM(4..11) || ALD(0..3)",  description: "Upper 8 bits from PROM, lower 4 from the auto-load descriptor." }
+    - { mapj0: H, slwcs0: H, vect0: L, mis: 0b11, source: "PROM(4..11) || RA(0..3)",   description: "Upper 8 bits from PROM, lower 4 from the RA register." }
+    - { mapj0: L, slwcs0: H, vect0: H, mis: "*",  source: "map-PROM(IR) if /INT_RQ",   description: "Macro-opcode dispatch via the decode-PLA when no interrupt pending." }
+    - { mapj0: L, slwcs0: H, vect0: H, mis: "*",  source: "VECT-IRQ if INT_RQ",        description: "Interrupt vector entry when /INT_RQ is asserted." }
+    - { mapj0: L, slwcs0: H, vect0: L, mis: "*",  source: "ILLEGAL",                   description: "Reserved / illegal combination." }
+    - { mapj0: "*", slwcs0: L, vect0: "*", mis: "*", source: "START LOAD WRITABLE CS", description: "Initiate writable-control-store load; branch target field is consumed by the WCS load logic instead of the sequencer." }
+
+  notes: |
+    The "L H H" entry has two possible outcomes depending on the
+    asynchronous /INT_RQ input at the end of the current microcycle.
+    A disassembler should label this mode as "MAPPED" and annotate
+    "runtime picks map-PROM or VECT-IRQ" rather than committing to one.
+
+# ----------------------------------------------------------------------
+# MIS - SHIFT MODE (applies to all models when ALUM = shift)
+# ----------------------------------------------------------------------
+#
+# When ALUM selects the shift-instruction mode (ALUM = 0b11), MIS
+# selects which shift algorithm is applied. ND-100 and ND-110/120
+# agree on this encoding, with minor token naming variation
+# (ND-100 uses LIR, ND-110 uses LIN for value 0b11).
+
+mis_shift_mode_table:
+  applies_to: [nd100, nd110, nd120]
+  active_when: "ALUM == 0b11"
+  mis_bits: [43, 42]
+  values:
+    0b00: { nd100: "ASH", nd110: "ASH", description: "Arithmetic shift (sign-preserving)." }
+    0b01: { nd100: "ROT", nd110: "ROT", description: "Rotational shift (wrap-around)." }
+    0b10: { nd100: "ZIN", nd110: "ZIN", description: "Zero-end-input shift (feed zero into the vacated bit)." }
+    0b11: { nd100: "LIR", nd110: "LIN", description: "Link-end-input shift. Feed the carry/link flip-flop into the vacated bit. ND-100 mnemonic 'LIR', ND-110 mnemonic 'LIN' - same function." }
+  reference: "ND-06.018.01 p.19-20 lines 500-505"
+
+# ----------------------------------------------------------------------
+# MIS - VECTORED-JUMP SOURCE (ND-100; ND-110 handles differently)
+# ----------------------------------------------------------------------
+#
+# When bit 25 (VECT0) is active-low on ND-100, MIS selects which
+# runtime register supplies the lower 4 bits of the 12-bit jump target.
+# The upper 8 bits come from microword bits 4-11.
+#
+# ND-110 does NOT use this mechanism - it has DLY0/DLY1 at bits 26-27
+# and a single VECT at bit 25 that behaves differently.
+
+nd100_mis_vect_source_table:
+  applies_to: [nd100]
+  active_when: "VECT0 == 0 (bit 25 active-low asserted)"
+  mis_bits: [43, 42]
+  values:
+    0b00: { source: "IR(0..3)",  description: "Macro instruction register bits 0..3. Used by TRA, TRR instructions for 16-way branch." }
+    0b01: { source: "IR(8..10)", description: "Macro instruction register bits 8..10 (zero-extended to 4 bits). Used for memory-reference instruction address-calc branches." }
+    0b10: { source: "ALD(0..3)", description: "Auto-load descriptor bits 0..3. Microcode-controlled dynamic vector." }
+    0b11: { source: "AOP(0..3)", description: "A-operand bits (microinstruction bits 12..15, or whatever RASEL redirects A to). Microcode-controlled dynamic vector." }
+  reference: "ND-06.018.01 p.24 lines 655-663"
+  notes: |
+    The manual's Q1 table from the user (now locked into
+    nd100_branch_address_selector above) shows this MIS role only
+    activates when MAPJ0=H, SLWCS0=H, VECT0=L. The other branch-
+    address-mode rows in nd100_branch_address_selector either don't
+    use MIS (direct PROM jump) or use it as part of the composite
+    MAPJ+SLWCS+VECT+MIS decoder outcome.
+
+# ----------------------------------------------------------------------
+# MIS - PAGE MODE (ND-110; unconfirmed for ND-100)
+# ----------------------------------------------------------------------
+#
+# When COMM selects a memory-op family (EXAMINE/FETCH/DEPOSIT/READ/
+# WRITE/IND.READ), MIS (bits 43:42) selects the paging mode to apply
+# to the memory access.
+
+mis_page_mode_table:
+  applies_to: [nd100, nd110, nd120]    # ND-100 confirmed per ND-06.018.01 lines 496-505
+  mis_bits: [43, 42]
+  description: "MIS encodes the page mode when COMM is a memory operation."
+
+  # Memory-op COMM codes that select via MIS.
+  memory_op_comms:
+    - 0b11000   # EXAMINE family (also IND.READ with MIS=01)
+    - 0b11100   # FETCH family (also READ with MIS=01)
+    - 0b11101   # DEPOSIT family (also WRITE with MIS=01)
+
+  # MIS value -> page mode.
+  page_modes:
+    0b00: { name: "NONE", description: "No paging override - direct / non-translated access." }
+    0b01: { name: "PT",   description: "Page Table - use current page table for translation." }
+    0b10: { name: "APT",  description: "Alternate Page Table." }
+    0b11: { name: "HOLD", description: "Hold current paging context; memory op does not update paging state." }
+
+  # Product table: (COMM, MIS) -> effective operation mnemonic.
+  # "-" = reserved / undefined.
+  operations:
+    "0b11000,0b00": EXAMINE
+    "0b11000,0b01": "IND.READ"
+    "0b11000,0b10": "-"
+    "0b11000,0b11": "-"
+    "0b11100,0b00": FETCH
+    "0b11100,0b01": READ
+    "0b11100,0b10": "-"
+    "0b11100,0b11": "-"
+    "0b11101,0b00": DEPOSIT
+    "0b11101,0b01": WRITE
+    "0b11101,0b10": "-"
+    "0b11101,0b11": "-"
+
+# ----------------------------------------------------------------------
+# TSEL (CONDITION-TEST SELECTOR) - ND-110
+# ----------------------------------------------------------------------
+#
+# When SCOND=1, TSEL (bits 7:4) picks which condition signal feeds
+# the MIC sequencer's condition-test input.
+
+tsel_table:
+  applies_to: [nd110, nd120]    # ND-100 differs at TSEL values 0b0000, 0b0110, 0b1000, 0b1001 (see below)
+  bits: [7, 4]
+  width: 4
+  description: "Selects which condition signal is tested when SCOND=1."
+
+  # TSEL value (4-bit) -> test mnemonic. Mnemonics preserved exactly
+  # as in the ND-110 microprogrammer's guide.
+  values:
+    0b0000: { test: "DR->Z",  description: "D register is zero" }
+    0b0001: { test: "LCZ",    description: "Loop counter is zero" }
+    0b0010: { test: "INTRQ",  description: "Interrupt request pending" }
+    0b0011: { test: "RESTRT", description: "Restart condition" }
+    0b0100: { test: "FETCH",  description: "Fetch cycle indicator" }
+    0b0101: { test: "DOD",    description: "(from guide)" }
+    0b0110: { test: "DZO",    description: "(from guide)" }
+    0b0111: { test: "COND",   description: "Generic condition flag" }
+    0b1000: { test: "R->P",   description: "(from guide)" }
+    0b1001: { test: "OPCTTI", description: "(from guide)" }
+    0b1010: { test: "OVF",    description: "ALU overflow" }
+    0b1011: { test: "CRY",    description: "ALU carry" }
+    0b1100: { test: "F11",    description: "F-bus bit 11" }
+    0b1101: { test: "F15",    description: "F-bus bit 15" }
+    0b1110: { test: "ZF",     description: "F is zero (ALU result zero)" }
+    0b1111: { test: "SKP",    description: "Skip (unconditional false)" }
+
+  nd100_delta:
+    status: "confirmed"
+    reference: "ND-06.018.01 p.25-26 lines 720-748"
+    summary: |
+      The ND-100 TSEL table has been fully documented from the
+      manual. Deltas vs ND-110:
+        * Value 0000 differs in semantics (ND-100: "DR=2" tests
+          whether the ALU destination register is P; ND-110:
+          "DR->Z" - different test).
+        * Value 1000 is dual-meaning on ND-100 (R=P OR ZF) but
+          single-meaning on ND-110 (R->P only); ND-110 has ZF
+          separately at 1110.
+        * Value 1111 differs (ND-100: STP - tests STOP flip-flop;
+          ND-110: SKP - unconditional false / skip).
+        * Values 0010, 0011, 0101, 0110, 1001 have spelling
+          differences only (INTRQ vs IRQ, RESTRT vs RESTR,
+          DOD vs OOD, DZO vs DZD, OPCTTI vs OPCTT1) - treat as
+          aliases for the same condition.
+
+  nd100_values:
+    # Same 4-bit field, but with ND-100 names and meanings per the
+    # NORD-100 Microprogramming manual. Consumers should dispatch on
+    # `model` when rendering TSEL mnemonics.
+    0b0000: { test: "DR=2",      description: "Destination register is P. Used to discard prefetch when P is the destination in ROP/BOP instructions." }
+    0b0001: { test: "LCZ",       description: "Loop counter is zero. Used to exit fixed-iteration loops." }
+    0b0010: { test: "IRQ",       description: "Interrupt request flip-flop. If preceded by CLIRQ, only AM2914 interrupts tested (not PANEL)." }
+    0b0011: { test: "RESTR",     description: "Current program running in restricted mode. Privileged WCS instructions must test this." }
+    0b0100: { test: "FETCH",     description: "Last memory access was a fetch. Used to compute correct P on page fault." }
+    0b0101: { test: "OOD",       description: "One-Out-Detect flip-flop (sets TG correctly in FAD/FSB/FMU). Known alias of ND-110 'DOD'." }
+    0b0110: { test: "DZD",       description: "Double-Zero-Detect flip-flop (sets TG correctly in FDV). Known alias of ND-110 'DZO'." }
+    0b0111: { test: "COND",      description: "Latched true/false result of the previous microinstruction. Postpones the test decision." }
+    0b1000: { test: "R=P OR ZF", description: "DUAL-ROLE on ND-100: detects if a store (STA *+1) affected the prefetched next location AND serves as the ALU Zero-Flag. ND-110 splits these into separate codes." }
+    0b1001: { test: "OPCTT1",    description: "MOPC terminal test for devices 0o300..0o307 (strap-dependent). If the CPU strap is removed, this line is always false." }
+    0b1010: { test: "OVF",       description: "ALU overflow flag." }
+    0b1011: { test: "CRY",       description: "ALU carry-out." }
+    0b1100: { test: "F11",       description: "ALU result bit 11." }
+    0b1101: { test: "F15",       description: "ALU result bit 15 (sign bit)." }
+    0b1110: { test: "ZF",        description: "ALU result is zero. (Also aliased inside TSEL=1000 on ND-100; available standalone here.)" }
+    0b1111: { test: "STP",       description: "STOP flip-flop is set. Replaces ND-110's SKP at this position." }
+
+# ----------------------------------------------------------------------
+# COMM (COMMAND FIELD) - ND-110 DECODE TABLE
+# ----------------------------------------------------------------------
+#
+# 5-bit command field at bits 36:32. The table below is the ND-110
+# COMMAND decode from the hardware guide. Some codes select sub-tables
+# (notably COMM=0b10001 = LDIR, see comm_ldir_irqno_table).
+
+comm_table:
+  applies_to: [nd110, nd120]    # ND-100 uses a subset (TBD)
+  bits: [36, 32]
+  width: 5
+  description: |
+    Microinstruction command field - selects a CPU command or memory op.
+
+    This table holds the BASE mnemonic per code, as taken from the
+    ND-110 hardware-guide OCR. The ND-110 tokens YAML contains
+    compound tokens that bundle a COMM code with additional field
+    values (TC/STS/MIS/sub-selectors) - those variants are listed
+    under `token_variants` for each entry where applicable.
+
+    Note on OCR reconciliation: the OCR source numbered its rows
+    starting from "0 0 0 0 0", but bit-exact validation against
+    ND-110 RASK.CODE (4865/4865 instructions reproduce byte-for-byte)
+    proves that LDIPL / LDPIL is at code 0b00001, not 0b00000. So
+    this table applies a +1 shift relative to the OCR row numbering.
+    COMM=0b00000 means "no command" (default).
+
+  values:
+    0b00000:
+      name: "NONE"
+      description: "No command (default)."
+
+    0b00001:
+      name: "LDPIL"
+      ocr_name: "LDIPL"
+      description: "Load Priority Interrupt Level. OCR reads 'LDIPL' (letter order IPR/PIL); ND110Compile source uses 'LDPIL'. Same command."
+      token_variants: ["COMM,LDPIL"]
+
+    0b00010:
+      name: "LDGPR"
+      ocr_name: "LDIPR"
+      description: "Load General-Purpose Register. OCR reads 'LDIPR' (Load IPR) - probable scan error (G<->I misread); validated tokens use LDGPR."
+      token_variants: ["COMM,LDGPR"]
+      reconciliation_status: "name_differs_from_ocr"
+
+    0b00011:
+      name: "EWRF"
+      description: "Enable Write Register File."
+      token_variants: ["COMM,EWRF"]
+
+    0b00100:
+      name: "CLIRQ"
+      ocr_name: "CLRQ"
+      description: "Clear Interrupt ReQuest flip-flop. OCR reads 'CLRQ' (likely missing 'I'); validated tokens use CLIRQ."
+      token_variants: ["COMM,CLIRQ"]
+
+    0b00101:
+      name: "RSDA"
+      description: "Reset DA (decode address)."
+      token_variants: ["COMM,RSDA"]
+
+    0b00110:
+      name: "TBSTR"
+      description: "Translation-Buffer Store. Sub-variants present in ND-110 tokens (LDPANC, LDPCR) select between different register targets via other field bits."
+      token_variants: ["COMM,TBSTR", "COMM,LDPANC", "COMM,LDPCR"]
+
+    0b00111:
+      name: "SIOC"
+      description: "Set I/O Control."
+      token_variants: ["COMM,SIOC"]
+
+    0b01000:
+      name: "ESRP"
+      description: |
+        Enable SR Parity. The ND-110 tokens YAML has compound tokens
+        COMM,SLOW1 / COMM,SLOW2 at this COMM code - those combine
+        ESRP with cycle-timing bits (TC) for user convenience.
+      token_variants: ["COMM,SLOW1", "COMM,SLOW2"]
+      reconciliation_status: "base_mnemonic_hidden_in_compound_tokens"
+
+    0b01001:
+      name: "EPIC"
+      description: "Execute PIC command (A-operand = PIC op code)."
+      token_variants: ["COMM,EPIC"]
+
+    0b01010:
+      name: "SMPID"
+      description: "Set micro-PID (PIC)."
+      token_variants: ["COMM,SMPID"]
+
+    0b01011:
+      name: "START"
+      description: "Clear STOP flip-flop."
+      token_variants: ["COMM,START"]
+
+    0b01100:
+      name: "STOP"
+      description: "Set STOP flip-flop. Tokens use SSTOP (Set STOP) as the canonical mnemonic."
+      token_variants: ["COMM,SSTOP"]
+
+    0b01101:
+      name: "CLRTC"
+      description: "Clear 20 ms real-time clock interrupt."
+      token_variants: ["COMM,CLRTC"]
+
+    0b01110:
+      name: "CLFF"
+      ocr_name: "CLTF"
+      description: "Clear DZD/OOD flip-flops. OCR reads 'CLTF'; validated tokens use CLFF (Clear FlipFlops)."
+      token_variants: ["COMM,CLFF"]
+
+    0b01111:
+      name: "LDLC"
+      description: "Load Loop Counter from IDB[5:0]."
+      token_variants: ["COMM,LDLC"]
+
+    0b10000:
+      name: "LDSEG"
+      description: |
+        Load Segment / Domain / PS / IR-Vector register. Multiple
+        compound tokens select the specific target register via
+        other field bits (LDSEG, LDDOMI, LDPS, LDIRV).
+      token_variants: ["COMM,LDSEG", "COMM,LDDOMI", "COMM,LDPS", "COMM,LDIRV"]
+      reconciliation_status: "sub_target_via_other_bits"
+
+    0b10001:
+      name: "LDKNO"
+      description: "Load K-number register. Sub-variants WCIHM/SSEMA/CCLR/LDEXM select other targets."
+      token_variants: ["COMM,WCIHM", "COMM,SSEMA", "COMM,CCLR", "COMM,LDEXM"]
+      reconciliation_status: "sub_target_via_other_bits"
+
+    0b10010:
+      name: "LDIR"
+      description: "Load Interrupt Register - IRQNO sub-table selects target (see comm_ldir_irqno_table). Indirect-read variants also present in tokens YAML."
+      token_variants: ["COMM,IREAD,PT", "COMM,IREAD,APT", "COMM,MAP", "COMM,CNEXT,NWP"]
+      sub_table: "comm_ldir_irqno_table"
+
+    0b10011:
+      name: "CJMP"
+      description: "Conditional jump family (CJMP,F15 / NF15 / F=0 / NF=0)."
+      token_variants: ["COMM,CJMP,F15", "COMM,CJMP,NF15", "COMM,CJMP,F=0", "COMM,CJMP,NF=0"]
+      reconciliation_status: "not_in_ocr_extract"
+
+    0b10100:
+      name: "CNEXT_SGR"
+      description: "Conditional-next family (SGR/NSGR/CRY/NCRY)."
+      token_variants: ["COMM,CNEXT,SGR", "COMM,CNEXT,NSGR", "COMM,CNEXT,CRY", "COMM,CNEXT,NCRY"]
+      reconciliation_status: "not_in_ocr_extract"
+
+    0b10101:
+      name: "CNEXT_F15"
+      description: "Conditional-next family (F15/NF15/F=0/NF=0)."
+      token_variants: ["COMM,CNEXT,F15", "COMM,CNEXT,NF15", "COMM,CNEXT,F=0", "COMM,CNEXT,NF=0"]
+      reconciliation_status: "not_in_ocr_extract"
+
+    0b10110:
+      name: "JMP"
+      description: "Jump family (direct / B / I / X addressing modes)."
+      token_variants: ["COMM,JMP,*", "COMM,JMP,B", "COMM,JMP,I", "COMM,JMP,X"]
+      reconciliation_status: "not_in_ocr_extract"
+
+    0b10111:
+      name: "JMP_XB"
+      description: "Jump extended / long-branch / continue family."
+      token_variants: ["COMM,JMP,XB", "COMM,JMP,XI", "COMM,LBCONT", "COMM,CONTINUE"]
+      reconciliation_status: "not_in_ocr_extract"
+
+    0b11000:
+      name: "AREAD"
+      ocr_name: "EXAMINE"
+      description: "Address-read (memory EXAMINE) family - MIS selects addressing mode."
+      token_variants: ["COMM,AREAD,*", "COMM,AREAD,B", "COMM,AREAD,I", "COMM,AREAD,X"]
+
+    0b11001:
+      name: "AREAD_XB"
+      ocr_name: "IND.READ"
+      description: "Address-read extended / indirect-read variants."
+      token_variants: ["COMM,AREAD,XB", "COMM,AREAD,XI", "COMM,IREAD2", "COMM,AREAD,NEXT"]
+
+    0b11010:
+      name: "AWRITE"
+      description: "Address-write (memory DEPOSIT) family - MIS selects addressing mode."
+      token_variants: ["COMM,AWRITE,*", "COMM,AWRITE,B", "COMM,AWRITE,I", "COMM,AWRITE,X"]
+      reconciliation_status: "not_in_ocr_extract"
+
+    0b11011:
+      name: "AWRITE_XB"
+      description: "Address-write extended variants."
+      token_variants: ["COMM,AWRITE,XB", "COMM,AWRITE,XI", "COMM,AWRITE,HOLD", "COMM,AWRITE,NEXT"]
+      reconciliation_status: "not_in_ocr_extract"
+
+    0b11100:
+      name: "RDRQ"
+      ocr_name: "FETCH"
+      description: "Read-request / FETCH family - MIS selects page mode (PT/APT/HOLD/-)."
+      token_variants: ["COMM,RDRQ,PT", "COMM,RDRQ,APT", "COMM,RDRQ,HOLD", "COMM,EXRQ"]
+      sub_table: "mis_page_mode_table"
+
+    0b11101:
+      name: "WRRQ"
+      ocr_name: "DEPOSIT"
+      description: "Write-request / DEPOSIT family - MIS selects page mode (PT/APT/HOLD/-)."
+      token_variants: ["COMM,WRRQ,PT", "COMM,WRRQ,APT", "COMM,WRRQ,HOLD", "COMM,DERQ"]
+      sub_table: "mis_page_mode_table"
+
+    0b11110:
+      name: "ADCS"
+      ocr_name: "IDENT"
+      description: |
+        Address / Data CS family. Existing tokens include ADCS
+        (Address Display CS), RWCS (Read Writable CS), WLBR,
+        WALBR (Writable-CS control). The OCR identifies this code
+        as IDENT - possible conflict; ND110Compile tokens are the
+        validated source.
+      token_variants: ["COMM,ADCS", "COMM,RWCS", "COMM,WLBR", "COMM,WALBR"]
+      reconciliation_status: "name_differs_from_ocr"
+
+    0b11111:
+      name: "IDENT_IOX"
+      description: "IDENT / IOX family - I/O identification + execute."
+      token_variants: ["COMM,IDENT", "COMM,IOX"]
+
+  nd100_delta:
+    status: "confirmed"
+    reference: "ND-06.018.01 p.21-23 lines 545-633"
+    present_on_nd100:
+      # 24 COMM codes documented in the ND-100 manual.
+      - 0b00000   # NONE
+      - 0b00001   # LDPIL
+      - 0b00010   # LDGPR
+      - 0b00011   # EWRF
+      - 0b00100   # CLIRQ
+      - 0b00101   # RSDA
+      - 0b00110   # TBSTR
+      - 0b00111   # SIOC
+      - 0b01000   # ESRP
+      - 0b01001   # EPIC
+      - 0b01010   # SMPID
+      - 0b01011   # START
+      - 0b01100   # STOP
+      - 0b01101   # CLRTI    (ND-110 calls this CLRTC)
+      - 0b01110   # CLFF
+      - 0b01111   # LDLC
+      - 0b10000   # LDIRNO
+      - 0b10001   # LDIR     (= XMM in ND-100 symbolic)
+      - 0b11000   # EXRQ / IRDRQ family (MIS selects paging mode)
+      - 0b11001   # DERQ
+      - 0b11100   # RDRQ family (MIS selects paging mode)
+      - 0b11101   # WRRQ family (MIS selects paging mode; 01/10/11 only - 00 reserved)
+      - 0b11110   # IDENT
+      - 0b11111   # IOX
+
+    absent_on_nd100:
+      # Codes that the ND-100 manual does NOT list; ND-110 added
+      # these as the "extended repertoire". Treat token variants
+      # at these codes (CJMP / CNEXT / JMP / AWRITE) as
+      # `models: [nd110, nd120]` in the tokens YAML.
+      - 0b10010   # (ND-110: IREAD,PT family)
+      - 0b10011   # (ND-110: CJMP,F15 family)
+      - 0b10100   # (ND-110: CNEXT,SGR family)
+      - 0b10101   # (ND-110: CNEXT,F15 family)
+      - 0b10110   # (ND-110: JMP family)
+      - 0b10111   # (ND-110: JMP,XB/XI/LBCONT/CONTINUE)
+      - 0b11010   # (ND-110: AWRITE family)
+      - 0b11011   # (ND-110: AWRITE,XB/XI/HOLD/NEXT)
+
+    name_differences:
+      # Same COMM code, same function, different mnemonic.
+      0b01101: { nd100: "CLRTI", nd110: "CLRTC", note: "Both mean 'Clear Real-Time clock Interrupt'; accept either." }
+
+    function_conflicts:
+      # Same COMM code but possibly different function on ND-100 vs
+      # ND-110. Needs investigation.
+      0b11001:
+        nd100: "DERQ"
+        nd110: "AREAD,XB family"
+        note: |
+          The ND-100 manual explicitly defines 0b11001 = DERQ
+          (Deposit-Request, single variant). The ND-110 tokens
+          YAML uses this code for AREAD,XB / AREAD,XI / IREAD2 /
+          AREAD,NEXT. These are potentially different functions.
+          This is a genuine ND-100/ND-110 function divergence that
+          needs confirmation from the ND-110 hardware guide.
+
+    name_aliases:
+      # ND-100 names with ND-110 equivalents for identical functions.
+      0b10001: { nd100: "LDIR (XMM)", nd110: "LDIR", note: "ND-100 symbolic allows XMM as a synonym for LDIR." }
+
+  reconciliation_summary:
+    - "OCR's head (0b00000..0b01110) is off-by-one from the actual hardware encoding - its first row 'LDIPL' is at code 0b00001."
+    - "OCR scan artefacts detected at codes 0b00010 (LDIPR vs LDGPR), 0b00100 (CLRQ vs CLIRQ), 0b01110 (CLTF vs CLFF). Validated token names win."
+    - "OCR does not cover codes 0b10011..0b10111, 0b11010, 0b11011 (CJMP/CNEXT/JMP/AWRITE families); these exist in the ND-110 tokens YAML."
+    - "OCR mnemonics at codes 0b11000/0b11100/0b11101 (EXAMINE/FETCH/DEPOSIT) are the memory-op family names - they group compound tokens AREAD,*/RDRQ,*/WRRQ,* with MIS page-mode sub-selection."
+    - "Validation authority: nd110-tokens.yaml (bit-exact-verified against RASK.CODE, 4865/4865 instructions)."
+
+# ----------------------------------------------------------------------
+# LDIR IRQNO SUB-TABLE
+# ----------------------------------------------------------------------
+#
+# When COMM = LDIR (0b10001), a 6-bit IRQNO field selects which
+# interrupt-related register / signal is actually loaded. The source
+# of the IRQNO bits (AOP / BOP / a dedicated field) needs confirmation.
+
+comm_ldir_irqno_table:
+  applies_to: [nd110, nd120]    # ND-100 variant TBD
+  parent_comm: 0b10001
+  irqno_source: "TBD - likely BOP (bits 19:16) or AOP (bits 15:12) or a combined 6-bit field in the operand area."
+  irqno_width: 6
+  description: "Sub-selector for COMM=LDIR. IRQNO values given in octal."
+
+  # IRQNO (octal) -> name.
+  values:
+    0o00: { name: "PANS",  description: "Panel Status" }
+    0o01: { name: "PANC",  description: "Panel Control" }
+    0o02: { name: "PCS",   description: "Paging Control Status" }
+    0o03: { name: "PCR",   description: "Paging Control Register" }
+    0o10: { name: "CSR",   description: "Cache Status Register" }
+    0o11: { name: "CCLR",  description: "Cache Clear" }
+    0o12: { name: "LCIL",  description: "Lower Cache Inhibit Limit" }
+    0o13: { name: "UCIL",  description: "Upper Cache Inhibit Limit" }
+    0o14: { name: "PGC",   description: "Paging Control" }
+    0o21: { name: "ERH",   description: "Error Register" }
+    0o22: { name: "LEB",   description: "Lower Error Bound" }
+    0o23:
+      ambiguous: true
+      candidates: ["SEB", "UEB", "EBM"]
+      needs_sub_selector: true
+      note: "Three mnemonics OCR'd at IRQNO=0o23 (SEB / UEB / EBM). There must be a further tie-breaker bit (likely MIS or the low bit of AOP). TBD."
+    0o40:
+      ambiguous: true
+      candidates: ["LPANS", "LPANC"]
+      needs_sub_selector: true
+      note: "Two mnemonics OCR'd at IRQNO=0o40 (LPANS / LPANC). One-bit tie-breaker needed. TBD."
+
+  notes: |
+    The IRQNO header in the OCR'd source shows "IRW0" which is almost
+    certainly a scan artefact for "IRQNO" (Q->W, N->nothing). Mnemonic
+    strings preserved verbatim from the scan.
+
+# ----------------------------------------------------------------------
 # EXECUTION PIPELINE OVERVIEW
 # ----------------------------------------------------------------------
 pipeline:

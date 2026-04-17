@@ -1,21 +1,272 @@
 # ND-100 Microinstruction Word Field Definitions
-# STATUS: PLACEHOLDER - ND-100 microcode has not yet been analysed.
 #
-# When ND-100 microcode binaries become available, this file should be
-# filled in based on hardware analysis. The ND-100 likely shares most of
-# the ND-110 layout but may differ in:
-#   - Word size (could be 48-bit like ND-110 or narrower)
-#   - Specific command codes (COMM field values)
-#   - Available IDBS sources
-#   - Missing tokens that were added in ND-110
+# Reference: Norsk Data microprogrammer's guide (ND-100 variant) +
+# user-provided hardware notes.
 #
-# Reference: ND-100 reference manuals and hardware
+# Relationship to ND-110:
+# ND-100 and ND-110 share most field positions and the overall 48-bit
+# microinstruction layout. This file records only the ND-100 *deltas*
+# from ND-110 - every field name that appears here either has a
+# different name, a different width, or entirely different semantics
+# on ND-100. Everything else is inherited from nd110-fields.yaml.
+#
+# Sources of the deltas documented below (user, 2026-04-16) and cross-
+# referenced against the ND-100 Microprogramming Description manual
+# (ND-06.018.01, OCR'd):
+#   - bit 20 / 21:  TC0 / TC1 cycle-length selector with four values
+#                   (FAST / INTERMEDIATE / SLOW / WAIT). Standard
+#                   ND-100 uses SLOW + WAIT only; FAST requires the
+#                   "fast option" hardware. (Manual p.24, lines 674-698)
+#   - bit 25-27:    VECT0 / SLWCS0 / MAPJ0 - branch-address-mode
+#                   selector (combines with MIS). All three are
+#                   stored ACTIVE-LOW in the ROM; bits 22-27 are
+#                   inverted after assembly per manual line 760.
+#   - bit 37-41:    IDBS is 4 bits wide (37..40), with bit 41 = SEXT
+#                   (a sign-extend modifier applied to the IDBS
+#                   source on its way to the IDB). The manual's
+#                   IDBS table (p.20, lines 519-537) shows a "22 octal"
+#                   entry which is a 5-bit composite = base code 010
+#                   (GPR) + bit 4 set = GPR-with-SEXT. NOT a 5-bit
+#                   IDBS as on ND-110/120.
+#   - bit 42-43:    MIS has three confirmed roles on ND-100:
+#                   (a) shift mode when ALUM=MIC (ASH/ROT/ZIN/LIR);
+#                   (b) page mode on memory-op COMM codes
+#                       (FETCH/PT/APT/HOLD);
+#                   (c) lower-4-bits source for vectored jumps when
+#                       VECT0 is active (IR 0-3 / IR 8-10 / ALD 0-3 /
+#                       A-operand).
+#                   (Manual p.19-20, lines 496-505; p.24, lines 655-663.)
+#   - bit 50:       EN_EXT instead of XRF (same function, new name).
+
+# Bits 22-27 are stored INVERTED in the ROM (per manual line 760).
+# This matches the ND-110 XOR_MASK (0x0FC00000). Disassemblers and
+# assemblers must apply the XOR round-trip exactly as they do for
+# the ND-110 token-form .CODE files.
+rom_bit_inversion:
+  mask: 0x0FC00000
+  bits: [27, 22]
+  reference: "ND-06.018.01 p.27 line 760"
+  applies_to: [nd100, nd110]    # ND-120 behaves the same
 
 model: ND-100
-status: unimplemented
-word_size_bits: 48          # Assumed - to be verified
+word_size_bits: 48
 byte_count: 6
 byte_order: little-endian
-
-# Most fields likely inherit from ND-110; specific deltas to be documented here.
 inherits_from: nd110-fields.yaml
+
+# All fields not listed here inherit identically from nd110-fields.yaml.
+# Listed fields override the ND-110 definition for ND-100 decoding.
+
+fields:
+
+  # ================================================================
+  # CYCLE TIMING - bits 20:21
+  # ================================================================
+  #
+  # On ND-110: bit 20 = BIT20 (branch-address extension, gives the
+  # 13-bit effective branch target), bit 21 = DELAY (1-bit delay).
+  # On ND-100: BOTH bits form a single 2-bit cycle-length selector.
+  # There is NO branch-address extension - ND-100 branch target is
+  # 12 bits (see bits 25-27 branch-mode selector instead).
+
+  TC:
+    bits: [21, 20]
+    width: 2
+    description: |
+      Cycle-length selector. Two timing bits combined into a single
+      4-value field:
+        00 = FAST
+        01 = NORM
+        10 = SLOW
+        11 = WAIT
+    default: 0b10      # SLOW is the default on standard ND-100; see notes
+    values:
+      0b00: { name: FAST,         description: "Fast microcycle, approx. 150 ns. Only available on ND-100 with the 'fast option' hardware. Not used on standard ND-100." }
+      0b01: { name: INTERMEDIATE, description: "Intermediate microcycle, approx. 170 ns. Not used on standard ND-100; manual lists the value for completeness." }
+      0b10: { name: SLOW,         description: "Slow microcycle, approx. 190 ns. Default on standard ND-100." }
+      0b11: { name: WAIT,         description: "Wait for bus-control synchronization (variable; used to synchronise with memory / bus handshakes)." }
+    replaces_on_nd110: [CSBIT20, CSDELAY_BIT21]
+    reference: "ND-06.018.01 p.24 lines 674-698"
+    notes: |
+      Per the manual: "In NORD-100 all microinstructions are either
+      'slow' or 'wait'." FAST and INTERMEDIATE are not used on the
+      standard ND-100. The "fast option" variant replaces most SLOW
+      microinstructions with FAST while retaining WAIT where needed.
+
+      Microinstructions that MUST stay SLOW even on a fast-option
+      ND-100 (component timing constraint):
+        1. All UART microinstructions (SIOC, RSDA, TBSTR).
+        2. Microinstructions whose IDB-source result is used by the
+           ALU as an arithmetic operand and then tested with F=0 in
+           the next microinstruction.
+        3. All microinstructions touching the memory management
+           module (IDBS,MMR or COMM,LDIR or COMM,XMMI).
+
+      On ND-100 there is no equivalent of ND-110's BIT20 branch-
+      address extension. The microcode branch address field is 12
+      bits wide (CSBIT_11_0), with branch-source selection instead
+      controlled by the VECT0 / SLWCS0 / MAPJ0 / MIS decoder at
+      bits 25-27 + 42-43.
+
+  # ================================================================
+  # BRANCH-ADDRESS-MODE SELECTOR - bits 25:27
+  # ================================================================
+  #
+  # Three active-low select lines. Together with MIS (bits 43:42) they
+  # form the "effective branch address" selector. See
+  # defs/runtime/data-flow.yaml :: nd100_branch_address_selector
+  # for the full truth table.
+
+  VECT0:
+    bits: [25, 25]
+    width: 1
+    description: |
+      Inverted VECT. When 0 (active), the lower 4 bits of the branch
+      target are taken from one of IR / ALD / RA (selected by MIS)
+      instead of from PROM bits 0:3. When 1 (inactive), PROM supplies
+      all 12 bits of the branch target.
+    default: 0b1
+    active_low: true
+    replaces_on_nd110: VECT
+    token: "VECT"
+    notes: "On ND-110 this bit is called simply VECT (not inverted), and works differently - see nd110-fields.yaml."
+
+  SLWCS0:
+    bits: [26, 26]
+    width: 1
+    description: |
+      Inverted slow-CS / WCS-load enable. When 0 (active), initiates
+      START LOAD WRITABLE CS regardless of VECT0/MAPJ0 - the current
+      microinstruction loads the writable control store instead of
+      branching normally.
+    default: 0b1
+    active_low: true
+    replaces_on_nd110: CSDELAY_BIT26
+    notes: "On ND-110 bit 26 is DLY0 (microcycle delay control)."
+
+  MAPJ0:
+    bits: [27, 27]
+    width: 1
+    description: |
+      Inverted map-jump enable. When 0 (active) with SLWCS0=1 and
+      VECT0=1, dispatches to the macro-opcode decode-PLA address for
+      the current macroinstruction (or to the interrupt vector
+      entry if /INT RQ is asserted).
+    default: 0b1
+    active_low: true
+    replaces_on_nd110: CSDELAY_BIT27
+    notes: "On ND-110 bit 27 is DLY1 (microcycle delay control)."
+
+  # ================================================================
+  # IDB SOURCE - bits 37:40 (NARROWER than ND-110)
+  # ================================================================
+  #
+  # On ND-110 IDBS is bits 37..41 (5 bits, sources 0o00..0o37).
+  # On ND-100 IDBS is bits 37..40 (4 bits, sources 0o00..0o17), with
+  # bit 41 reserved for SEXT.
+
+  IDBS:
+    bits: [40, 37]
+    width: 4
+    description: "Internal Data Bus Source - 4-bit selector."
+    default: 0
+    differs_from_nd110: true
+    notes: |
+      The ND-110 extended this field to 5 bits (repurposing what was
+      bit 41 = SEXT on ND-100) and added extra IDBS sources in the
+      upper range 0o20..0o37. ND-100 IDBS codes occupy only the
+      range 0o00..0o17.
+
+  # ================================================================
+  # SEXT - bit 41
+  # ================================================================
+  #
+  # Present on ND-100 only. Renamed / repurposed on ND-110 as IDBS4.
+
+  SEXT:
+    bits: [41, 41]
+    width: 1
+    description: |
+      Sign-Extend modifier for the IDBS source. When set (together
+      with IDBS = GPR, which is the primary documented use case),
+      the GPR value is sign-extended from bit 7 to bits 8-15 as it
+      is latched onto the IDB. This eases address-calculation and
+      argument-instruction code paths.
+    default: 0
+    status: "confirmed"
+    replaces_on_nd110: IDBS4
+    reference: "ND-06.018.01 p.20 line 524 (IDBS entry '22 octal' = GPR with sign extension)"
+    notes: |
+      The ND-110 reuses this bit as the top bit of IDBS, expanding
+      the source count from 16 to 32. ND-100 keeps IDBS at 16 sources
+      and uses bit 41 for this sign-extend modifier. In the manual's
+      IDBS table the composite "22 octal" row appears between the
+      standard 0..17 entries - it represents IDBS=2 (GPR) combined
+      with bit 41 set, producing the sign-extended GPR source. The
+      ND-110 retains an equivalent compound token (IDBS,GPR,SEXT)
+      even though it encodes it into a dedicated 5-bit IDBS code
+      rather than a separate modifier bit.
+
+  # ================================================================
+  # MIS - bits 42:43 (same position, additional role)
+  # ================================================================
+  #
+  # On ND-100 MIS has at least this confirmed role:
+  #   - Branch-operand selector when VECT0 is active. See
+  #     defs/runtime/data-flow.yaml :: nd100_branch_address_selector.
+  #
+  # Whether the shift-mode role (MIS,ROT / MIS,ZIN / MIS,LIN when
+  # ALUM=MIC) and page-mode role (-/PT/APT/HOLD on memory-op COMMs)
+  # also exist on ND-100 is TBD.
+
+  MIS:
+    bits: [43, 42]
+    width: 2
+    description: |
+      Two-bit multi-role field. All three roles are confirmed on
+      ND-100:
+        (a) Shift mode when ALUM = 11 (shift instruction):
+              00 = ASH  (arithmetic shift)
+              01 = ROT  (rotational shift)
+              10 = ZIN  (zero-end-input shift)
+              11 = LIR  (link-end-input shift)
+        (b) Page mode on memory-op COMMs
+            (EXRQ/IRDRQ/DERQ/RDRQ/WRRQ):
+              00 = fetch / physical address (no paging)
+              01 = PT    (normal page table)
+              10 = APT   (alternative page table)
+              11 = HOLD  (last-used page table)
+        (c) Lower-4-bits source for vectored jumps (VECT0=0):
+              00 = IR(0..3)    (used by TRA, TRR)
+              01 = IR(8..10)   (used in memory-reference addr calc)
+              10 = ALD(0..3)
+              11 = A-operand bits
+      All three roles share the same two bits; the active role is
+      determined by the other fields (ALUM, COMM, VECT0) of the
+      same microinstruction.
+    default: 0
+    status: "confirmed"
+    reference: "ND-06.018.01 p.19-20 lines 496-505; p.24 lines 655-663"
+
+  # ================================================================
+  # EN_EXT (= XRF on ND-110) - bit 50
+  # ================================================================
+  #
+  # Same function, different name. Keeping both names so documentation
+  # from either machine line matches.
+
+  EN_EXT:
+    bits: [50, 50]
+    width: 1
+    description: "Enable Extended register file. Same function as XRF on ND-110; renamed for ND-110."
+    default: 0
+    token: "EN_EXT"
+    alias_on_nd110: XRF
+
+# Fields ignored for binary comparison (delay/timing bits whose exact
+# value does not change semantic meaning when diffing two ROMs).
+ignored_for_comparison:
+  # On ND-100 the timing bits are TC (bits 21:20) - treat as ignored
+  # for logical comparison (the value matters to hardware but not to
+  # disassembly semantics).
+  - TC

@@ -1,0 +1,1972 @@
+# ND-100 Microcode Tokens
+#
+# Source: user-provided authoritative ND-100 assembler mnemonic list
+# (296 tokens, 2026-04-16), cross-referenced against the NORD-100
+# Microprogramming Description manual (ND-06.018.01).
+#
+# Token encoding convention (same as ND-110/120 YAML):
+#   w1 = bits 15:0,  w2 = bits 31:16,  w3 = bits 47:32,  w4 = bits 63:48.
+# ND-100 only uses bits 0-47; w4 is retained for format compatibility
+# (always 000000 except for ALUI tokens, which live at bits 55-63).
+#
+# OCR CORRECTIONS applied to the source list:
+#   - Row 212 (COMM,LDPIL): OCR had (1,0,0,0); correct is (0,1,0,0).
+#   - Rows 204-211 and 214-227 (22 COMM tokens): OCR had the encoding
+#     value in the w2 column (Col3); correct is w3 (Col2). Every COMM
+#     on ND-100 places its 5-bit code at bits 32-36 (= w3 bits 0-4),
+#     matching the manual (page 21) and matching the ND-110 layout.
+#     User confirmed this via rows 212/213.
+#
+# Models:
+#   Every token here is present on ND-100. Tokens flagged
+#   `alias_on_nd110` or `alias_on_nd120` note cross-model equivalents
+#   where the name differs but the function is identical.
+
+model: ND-100
+word_size_bits: 48
+byte_count: 6
+byte_order: little-endian
+token_count: 296
+
+tokens:
+
+  # ==================================================================
+  # A-OPERAND REGISTER TOKENS (bits 12-15 = w1 bits 12-15)
+  # ==================================================================
+  # AOP value N encoded as w1 = N << 12 (octal: value * 0o10000).
+
+  - token: "A,Z"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A-OP. IS 0. USED TO ADDR. ZERO REG., STATUS OR SCRATCH"
+    models: [nd100]
+  - token: "A,D"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "010000" }
+    description: "A-OP. IS 1. USED TO ADDR. THE D-REGISTER"
+    models: [nd100]
+  - token: "A,P"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "020000" }
+    description: "A-OP. IS 2. USED TO ADDR. THE P-REGISTER"
+    models: [nd100]
+  - token: "A,B"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "030000" }
+    description: "A-OP. IS 3. USED TO ADDR. THE B-REGISTER"
+    models: [nd100]
+  - token: "A,L"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "040000" }
+    description: "A-OP. IS 4. USED TO ADDR. THE L-REGISTER"
+    models: [nd100]
+  - token: "A,A"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "050000" }
+    description: "A-OP. IS 5. USED TO ADDR. THE A-REGISTER"
+    models: [nd100]
+  - token: "A,T"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "060000" }
+    description: "A-OP. IS 6. USED TO ADDR. THE T-REGISTER"
+    models: [nd100]
+  - token: "A,X"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "070000" }
+    description: "A-OP. IS 7. USED TO ADDR. THE X-REGISTER"
+    models: [nd100]
+  - token: "A,STS"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "100000" }
+    description: "A-OP. IS 10. USED TO ADDR. REG. 10, CONTAINING STATUS OR SCRATCH"
+    models: [nd100]
+  - token: "A,R1"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "110000" }
+    description: "A-OP. IS 11. USED TO ADDR. REG. 11, CONTAINING ADDRESS OR SCRATCH"
+    models: [nd100]
+  - token: "A,R2"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "120000" }
+    description: "A-OP. IS 12. SCRATCH"
+    models: [nd100]
+  - token: "A,R3"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "130000" }
+    description: "A-OP. IS 13. SCRATCH"
+    models: [nd100]
+  - token: "A,R4"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "140000" }
+    description: "A-OP. IS 14. SCRATCH"
+    models: [nd100]
+  - token: "A,R5"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "150000" }
+    description: "A-OP. IS 15. SCRATCH"
+    models: [nd100]
+  - token: "A,R6"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "160000" }
+    description: "A-OP. IS 16. SCRATCH"
+    models: [nd100]
+  - token: "A,R7"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "170000" }
+    description: "A-OP. IS 17. SCRATCH"
+    models: [nd100]
+
+  # A-operand via RASEL override (bits 50-52) - redirects A to
+  # PIL / macro-IR / LC etc.
+
+  - token: "A,PIL"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000010", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A-OP. IS THE 'PIL'-REGISTER, LOADED BY COMM,LDPIL"
+    models: [nd100]
+  - token: "A,REG"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000020", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A-OP. IS MACRO-IR BITS 3-6 (loaded by last T,MAPJ)"
+    models: [nd100]
+  - token: "A,SHCE"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000024", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A-OP. IS MACRO-IR BITS 3-5 (loaded by last T,MAPJ)"
+    models: [nd100]
+  - token: "A,LC"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000030", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A-OP. IS THE LOOP COUNTER (value from 2 uinstructions ago)"
+    models: [nd100]
+
+  # PIC commands issued via A-operand (COMM,EPIC interprets AOP as
+  # a PIC command code). These tokens reuse the AOP bits.
+
+  - token: "PIC,RSTS"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "060000" }
+    description: "A-OP. IS 6. 'READ STATUS' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,MCL"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A-OP. IS 0. 'MASTER CLEAR' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,MCLPID"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "020000" }
+    description: "A-OP. IS 2. 'MASKED CLEAR PID' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,RMSK"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "070000" }
+    description: "A-OP. IS 7. 'READ MASK' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,LOSTS"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "110000" }
+    description: "A-OP. IS 11. 'LOAD STATUS' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,LMSK"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "160000" }
+    description: "A-OP. IS 16. 'LOAD MASK' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,MCLMSK"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "120000" }
+    description: "A-OP. IS 12. 'MASKED CLEAR MASK' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,IOF"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "150000" }
+    description: "A-OP. IS 15. 'IOF' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,ION"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "170000" }
+    description: "A-OP. IS 17. 'ION' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,MSTMSK"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "130000" }
+    description: "A-OP. IS 13. 'MASKED SET MASK' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+  - token: "PIC,RVECT"
+    category: PIC
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "050000" }
+    description: "A-OP. IS 5. 'READ-VECTOR' COMMAND TO INTERRUPT HARDWARE"
+    models: [nd100]
+
+  # Numeric A-operand tokens (A,0 through A,17 octal).
+  - token: "A,0"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A-OPERAND IS 0"
+    models: [nd100]
+  - token: "A,1"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "010000" }
+    description: "A-OPERAND IS 1"
+    models: [nd100]
+  - token: "A,2"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "020000" }
+    description: "A-OPERAND IS 2"
+    models: [nd100]
+  - token: "A,3"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "030000" }
+    description: "A-OPERAND IS 3"
+    models: [nd100]
+  - token: "A,4"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "040000" }
+    description: "A-OPERAND IS 4"
+    models: [nd100]
+  - token: "A,5"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "050000" }
+    description: "A-OPERAND IS 5"
+    models: [nd100]
+  - token: "A,6"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "060000" }
+    description: "A-OPERAND IS 6"
+    models: [nd100]
+  - token: "A,7"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "070000" }
+    description: "A-OPERAND IS 7"
+    models: [nd100]
+  - token: "A,10"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "100000" }
+    description: "A-OPERAND IS 10"
+    models: [nd100]
+  - token: "A,11"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "110000" }
+    description: "A-OPERAND IS 11"
+    models: [nd100]
+  - token: "A,12"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "120000" }
+    description: "A-OPERAND IS 12"
+    models: [nd100]
+  - token: "A,13"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "130000" }
+    description: "A-OPERAND IS 13"
+    models: [nd100]
+  - token: "A,14"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "140000" }
+    description: "A-OPERAND IS 14"
+    models: [nd100]
+  - token: "A,15"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "150000" }
+    description: "A-OPERAND IS 15"
+    models: [nd100]
+  - token: "A,16"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "160000" }
+    description: "A-OPERAND IS 16"
+    models: [nd100]
+  - token: "A,17"
+    category: A_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "170000" }
+    description: "A-OPERAND IS 17"
+    models: [nd100]
+
+  # ==================================================================
+  # B-OPERAND REGISTER TOKENS (bits 16-19 = w2 bits 0-3)
+  # ==================================================================
+
+  - token: "B,Z"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B-OP. IS 0. USED TO ADDR. ZERO REG., STATUS OR SCRATCH"
+    models: [nd100]
+  - token: "B,D"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000001", w1: "000000" }
+    description: "B-OP. IS 1. USED TO ADDR. THE D-REGISTER"
+    models: [nd100]
+  - token: "B,P"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000002", w1: "000000" }
+    description: "B-OP. IS 2. USED TO ADDR. THE P-REGISTER"
+    models: [nd100]
+  - token: "B,B"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000003", w1: "000000" }
+    description: "B-OP. IS 3. USED TO ADDR. THE B-REGISTER"
+    models: [nd100]
+  - token: "B,L"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000004", w1: "000000" }
+    description: "B-OP. IS 4. USED TO ADDR. THE L-REGISTER"
+    models: [nd100]
+  - token: "B,A"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000005", w1: "000000" }
+    description: "B-OP. IS 5. USED TO ADDR. THE A-REGISTER"
+    models: [nd100]
+  - token: "B,T"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000006", w1: "000000" }
+    description: "B-OP. IS 6. USED TO ADDR. THE T-REGISTER"
+    models: [nd100]
+  - token: "B,X"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000007", w1: "000000" }
+    description: "B-OP. IS 7. USED TO ADDR. THE X-REGISTER"
+    models: [nd100]
+  - token: "B,STS"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000010", w1: "000000" }
+    description: "B-OP. IS 10. STATUS OR SCRATCH"
+    models: [nd100]
+  - token: "B,R1"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000011", w1: "000000" }
+    description: "B-OP. IS 11. ADDRESS OR SCRATCH"
+    models: [nd100]
+  - token: "B,R2"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "000000" }
+    description: "B-OP. IS 12. SCRATCH"
+    models: [nd100]
+  - token: "B,R3"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000013", w1: "000000" }
+    description: "B-OP. IS 13. SCRATCH"
+    models: [nd100]
+  - token: "B,R4"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000014", w1: "000000" }
+    description: "B-OP. IS 14. SCRATCH"
+    models: [nd100]
+  - token: "B,R5"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000015", w1: "000000" }
+    description: "B-OP. IS 15. SCRATCH"
+    models: [nd100]
+  - token: "B,R6"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000016", w1: "000000" }
+    description: "B-OP. IS 16. SCRATCH"
+    models: [nd100]
+  - token: "B,R7"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000017", w1: "000000" }
+    description: "B-OP. IS 17. SCRATCH"
+    models: [nd100]
+
+  # B-operand via RBSEL override (bits 48-49) - redirects B to macro-IR / LC.
+  - token: "B,DEST"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000001", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B-OP. IS MACRO-IR BITS 0-2 (destination field), loaded by last T,MAPJ"
+    models: [nd100]
+  - token: "B,SRCE"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000002", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B-OP. IS MACRO-IR BITS 3-5 (source field), loaded by last T,MAPJ"
+    models: [nd100]
+  - token: "B,LC"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000003", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B-OP. IS THE LOOP COUNTER (value from 2 uinstructions ago)"
+    models: [nd100]
+
+  # Numeric B-operand tokens (B,0 through B,17 octal).
+  - token: "B,0"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B-OPERAND IS 0"
+    models: [nd100]
+  - token: "B,1"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000001", w1: "000000" }
+    description: "B-OPERAND IS 1"
+    models: [nd100]
+  - token: "B,2"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000002", w1: "000000" }
+    description: "B-OPERAND IS 2"
+    models: [nd100]
+  - token: "B,3"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000003", w1: "000000" }
+    description: "B-OPERAND IS 3"
+    models: [nd100]
+  - token: "B,4"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000004", w1: "000000" }
+    description: "B-OPERAND IS 4"
+    models: [nd100]
+  - token: "B,5"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000005", w1: "000000" }
+    description: "B-OPERAND IS 5"
+    models: [nd100]
+  - token: "B,6"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000006", w1: "000000" }
+    description: "B-OPERAND IS 6"
+    models: [nd100]
+  - token: "B,7"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000007", w1: "000000" }
+    description: "B-OPERAND IS 7"
+    models: [nd100]
+  - token: "B,10"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000010", w1: "000000" }
+    description: "B-OPERAND IS 10"
+    models: [nd100]
+  - token: "B,11"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000011", w1: "000000" }
+    description: "B-OPERAND IS 11"
+    models: [nd100]
+  - token: "B,12"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "000000" }
+    description: "B-OPERAND IS 12"
+    models: [nd100]
+  - token: "B,13"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000013", w1: "000000" }
+    description: "B-OPERAND IS 13"
+    models: [nd100]
+  - token: "B,14"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000014", w1: "000000" }
+    description: "B-OPERAND IS 14"
+    models: [nd100]
+  - token: "B,15"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000015", w1: "000000" }
+    description: "B-OPERAND IS 15"
+    models: [nd100]
+  - token: "B,16"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000016", w1: "000000" }
+    description: "B-OPERAND IS 16"
+    models: [nd100]
+  - token: "B,17"
+    category: B_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000017", w1: "000000" }
+    description: "B-OPERAND IS 17"
+    models: [nd100]
+
+  # ==================================================================
+  # ALUF (ALU FUNCTION) TOKENS - bits 55-63 = w4 bits 7-15
+  # ==================================================================
+  # The 9-bit ALUF encodes the composite Am2901 source + function +
+  # carry-in trio. The w4 octal values below correspond directly to
+  # the user's authoritative assembler output. Many of these match
+  # ND-110 bit-for-bit.
+
+  # AND group
+  - token: "ALUF,ANDAQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "010000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A /\\ Q -> F"
+    models: [nd100]
+  - token: "ALUF,ANDAB"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "010200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A /\\ B -> F"
+    models: [nd100]
+  - token: "ALUF,ANDDA"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "011200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D /\\ A -> F"
+    models: [nd100]
+  - token: "ALUF,ANDDQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "011400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D /\\ Q -> F"
+    models: [nd100]
+
+  # OR group
+  - token: "ALUF,ORAQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "006000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A \\/ Q -> F"
+    models: [nd100]
+  - token: "ALUF,ORAB"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "006200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A \\/ B -> F"
+    models: [nd100]
+  - token: "ALUF,ORDA"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "007200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D \\/ A -> F"
+    models: [nd100]
+  - token: "ALUF,ORDQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "007400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D \\/ Q -> F"
+    models: [nd100]
+
+  # XOR / XNOR group
+  - token: "ALUF,XORAQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "014000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A XOR Q -> F"
+    models: [nd100]
+  - token: "ALUF,XORAB"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "014200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A XOR B -> F"
+    models: [nd100]
+  - token: "ALUF,XORDA"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "015200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D XOR A -> F"
+    models: [nd100]
+  - token: "ALUF,XORDQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "015400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D XOR Q -> F"
+    models: [nd100]
+  - token: "ALUF,XNORAQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "016000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(A XOR Q) -> F"
+    models: [nd100]
+  - token: "ALUF,XNORAB"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "016200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(A XOR B) -> F"
+    models: [nd100]
+  - token: "ALUF,XNORDA"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "017200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(D XOR A) -> F"
+    models: [nd100]
+  - token: "ALUF,XNORDQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "017400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(D XOR Q) -> F"
+    models: [nd100]
+
+  # Pass-through / invert group
+  - token: "ALUF,ZERO"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "010400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "0 -> F"
+    models: [nd100]
+  - token: "ALUF,INVQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "016400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(Q) -> F"
+    models: [nd100]
+  - token: "ALUF,INVB"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "016600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(B) -> F"
+    models: [nd100]
+  - token: "ALUF,INVA"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "017000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(A) -> F"
+    models: [nd100]
+  - token: "ALUF,INVD"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "017600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(D) -> F"
+    models: [nd100]
+  - token: "ALUF,PASSQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "014400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Q -> F"
+    models: [nd100]
+  - token: "ALUF,PASSB"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "014600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B -> F"
+    models: [nd100]
+  - token: "ALUF,PASSA"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "015000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A -> F"
+    models: [nd100]
+  - token: "ALUF,PASSD"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "015600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D -> F"
+    models: [nd100]
+
+  # Mask (NOT A) AND B group
+  - token: "ALUF,MASKAQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "012000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(A) /\\ Q -> F"
+    models: [nd100]
+  - token: "ALUF,MASKAB"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "012200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(A) /\\ B -> F"
+    models: [nd100]
+  - token: "ALUF,MASKDA"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "013200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(D) /\\ A -> F"
+    models: [nd100]
+  - token: "ALUF,MASKDQ"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "013400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "NOT(D) /\\ Q -> F"
+    models: [nd100]
+
+  # Addition (no cin)
+  - token: "ALUF,A+Q"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A + Q -> F"
+    models: [nd100]
+  - token: "ALUF,A+B"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A + B -> F"
+    models: [nd100]
+  - token: "ALUF,D+A"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D + A -> F"
+    models: [nd100]
+  - token: "ALUF,D+Q"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D + Q -> F"
+    models: [nd100]
+
+  # Addition (+1)
+  - token: "ALUF,A+Q+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000000", w3: "040000", w2: "000000", w1: "000000" }
+    description: "A + Q + 1 -> F"
+    models: [nd100]
+  - token: "ALUF,A+B+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000200", w3: "040000", w2: "000000", w1: "000000" }
+    description: "A + B + 1 -> F"
+    models: [nd100]
+  - token: "ALUF,D+A+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001200", w3: "040000", w2: "000000", w1: "000000" }
+    description: "D + A + 1 -> F"
+    models: [nd100]
+  - token: "ALUF,D+Q+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001400", w3: "040000", w2: "000000", w1: "000000" }
+    description: "D + Q + 1 -> F"
+    models: [nd100]
+
+  # Negation with -1
+  - token: "ALUF,-Q-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "-Q - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,-B-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "-B - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,-A-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "005000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "-A - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,-D-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "003600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "-D - 1 -> F"
+    models: [nd100]
+
+  # Subtraction (-1)
+  - token: "ALUF,Q-A-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "002000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Q - A - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,B-A-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "002200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B - A - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,A-D-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "003200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A - D - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,Q-D-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "003400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Q - D - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,A-Q-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A - Q - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,A-B-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A - B - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,D-A-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "005200", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D - A - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,D-Q-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "005400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D - Q - 1 -> F"
+    models: [nd100]
+
+  # Pass single operand (no modify)
+  - token: "ALUF,Q"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Q -> F"
+    models: [nd100]
+  - token: "ALUF,B"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B -> F"
+    models: [nd100]
+  - token: "ALUF,A"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A -> F"
+    models: [nd100]
+  - token: "ALUF,D"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D -> F"
+    models: [nd100]
+
+  # Increment
+  - token: "ALUF,Q+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000400", w3: "040000", w2: "000000", w1: "000000" }
+    description: "Q + 1 -> F"
+    models: [nd100]
+  - token: "ALUF,B+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "000600", w3: "040000", w2: "000000", w1: "000000" }
+    description: "B + 1 -> F"
+    models: [nd100]
+  - token: "ALUF,A+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001000", w3: "040000", w2: "000000", w1: "000000" }
+    description: "A + 1 -> F"
+    models: [nd100]
+  - token: "ALUF,D+1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "001600", w3: "040000", w2: "000000", w1: "000000" }
+    description: "D + 1 -> F"
+    models: [nd100]
+
+  # Decrement
+  - token: "ALUF,Q-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "002400", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Q - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,B-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "002600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "B - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,A-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "003000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "A - 1 -> F"
+    models: [nd100]
+  - token: "ALUF,D-1"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "005600", w3: "000000", w2: "000000", w1: "000000" }
+    description: "D - 1 -> F"
+    models: [nd100]
+
+  # Negation
+  - token: "ALUF,-Q"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004400", w3: "040000", w2: "000000", w1: "000000" }
+    description: "-Q -> F"
+    models: [nd100]
+  - token: "ALUF,-B"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004600", w3: "040000", w2: "000000", w1: "000000" }
+    description: "-B -> F"
+    models: [nd100]
+  - token: "ALUF,-A"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "005000", w3: "040000", w2: "000000", w1: "000000" }
+    description: "-A -> F"
+    models: [nd100]
+  - token: "ALUF,-D"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "003600", w3: "040000", w2: "000000", w1: "000000" }
+    description: "-D -> F"
+    models: [nd100]
+
+  # Subtraction
+  - token: "ALUF,Q-A"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "002000", w3: "040000", w2: "000000", w1: "000000" }
+    description: "Q - A -> F"
+    models: [nd100]
+  - token: "ALUF,B-A"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "002200", w3: "040000", w2: "000000", w1: "000000" }
+    description: "B - A -> F"
+    models: [nd100]
+  - token: "ALUF,A-D"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "003200", w3: "040000", w2: "000000", w1: "000000" }
+    description: "A - D -> F"
+    models: [nd100]
+  - token: "ALUF,Q-D"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "003400", w3: "040000", w2: "000000", w1: "000000" }
+    description: "Q - D -> F"
+    models: [nd100]
+  - token: "ALUF,A-Q"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004000", w3: "040000", w2: "000000", w1: "000000" }
+    description: "A - Q -> F"
+    models: [nd100]
+  - token: "ALUF,A-B"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "004200", w3: "040000", w2: "000000", w1: "000000" }
+    description: "A - B -> F"
+    models: [nd100]
+  - token: "ALUF,D-A"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "005200", w3: "040000", w2: "000000", w1: "000000" }
+    description: "D - A -> F"
+    models: [nd100]
+  - token: "ALUF,D-Q"
+    category: ALUF
+    display_line: 1
+    encoding: { w4: "005400", w3: "040000", w2: "000000", w1: "000000" }
+    description: "D - Q -> F"
+    models: [nd100]
+
+  # ==================================================================
+  # ALUD (ALU DESTINATION) - bits 61-63 = w4 bits 13-15
+  # ==================================================================
+  - token: "ALUD,Q"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> Q ; F -> Y"
+    models: [nd100]
+  - token: "ALUD,NONE"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "020000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> Y (no register write)"
+    models: [nd100]
+  - token: "ALUD,B,YA"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "040000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> B ; A -> Y"
+    models: [nd100]
+  - token: "ALUD,B"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "060000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> B ; F -> Y"
+    models: [nd100]
+  - token: "ALUD,SRD"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "100000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> Y ; (F,Q)/2 -> (B,Q)  - double right shift"
+    models: [nd100]
+  - token: "ALUD,SRB"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "120000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> Y ; F/2 -> B  - single right shift"
+    models: [nd100]
+  - token: "ALUD,SLD"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "140000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> Y ; (F,Q)*2 -> (B,Q)  - double left shift"
+    models: [nd100]
+  - token: "ALUD,SLB"
+    category: ALUD
+    display_line: 1
+    encoding: { w4: "160000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "F -> Y ; F*2 -> B  - single left shift"
+    models: [nd100]
+
+  # ==================================================================
+  # STS (STATUS) - bits 53-54 = w4 bits 5-6
+  # ==================================================================
+  - token: "STS,LO"
+    category: STS
+    display_line: 1
+    encoding: { w4: "000140", w3: "000000", w2: "000000", w1: "000000" }
+    description: "IDB BITS 0-7 -> STATUS BITS 0-7"
+    models: [nd100]
+  - token: "STS,EA"
+    category: STS
+    display_line: 1
+    encoding: { w4: "000040", w3: "000000", w2: "000000", w1: "000000" }
+    description: "ALU-CRY -> STATUS C ; ALU-OVF -> STATUS Q ; ALU-OVF \\/ STATUS O -> STATUS O"
+    models: [nd100]
+  - token: "STS,ES"
+    category: STS
+    display_line: 1
+    encoding: { w4: "000100", w3: "000000", w2: "000000", w1: "000000" }
+    description: "ALU SHIFT OUTPUT -> STATUS M"
+    models: [nd100]
+
+  # ==================================================================
+  # CRY (CARRY-IN) - bits 46-47 = w3 bits 14-15
+  # ==================================================================
+  - token: "CRY,C"
+    category: CRY
+    display_line: 1
+    encoding: { w4: "000000", w3: "100000", w2: "000000", w1: "000000" }
+    description: "STATUS C -> CARRY IN"
+    models: [nd100]
+  - token: "CRY,GPR"
+    category: CRY
+    display_line: 1
+    encoding: { w4: "000000", w3: "140000", w2: "000000", w1: "000000" }
+    description: "GPR BIT 0 -> CARRY IN"
+    models: [nd100]
+
+  # ==================================================================
+  # ALUM (ALU MODE) - bits 44-45 = w3 bits 12-13
+  # ==================================================================
+  - token: "ALUM,FMU"
+    category: ALUM
+    display_line: 1
+    encoding: { w4: "000000", w3: "010000", w2: "000000", w1: "000000" }
+    description: "Multiplication ALU mode. GPR bit 0 -> ALU instr bit 1; right GPR shift."
+    models: [nd100]
+  - token: "ALUM,FDV"
+    category: ALUM
+    display_line: 1
+    encoding: { w4: "000000", w3: "020000", w2: "000000", w1: "000000" }
+    description: "Division ALU mode. GPR bit 0 -> ALU instr bit 3; left GPR shift."
+    models: [nd100]
+  - token: "ALUM,IR"
+    category: ALUM
+    display_line: 1
+    encoding: { w4: "000000", w3: "030000", w2: "000000", w1: "000000" }
+    description: "Shift-instruction ALU mode. Shift mode from IR bits; M set automatically."
+    models: [nd100]
+  - token: "ALUM,MIC"
+    category: ALUM
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Microprogram-controlled ALU mode. Shift mode from MIS bits."
+    models: [nd100]
+
+  # ==================================================================
+  # MIS (bits 42-43 = w3 bits 10-11) - THREE ROLES
+  # ==================================================================
+  # Role A: Page-table mode when COMM is a memory-op (EXRQ/IRDRQ/RDRQ/WRRQ).
+  - token: "MIS,FETCH"
+    category: MIS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Indicates 'FETCH' request to paging and protection hardware."
+    models: [nd100]
+  - token: "MIS,PT"
+    category: MIS
+    display_line: 2
+    encoding: { w4: "000000", w3: "002000", w2: "000000", w1: "000000" }
+    description: "Indicates normal page table to paging hardware."
+    models: [nd100]
+  - token: "MIS,APT"
+    category: MIS
+    display_line: 2
+    encoding: { w4: "000000", w3: "004000", w2: "000000", w1: "000000" }
+    description: "Indicates alternative page table to paging hardware."
+    models: [nd100]
+  - token: "MIS,HOLD"
+    category: MIS
+    display_line: 2
+    encoding: { w4: "000000", w3: "006000", w2: "000000", w1: "000000" }
+    description: "Indicates 'last used page table' to paging hardware."
+    models: [nd100]
+
+  # Role B: Shift mode when ALUM = MIC.
+  - token: "MIS,ROT"
+    category: MIS
+    display_line: 1
+    encoding: { w4: "000000", w3: "002000", w2: "000000", w1: "000000" }
+    description: "Specifies rotational shift if ALUM,MIC."
+    models: [nd100]
+  - token: "MIS,ZIN"
+    category: MIS
+    display_line: 1
+    encoding: { w4: "000000", w3: "004000", w2: "000000", w1: "000000" }
+    description: "Specifies zero-end-input shift if ALUM,MIC."
+    models: [nd100]
+  - token: "MIS,LIN"
+    category: MIS
+    display_line: 1
+    encoding: { w4: "000000", w3: "006000", w2: "000000", w1: "000000" }
+    description: "Specifies link-end-input shift if ALUM,MIC. (Manual calls this 'LIR'; assembler uses 'LIN'.)"
+    models: [nd100]
+    alias_on_manual: "LIR"
+
+  # ==================================================================
+  # CYCL (TC / cycle timing) - bits 20-21 = w2 bits 4-5
+  # ==================================================================
+  - token: "CYCL,FAST"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Fast microcycle (~150 ns). Only available on ND-100 with the fast-option hardware."
+    models: [nd100]
+  - token: "CYCL,NORM"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000020", w1: "000000" }
+    description: "Normal microcycle (~170 ns). Not used on standard ND-100."
+    models: [nd100]
+  - token: "CYCL,SLOW"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000040", w1: "000000" }
+    description: "Slow microcycle (~190 ns). Default on standard ND-100."
+    models: [nd100]
+  - token: "CYCL,WAIT"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000060", w1: "000000" }
+    description: "Wait for bus-control synchronization."
+    models: [nd100]
+
+  # ==================================================================
+  # CONTROL-BIT TOKENS
+  # ==================================================================
+  - token: "LCOUNT"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000100", w1: "000000" }
+    description: "Count loop-counter; if false 'RETURN'&'HOLD'; if true use true specifications."
+    models: [nd100]
+  - token: "CONDENABL"
+    category: SPECIAL
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000200", w1: "000000" }
+    description: "Enable conditional sequencing; use FALSE specs if condition is false."
+    models: [nd100]
+  - token: "SLWCS"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "002000", w1: "000000" }
+    description: "Start Load Writable Control Store. Avoid 'ROM-OUT-OF-RANGE'."
+    models: [nd100]
+
+  # ==================================================================
+  # IDBS (INTERNAL DATA BUS SOURCE) - bits 37-40 = w3 bits 5-8
+  # Plus SEXT modifier at bit 41 = w3 bit 9.
+  # ==================================================================
+  - token: "IDBS,ALU"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Arithmetic-Logic-Unit -> IDB."
+    models: [nd100]
+  - token: "IDBS,BMG"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000040", w2: "000000", w1: "000000" }
+    description: "Bit-Mask-Generator -> IDB."
+    models: [nd100]
+  - token: "IDBS,GPR"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000100", w2: "000000", w1: "000000" }
+    description: "General-Purpose-Register -> IDB."
+    models: [nd100]
+  - token: "IDBS,DBR"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000140", w2: "000000", w1: "000000" }
+    description: "Data-Bus-Register -> IDB (requires WAIT cycle)."
+    models: [nd100]
+  - token: "IDBS,ARG"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000200", w2: "000000", w1: "000000" }
+    description: "Argument (microinstruction bits 0-15) -> IDB."
+    models: [nd100]
+  - token: "IDBS,REG"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000240", w2: "000000", w1: "000000" }
+    description: "Register file word at (AOP, BOP) -> IDB."
+    models: [nd100]
+  - token: "IDBS,STS"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000300", w2: "000000", w1: "000000" }
+    description: "16-bit STATUS register -> IDB."
+    models: [nd100]
+  - token: "IDBS,MMR"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000340", w2: "000000", w1: "000000" }
+    description: "Memory-Management Read register -> IDB (register selected by prior LDIRNO)."
+    models: [nd100]
+  - token: "IDBS,BARG"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000400", w2: "000000", w1: "000000" }
+    description: "B-operand as argument (0-17 octal) -> IDB."
+    models: [nd100]
+  - token: "IDBS,SWAP"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000440", w2: "000000", w1: "000000" }
+    description: "Byte-swap of last IDB -> IDB (two bytes exchanged)."
+    models: [nd100]
+  - token: "IDBS,PEA"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000500", w2: "000000", w1: "000000" }
+    description: "PEA (Page-Enable-A) register -> IDB (inverted)."
+    models: [nd100]
+  - token: "IDBS,PES"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000540", w2: "000000", w1: "000000" }
+    description: "PES (Page-Enable-S) register -> IDB (inverted)."
+    models: [nd100]
+  - token: "IDBS,AARG"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000600", w2: "000000", w1: "000000" }
+    description: "A-operand as argument * 10 (shifted left 3) -> IDB (0-170 octal)."
+    models: [nd100]
+  - token: "IDBS,PIC"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000640", w2: "000000", w1: "000000" }
+    description: "PIC (Priority-Interrupt-Control) status register bus -> IDB. Must issue RSTS command to PIC simultaneously."
+    models: [nd100]
+  - token: "IDBS,IOR"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000700", w2: "000000", w1: "000000" }
+    description: "UART data and status -> IDB."
+    models: [nd100]
+  - token: "IDBS,DSABL"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "000740", w2: "000000", w1: "000000" }
+    description: "Disable sources to IDB (used to read PIC-info except PIC status)."
+    models: [nd100]
+  - token: "IDBS,GPR,SEXT"
+    category: IDBS
+    display_line: 2
+    encoding: { w4: "000000", w3: "001100", w2: "000000", w1: "000000" }
+    description: "GPR bits 0-7 (with bits 8-15 equal to bit 7) -> IDB. Sign-extension via SEXT bit 41."
+    models: [nd100]
+
+  - token: "SEXT"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000000", w3: "001000", w2: "000000", w1: "000000" }
+    description: "Standalone sign-extend modifier (bit 41). Normally combined with IDBS,GPR as the IDBS,GPR,SEXT composite; appears standalone on ND-100 microwords that use SEXT with a non-GPR IDBS source or with IDBS disabled."
+    models: [nd100]
+
+  - token: "EN_EXT"
+    category: SPECIAL
+    display_line: 1
+    encoding: { w4: "000004", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Standalone XRF / Enable Extended Register File (bit 50). Normally bit 50 is embedded in composite A_REG tokens such as A,SHCE; this token exists for microwords where bit 50 is asserted but no composite A-operand token matches."
+    models: [nd100]
+
+  # ==================================================================
+  # COMM (COMMAND) - bits 32-36 = w3 bits 0-4
+  # ==================================================================
+  # OCR CORRECTIONS: the user's source list had 22 COMM rows
+  # (ESRP..IOX, LDIR, XMM, IRDRQ, DERQ, EXRQ) with the encoding in
+  # the w2 column; the correct column is w3, per architecture and
+  # confirmed via rows 212/213. All COMM values below are in w3.
+
+  - token: "COMM,ESRP"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000010", w2: "000000", w1: "000000" }
+    description: "Set 'R=P' flip-flop if 'F=0' is true. Detects store into prefetched next location."
+    models: [nd100]
+  - token: "COMM,EPIC"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000011", w2: "000000", w1: "000000" }
+    description: "A-operand is an instruction to PIC (Priority Interrupt Controller)."
+    models: [nd100]
+  - token: "COMM,SMPID"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000012", w2: "000000", w1: "000000" }
+    description: "Set Micro-PID. PID positions where IDB has 1 are forced high (can only set, not clear)."
+    models: [nd100]
+  - token: "COMM,START"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000013", w2: "000000", w1: "000000" }
+    description: "Reset the STOP flip-flop."
+    models: [nd100]
+  - token: "COMM,SSTOP"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000014", w2: "000000", w1: "000000" }
+    description: "Set the STOP flip-flop."
+    models: [nd100]
+  - token: "COMM,CLRTC"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000015", w2: "000000", w1: "000000" }
+    description: "Clear the 20ms clock flip-flop."
+    models: [nd100]
+  - token: "COMM,CLFF"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000016", w2: "000000", w1: "000000" }
+    description: "Clear the OOD and the DZD flip-flops (floating-point rounding indicators)."
+    models: [nd100]
+  - token: "COMM,LDLC"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000017", w2: "000000", w1: "000000" }
+    description: "Load the Loop Counter with the 6 lower IDB bits."
+    models: [nd100]
+  - token: "COMM,LDPIL"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000001", w2: "000000", w1: "000000" }
+    description: "IDB bits 8-15 -> STATUS bits 8-15."
+    models: [nd100]
+  - token: "COMM,LDGPR"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000002", w2: "000000", w1: "000000" }
+    description: "IDB -> General-Purpose Register."
+    models: [nd100]
+  - token: "COMM,EWRF"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000003", w2: "000000", w1: "000000" }
+    description: "IDB -> register file word addressed by A-operand and B-operand."
+    models: [nd100]
+  - token: "COMM,CLIRQ"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000004", w2: "000000", w1: "000000" }
+    description: "Prevent jump to the interrupt vector; remove PANEL effect on IRQ test."
+    models: [nd100]
+  - token: "COMM,RSDA"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000005", w2: "000000", w1: "000000" }
+    description: "Reset Data Available in UART."
+    models: [nd100]
+  - token: "COMM,TBSTR"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000006", w2: "000000", w1: "000000" }
+    description: "Transmit Buffer Strobe to UART. Lower IDB bits loaded into UART."
+    models: [nd100]
+  - token: "COMM,SIOC"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000007", w2: "000000", w1: "000000" }
+    description: "Load I/O-Control register, controlling terminal 1 and clock interrupts etc."
+    models: [nd100]
+  - token: "COMM,RDRQ"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000034", w2: "000000", w1: "000000" }
+    description: "Read memory request; address present on IDB."
+    models: [nd100]
+  - token: "COMM,WRRQ"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000035", w2: "000000", w1: "000000" }
+    description: "Write memory request; address present on IDB."
+    models: [nd100]
+  - token: "COMM,IDENT"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000036", w2: "000000", w1: "000000" }
+    description: "Start IDENT cycle on bus; address present on IDB."
+    models: [nd100]
+  - token: "COMM,IOX"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000037", w2: "000000", w1: "000000" }
+    description: "Start IOX cycle on bus; address present on bus."
+    models: [nd100]
+  - token: "COMM,IRDRQ"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000030", w2: "000000", w1: "000000" }
+    description: "Indirect address memory request; address on IDB. MIS selects paging mode."
+    models: [nd100]
+  - token: "COMM,DERQ"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000031", w2: "000000", w1: "000000" }
+    description: "Deposit memory request; address present on IDB."
+    models: [nd100]
+  - token: "COMM,EXRQ"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000030", w2: "000000", w1: "000000" }
+    description: "Examine memory request; address present on IDB. Same COMM code as IRDRQ with MIS=FETCH."
+    models: [nd100]
+    alias_of: "COMM,IRDRQ"
+  - token: "COMM,LDIR"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000020", w2: "000000", w1: "000000" }
+    description: "Load Interrupt Register Number into MMM (selects MMM register for subsequent access)."
+    models: [nd100]
+  - token: "COMM,XMM"
+    category: COMM
+    display_line: 2
+    encoding: { w4: "000000", w3: "000021", w2: "000000", w1: "000000" }
+    description: "Read/Write MMM register (previously selected by COMM,LDIR)."
+    models: [nd100]
+
+  # ==================================================================
+  # T-SEQUENCE (bits 30-31) + MAPJ (bit 27) vectored-jump variants
+  # ==================================================================
+  - token: "T,JMP"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "True sequence is JMP."
+    models: [nd100]
+  - token: "T,JMP0-3"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "001000", w1: "000000" }
+    description: "True sequence is JMP. IR bits 0-3 control the four lower jump-address bits."
+    models: [nd100]
+  - token: "T,JMP8-10"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "002000", w2: "001000", w1: "000000" }
+    description: "True sequence is JMP. IR bits 8-10 control the 3 lower jump-address bits."
+    models: [nd100]
+  - token: "T,JMPALD"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "004000", w2: "001000", w1: "000000" }
+    description: "True sequence is JMP. ALD controls the 4 lower jump-address bits."
+    models: [nd100]
+  - token: "T,JMPAOPR"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "006000", w2: "001000", w1: "000000" }
+    description: "True sequence is JMP. A-operand controls the 4 lower jump-address bits."
+    models: [nd100]
+  - token: "T,MAPJ"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "004000", w1: "000000" }
+    description: "If next microinstruction is JMP, the JMP will be mapped by the mapping hardware (bit 27 = MAPJ active)."
+    models: [nd100]
+  - token: "T,RETURN"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "040000", w1: "000000" }
+    description: "True sequence is RETURN."
+    models: [nd100]
+  - token: "T,NEXT"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "100000", w1: "000000" }
+    description: "True sequence is NEXT."
+    models: [nd100]
+
+  - token: "T,REPEAT"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "140000", w1: "000000" }
+    description: "True sequence is REPEAT (T_SEQ=0b11). Repeats the current microinstruction - used by multi-cycle operations."
+    models: [nd100]
+
+  # T-STACK (bits 28-29)
+  - token: "T,HOLD"
+    category: T_STK
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "True stack operation is HOLD."
+    models: [nd100]
+  - token: "T,POP"
+    category: T_STK
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "010000", w1: "000000" }
+    description: "True stack operation is POP."
+    models: [nd100]
+  - token: "T,LOAD"
+    category: T_STK
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "020000", w1: "000000" }
+    description: "True stack operation is LOAD."
+    models: [nd100]
+  - token: "T,PUSH"
+    category: T_STK
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "030000", w1: "000000" }
+    description: "True stack operation is PUSH."
+    models: [nd100]
+
+  # F-SEQUENCE (bits 2-3) + F-STACK (bits 0-1), only active when SCOND set.
+  - token: "F,JMP"
+    category: F_SEQ
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "False sequence is JMP. Used with a condition setting (COND,...)."
+    models: [nd100]
+  - token: "F,RETURN"
+    category: F_SEQ
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000004" }
+    description: "False sequence is RETURN. Used with a condition setting."
+    models: [nd100]
+  - token: "F,NEXT"
+    category: F_SEQ
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000010" }
+    description: "False sequence is NEXT. Used with a condition setting."
+    models: [nd100]
+  - token: "F,HOLD"
+    category: F_STK
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000000" }
+    description: "False stack operation is HOLD. Used with a condition setting."
+    models: [nd100]
+  - token: "F,POP"
+    category: F_STK
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000001" }
+    description: "False stack operation is POP. Used with a condition setting."
+    models: [nd100]
+  - token: "F,LOAD"
+    category: F_STK
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000002" }
+    description: "False stack operation is LOAD. Used with a condition setting."
+    models: [nd100]
+  - token: "F,PUSH"
+    category: F_STK
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000000", w1: "000003" }
+    description: "False stack operation is PUSH. Used with a condition setting."
+    models: [nd100]
+
+  # ==================================================================
+  # COND (CONDITION TEST) - bits 4-7 = TSEL, SCOND (bit 24) set
+  # ==================================================================
+  - token: "COND,STP"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000360" }
+    description: "Condition for testing is STOP (STP flip-flop)."
+    provides: COND
+    models: [nd100]
+  - token: "COND,OPCTT1"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000220" }
+    description: "Condition for testing is whether TT1 is on CPU board (MOPC terminal test for devices 0o300..0o307)."
+    provides: COND
+    models: [nd100]
+  - token: "COND,OVF"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000240" }
+    description: "Condition for testing is 'Overflow' from ALU bit-slices."
+    provides: COND
+    models: [nd100]
+  - token: "COND,CRY"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000260" }
+    description: "Condition for testing is 'Carry' from ALU bit-slices."
+    provides: COND
+    models: [nd100]
+  - token: "COND,F11"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000300" }
+    description: "Condition for testing is bit 11 from ALU bit-slices."
+    provides: COND
+    models: [nd100]
+  - token: "COND,F15"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000320" }
+    description: "Condition for testing is bit 15 (sign bit) from ALU bit-slices."
+    provides: COND
+    models: [nd100]
+  - token: "COND,F=0"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000340" }
+    description: "Condition for testing is 'All zeros' from ALU bit-slices."
+    provides: COND
+    models: [nd100]
+  - token: "COND,DR=2"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000000" }
+    description: "Condition for testing is 'IR bits 0-2 = 010' (destination field = P)."
+    provides: COND
+    models: [nd100]
+  - token: "COND,LC=0"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000020" }
+    description: "Condition for testing is 'Loop counter content = 0'."
+    provides: COND
+    models: [nd100]
+  - token: "COND,FETCH"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000100" }
+    description: "Condition for testing is 'Last memory request was FETCH'."
+    provides: COND
+    models: [nd100]
+  - token: "COND,IRQ"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000040" }
+    description: "Condition for testing is 'IRQ'. Checks levels 10-15 if COMM,CLIRQ has been given."
+    provides: COND
+    models: [nd100]
+  - token: "COND,RESTR"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000060" }
+    description: "Condition for testing is 'Restricted mode'. True if ring 0-1."
+    provides: COND
+    models: [nd100]
+  - token: "COND,R=P"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000200" }
+    description: "Condition for testing is R=P flip-flop. True if (R=P) OR (F=0) is true."
+    provides: COND
+    models: [nd100]
+  - token: "COND,OOD"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000120" }
+    description: "Condition for testing is the 'One-Out-Detect' flip-flop."
+    provides: COND
+    models: [nd100]
+  - token: "COND,DZD"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000140" }
+    description: "Condition for testing is the 'Double-Zero-Detect' flip-flop."
+    provides: COND
+    models: [nd100]
+  - token: "COND,COND"
+    category: COND
+    display_line: 3
+    encoding: { w4: "000000", w3: "000000", w2: "000400", w1: "000160" }
+    description: "Condition for testing is the outcome of the latest test (used to delay tests)."
+    provides: COND
+    models: [nd100]
+
+  # ==================================================================
+  # AB (SYMBOLIC SCRATCH REGISTERS) - set both AOP and BOP simultaneously
+  # ==================================================================
+  # These tokens encode paired (AOP, BOP) values for addressing specific
+  # scratch-word slots in the register file. Used by MOPC / panel / interrupt
+  # routines. Each token sets w1 bits 12-15 (AOP) AND w2 bits 0-3 (BOP).
+
+  - token: "AB,CDIGI"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000011", w1: "170000" }
+    description: "Counter controlling the number of digits in an octal number."
+    models: [nd100]
+  - token: "AB,UPPNR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "130000" }
+    description: "Scratch word keeping the upper address limit in a MOPC dump command."
+    models: [nd100]
+  - token: "AB,CURNR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000013", w1: "130000" }
+    description: "Scratch word keeping the current address in a MOPC dump command."
+    models: [nd100]
+  - token: "AB,CNT10"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000017", w1: "170000" }
+    description: "Counter controlling the number of octal numbers per line in a MOPC dump command."
+    models: [nd100]
+  - token: "AB,PRCHR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000016", w1: "160000" }
+    description: "Scratch word containing the next character to be written by MOPC."
+    models: [nd100]
+  - token: "AB,TXT1"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000014", w1: "160000" }
+    description: "Scratch word containing display text."
+    models: [nd100]
+  - token: "AB,TXT2"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000013", w1: "160000" }
+    description: "Scratch word containing display text."
+    models: [nd100]
+  - token: "AB,SCRAM"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000015", w1: "140000" }
+    description: "Scratch word containing scrambled representation of letters in MOPC input."
+    models: [nd100]
+  - token: "AB,OCTNR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000015", w1: "150000" }
+    description: "Scratch word containing octal number assembled from MOPC input."
+    models: [nd100]
+  - token: "AB,DISPL"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000015", w1: "160000" }
+    description: "Type of running display."
+    models: [nd100]
+  - token: "AB,OCTAD"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000013", w1: "150000" }
+    description: "Address of running display."
+    models: [nd100]
+  - token: "AB,OCTA2"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "160000" }
+    description: "Word to extend address in OCTAD to 24 bits."
+    models: [nd100]
+  - token: "AB,DEPOS"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000017", w1: "150000" }
+    description: "Some octal digit has been written since last command was terminated."
+    models: [nd100]
+  - token: "AB,DUMPF"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000016", w1: "150000" }
+    description: "Scratch word indicating that a dump is in progress."
+    models: [nd100]
+  - token: "AB,RONLY"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000014", w1: "150000" }
+    description: "The examined register is read-only."
+    models: [nd100]
+  - token: "AB,WRTYP"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "150000" }
+    description: "Type of variable in case of deposit."
+    models: [nd100]
+  - token: "AB,WRADR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000011", w1: "150000" }
+    description: "Address of variable in case of deposit."
+    models: [nd100]
+  - token: "AB,ACTLV"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000017", w1: "140000" }
+    description: "Scratch word holding 'Active levels'."
+    models: [nd100]
+  - token: "AB,PVL"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000015", w1: "170000" }
+    description: "Scratch word holding 'Previous level'."
+    models: [nd100]
+  - token: "AB,IIE"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "170000" }
+    description: "Scratch word holding a PIC representation of the last IIE setting."
+    models: [nd100]
+  - token: "AB,PID"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000014", w1: "170000" }
+    description: "Scratch word holding the uprogram-known bits of the PID register."
+    models: [nd100]
+  - token: "AB,PIE"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000013", w1: "170000" }
+    description: "Scratch word holding the PIE register."
+    models: [nd100]
+  - token: "AB,STATUS"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000017", w1: "160000" }
+    description: "Scratch word holding the latest COMM,SIOC information."
+    models: [nd100]
+  - token: "AB,OCTN2"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000015", w1: "130000" }
+    description: "Scratch word expanding AB,OCTNR to 24 bits."
+    models: [nd100]
+  - token: "AB,NUMBR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "120000" }
+    description: "Scratch word holding an octal number being printed by MOPC."
+    models: [nd100]
+  - token: "AB,OPR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000011", w1: "160000" }
+    description: "Scratch word holding the OPR register value."
+    models: [nd100]
+  - token: "AB,BRKPT"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000016", w1: "140000" }
+    description: "Scratch word holding breakpoint address."
+    models: [nd100]
+  - token: "AB,SINGL"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000014", w1: "140000" }
+    description: "Scratch word counting single-instruction steps."
+    models: [nd100]
+  - token: "AB,BPFLG"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000013", w1: "140000" }
+    description: "Scratch word indicating that breakpoint is on."
+    models: [nd100]
+  - token: "AB,MACL"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000011", w1: "140000" }
+    description: "Scratch word holding retry counter for load after MACL."
+    models: [nd100]
+  - token: "AB,LMP"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000012", w1: "140000" }
+    description: "Scratch word holding the LMP register value."
+    models: [nd100]
+  - token: "AB,EXMOD"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000011", w1: "130000" }
+    description: "Scratch word holding the EXM register."
+    models: [nd100]
+  - token: "AB,MANIR"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000014", w1: "130000" }
+    description: "Scratch word holding flag for manual IR."
+    models: [nd100]
+  - token: "AB,SSAVE"
+    category: AB_REG
+    display_line: 1
+    encoding: { w4: "000000", w3: "000000", w2: "000016", w1: "130000" }
+    description: "Scratch word holding STS during decimal instructions."
+    models: [nd100]

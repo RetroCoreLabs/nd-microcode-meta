@@ -1906,6 +1906,13 @@ tokens:
     description: TRUE SEQUENCE IS NEXT
     provides: T_SEQ
     models: [nd100, nd110, nd120]
+  - token: "T,REPEAT"
+    category: T_SEQ
+    display_line: 2
+    encoding: { w4: "000000", w3: "000000", w2: "140000", w1: "000000" }
+    description: TRUE SEQUENCE IS REPEAT - repeats the current microinstruction
+    provides: T_SEQ
+    models: [nd100, nd110, nd120]
   - token: "T,HOLD"
     category: T_STK
     display_line: 2

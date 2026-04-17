@@ -21,8 +21,10 @@ Two ND-100 CPU variants are documented in this repo:
 | **3033S**    | `reference/roms/ND100/3033S/`     | 19    | Base ND-100 CPU                                  |
 | **3033E-CX** | `reference/roms/ND100/3033E-CX/`  | 35    | "CX" - extended CPU (second microcode bank + patched base slot) |
 
-Both cards are 48-bit microcode machines, following the same general
-conventions as the later ND-110.
+Both cards produce a **64-bit microword** assembled from sixteen
+4-bit-wide PROMs per bank. The CPU reads all 16 chips in parallel
+and the full microinstruction is 64 bits wide. This is the form
+stored in the `.CODE` files produced by `tools/nd100-combine.py`.
 
 ---
 
@@ -80,28 +82,28 @@ Each row of PROMs has a specific role in the CPU architecture:
 
 ### Row D (base bank) - always present
 
-| Slot range   | Chips | Role                                             |
-|--------------|-------|--------------------------------------------------|
-| `d5`..`d16`  | 12    | **48-bit microcode data** (12 x 4 bits)          |
-| `d17`..`d20` | 4     | **Sequencer**: next-microaddress + test-select (16 bits) |
-
-- Addressed by the current 11-bit **microaddress**.
-- The 12 data chips output the microinstruction to be executed.
-- The 4 sequencer chips output the branch target and condition test
-  selector used by the microsequencer to compute the NEXT microaddress.
+All 16 PROMs in row D are addressed together by the current 11-bit
+**microaddress** and together produce ONE 64-bit microinstruction
+word. The bits of that word partition internally into operation
+fields (ALU, IDB, COMM, ...) and sequencer fields (next-uADDR,
+test-select, stack-op), but there is only a single ROM output path:
+the chips are read in parallel, their nibbles interleave, and the
+resulting 64-bit word is what the CPU's microinstruction register
+latches each cycle.
 
 ### Row C (extension bank) - 3033E-CX only
 
-| Slot range   | Chips | Role                                             |
-|--------------|-------|--------------------------------------------------|
-| `c5`..`c16`  | 12    | **48-bit microcode data** - extension bank       |
-| `c17`..`c20` | 4     | **Sequencer** - extension bank                   |
+| Slot range   | Chips | Role                                                 |
+|--------------|-------|------------------------------------------------------|
+| `c5`..`c16`  | 12    | Extension-bank microcode (ALU / IDB / COMM field bits) |
+| `c17`..`c20` | 4     | Extension-bank microcode (next-uADDR / test-select field bits) |
 
-- Effectively a second 2K-word microstore for additional instructions
-  (floating-point, ring-protection, I/O extensions, ...).
-- Addressed in parallel with row D; which bank is selected depends on
-  the high microaddress bit(s) and/or a bank-select signal driven by
-  the decoder PLA.
+- A second 2K-word microstore for additional instructions.
+- Lives at microaddresses `0o4000`..`0o7777` in the CPU's 12-bit
+  microaddress space (row D occupies `0o0000`..`0o3777`).
+- Addressed in parallel with row D; bank selection is driven by the
+  high microaddress bits, with the upper half being WCS-overridable
+  when LWCS has been executed (`0o4000`..`0o4377`).
 
 ### Row B - instruction decoder PLA
 
@@ -122,109 +124,147 @@ Each row of PROMs has a specific role in the CPU architecture:
 
 ## 5. Bit ordering
 
-Physical slot number determines which nibble of the output word a
-PROM contributes:
+**The PCB column number is INVERSE to the microword bit position.**
+The chip at the highest-numbered PCB column (`d20` / `c20` / `b20`)
+produces the LOWEST nibble (bits 0-3). The chip at the lowest-numbered
+column (`d5` / `c5` / `b18`) produces the HIGHEST nibble.
 
     slot (row D)   microword bits   description
     --------------------------------------------
-    d5             3..0             low nibble (LSB)
-    d6             7..4
-    d7             11..8
-    d8             15..12
-    d9             19..16
-    d10            23..20
-    d11            27..24
-    d12            31..28
-    d13            35..32
-    d14            39..36
-    d15            43..40
-    d16            47..44           high nibble (MSB)
+    d20            3..0             low nibble  (LSB, bit 0 = LSB of chip byte)
+    d19            7..4
+    d18            11..8
+    d17            15..12
+    d16            19..16
+    d15            23..20
+    d14            27..24
+    d13            31..28
+    d12            35..32
+    d11            39..36
+    d10            43..40
+    d9             47..44
+    d8             51..48
+    d7             55..52
+    d6             59..56
+    d5             63..60           high nibble (MSB)
 
-Same rule for row C (c5 = LSB, c16 = MSB) in the extension bank, and
-for the sequencer (d17 = LSB, d20 = MSB for its 16-bit output) and
-decode PLA (b18 = LSB, b20 = MSB for its 12-bit output).
+Row C follows the same rule (`c20` = LSB, `c5` = MSB). The decode PLA
+(row B) has only three chips and follows the same convention:
+`b20` = nibble 0 (bits 0-3), `b18` = nibble 2 (bits 8-11).
 
-This is the standard TTL-schematic convention of "lowest-numbered
-chip maps to the lowest-weight bit".
+Within each PROM byte, bit 0 is LSB and bit 3 is MSB (standard).
+
+**Validation.** This mapping was verified 100% bit-exact against an
+independent reference stitching ("Frode's" set) on 2026-04-17 for
+both 3033S and 3033E-CX banks (microcode, decode PLA, and the CX
+extension bank). See `tools/nd100-combine.py`.
 
 ---
 
 ## 6. Address flow
 
 ```
-                              ┌──────────────────────────┐
-                              │  MIC (microsequencer)    │
-                              │  - 11-bit uADDR latch    │
-                              │  - test condition inputs │
-                              │  - stack / jump logic    │
-                              └──────────┬───────────────┘
-                                         │ uADDR[10:0]
-                 ┌───────────────────────┼──────────────────────┐
-                 ▼                       ▼                      ▼
-    ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────┐
-    │ MICROCODE DATA       │  │ SEQUENCER            │  │                  │
-    │ row D d5..d16        │  │ row D d17..d20       │  │                  │
-    │ (row C c5..c16 CX)   │  │ (row C c17..c20 CX)  │  │                  │
-    │ 12 x 4 = 48 bits     │  │ 4 x 4 = 16 bits      │  │                  │
-    └──────────┬───────────┘  └──────────┬───────────┘  │                  │
-               ▼                         ▼              │                  │
-    ┌──────────────────────┐  ┌──────────────────────┐  │                  │
-    │  48-bit micro-word   │  │  next-uADDR + test   │──┘                  │
-    │  -> ALU / IDB / ...  │  │  selector            │                     │
-    └──────────────────────┘  └──────────────────────┘                     │
-                                                                           │
-                                   MACRO INSTRUCTION FETCH                 │
-                                          │                                │
-                                          ▼                                │
-                              ┌──────────────────────────┐                 │
-                              │ DECODE PLA (row B b18-b20)│                 │
-                              │ addressed by opcode bits  │                 │
-                              │ 3 x 4 = 12 bits output    │                 │
-                              └──────────┬───────────────┘                 │
-                                         │ macro-entry uADDR               │
-                                         └─────────────────────────────────┘
-                                               (initial branch into MIC)
+                         +---------------------------+
+                         | MIC (microsequencer)      |
+                         | - 11-bit uADDR latch      |
+                         | - condition-test inputs   |
+                         | - stack / jump logic      |
+                         +-------------+-------------+
+                                       | uADDR[10:0]
+                                       v
+                         +---------------------------+
+                         | MICROCODE ROM             |
+                         | row D d5..d20  (16 chips) |
+                         | row C c5..c20  (16 chips, |
+                         |                CX only)   |
+                         | 16 x 4 = 64 bits per cycle|
+                         +-------------+-------------+
+                                       | 64-bit microword
+                                       v
+                   +---------------------------------------+
+                   | MICROINSTRUCTION REGISTER (64 bits)   |
+                   |                                       |
+                   | operation fields -> ALU / IDB / COMM  |
+                   | sequencer fields -> next-uADDR + test |
+                   |                     (feeds back MIC)  |
+                   +---------------------------------------+
+
+                   MACRO INSTRUCTION FETCH
+                           |
+                           v
+                   +---------------------------+
+                   | DECODE PLA (row B b18-b20)|
+                   | addressed by opcode bits  |
+                   | 3 x 4 = 12 bits output    |
+                   +-------------+-------------+
+                                 |  macro-entry uADDR
+                                 v
+                          (initial branch into MIC)
 ```
+
+There is only one ROM output path per bank: all 16 chips read in
+parallel, their nibbles interleave into a 64-bit word, and that
+word's bits are partitioned internally into operation fields (ALU,
+IDB, COMM) and sequencer fields (next-uADDR, test-select,
+stack ops). The historical "microcode data" vs "sequencer" split
+is a bit-range distinction inside the single word.
 
 ---
 
 ## 7. Combining the PROMs into one image
 
-For each address `a` in `0..2047`:
+Because the PCB-column -> bit-position mapping is inverse (see
+Section 5), the combiner processes the 16 chips in REVERSE column
+order. For each address `a` in `0..2047`:
 
     microword[a]  = 0
-    for i in 0..11:
-        nibble = chip_d(5+i)[a] & 0x0F
+    for i in 0..15:
+        chip  = chips_by_increasing_bit_position[i]   # i=0 -> d20, i=15 -> d5
+        nibble = chip[a] & 0x0F
         microword[a] |= nibble << (i * 4)
 
-Equivalent operation for the sequencer (4 chips at `d17..d20`) and
-the decode PLA (3 chips at `b18..b20`).
+Equivalent operation for the decode PLA (3 chips: `i=0 -> b20`,
+`i=2 -> b18`).
 
 This is implemented by `tools/nd100-combine.py`:
 
 ```bash
-python3 tools/nd100-combine.py combine \
+python3 external/meta/tools/nd100-combine.py combine \
     --variant 3033S \
-    --indir  reference/roms/ND100/3033S \
+    --indir  external/meta/reference/roms/ND100/3033S \
     --outdir /tmp/nd100-3033S
 ```
 
+For 3033E-CX also run `--variant 3033E-CX` against the CX folder.
+
 Output format: 10-byte records (2-byte little-endian address + 8-byte
-little-endian value, with the 48-bit microword zero-padded to 64 bits).
-Compatible with the `parseCodeFile()` loader in the TS library.
+little-endian microword). For the extension bank (`microcode_ext`)
+the stored address is offset by `0o4000` so it reflects the CPU's
+real microaddress. Compatible with the `parseCodeBytes()` loader in
+the TS library.
 
 Per-role output files:
 
-| File                            | Records | Width   | Meaning                            |
-|---------------------------------|---------|---------|------------------------------------|
-| `<variant>-microcode.CODE`      | up to 2048 | 48 bits | Main microinstruction ROM           |
-| `<variant>-sequencer.CODE`      | up to 2048 | 16 bits | Next-uADDR / test select            |
-| `<variant>-microcode_ext.CODE`  | up to 2048 | 48 bits | (CX only) extension microcode bank  |
-| `<variant>-sequencer_ext.CODE`  | up to 2048 | 16 bits | (CX only) extension sequencer       |
-| `<variant>-decode.CODE`         | up to 2048 | 12 bits | Macro-opcode dispatch PLA           |
+| File                                | Records    | Width   | Meaning                                         |
+|-------------------------------------|------------|---------|-------------------------------------------------|
+| `<variant>-microcode.CODE`          | up to 2048 | 64 bits | Main microinstruction ROM (all 16 row-D chips)  |
+| `<variant>-microcode_ext.CODE`      | up to 2048 | 64 bits | (CX only) extension bank; uaddrs `0o4000`-`0o7777` |
+| `<variant>-decode.CODE`             | up to 2048 | 12 bits | Macro-opcode dispatch PLA (3 chips, row B)      |
 
 Addresses with all-zero content are omitted (matching the ND110Compile
 `.CODE` convention).
+
+Note: there are **no separate sequencer output files**. Earlier
+revisions of this document treated `d17`-`d20` as a distinct
+"sequencer ROM" written to its own `.CODE`; that split has been
+merged back into the single 64-bit `microcode.CODE` per bank, since
+the chips are electrically read in parallel with the data PROMs and
+their nibbles sit at bits 48-63 of the single microword.
+
+The ND-100 PROMs are stored **canonical** - no `XOR 0x0FC00000`
+(bits 22-27 inversion) is applied at either combine time or load
+time. That transformation is specific to the ND-110 token-form
+EPROMs and must not be applied to ND-100 images at any stage.
 
 ---
 
@@ -257,14 +297,14 @@ extended instruction set.
 
 | Feature                   | ND-100 (this doc)                          | ND-110 / ND-120                         |
 |---------------------------|--------------------------------------------|------------------------------------------|
-| Microcode word size       | 48 bits                                    | 48 bits (ND-110) / 64 bits (ND-120)      |
+| Microcode word size       | 64 bits                                    | 48 bits (ND-110) / 64 bits (ND-120)      |
 | Storage medium            | Many small 82S185 bipolar PROMs             | Two large EPROMs (27256 / 28-pin)        |
 | Chip count per card       | 19 (base) or 35 (CX)                       | 2                                        |
 | Addressable microaddrs    | 2048 (base); 2048 + 2048 banks (CX)        | 8192 (13-bit addr with bit-20 extension) |
-| Sequencer                 | Separate PROMs (`d17`-`d20`, + `c17`-`c20` on CX) | Encoded in the main microword |
+| Sequencer                 | Bits 48-63 of the 64-bit microword (row D `d17`-`d20`) | Encoded inside the microword as well |
 | Decode PLA                | Separate PROMs (`b18`-`b20`)               | Integrated (no dedicated decode ROM on the CPU card) |
-| ROM XOR flip              | Not applicable                             | ND-110 applies `XOR 0x0FC00000` to bits 22-27 |
-| Fresh ROM empty value     | All-zero bytes (a fuse-link that was never blown reads as... implementation-detail of 82S185) | ND-110: `0x0FC00000` (canonical zero after XOR) |
+| ROM XOR flip              | None - stored canonical                    | ND-110 applies `XOR 0x0FC00000` to bits 22-27 |
+| PCB-column -> bit order   | Inverse (d20 = low nibble, d5 = high nibble) | N/A (single EPROM per half)           |
 
 The ND-100 architecture is **more decomposed**: data, sequencing, and
 instruction decoding live in separate physical PROMs. The later
@@ -277,19 +317,20 @@ dropped the decode-PLA PROMs in favour of microcoded dispatch.
 
 Things not yet nailed down (contributions welcome):
 
-- **Upper microaddress bit for CX bank selection.** We assume the
-  microsequencer's address bus drives both banks in parallel and a
-  separate bank-select signal gates which bank's output reaches the
-  main microword latch. The exact signal source (is it bit 11 of the
-  microaddress? or a control flip-flop set by the decode PLA?) is not
-  currently documented here.
+- **Upper microaddress bit for CX bank selection.** The CX extension
+  bank sits at uaddrs `0o4000`..`0o7777` in the 12-bit microaddress
+  space; the row-D bank sits at `0o0000`..`0o3777`. Bit 11 of the
+  microaddress presumably drives bank selection, with WCS overriding
+  bank 1 at `0o4000`..`0o4377` after LWCS has loaded the writable
+  control store. The exact gating signal source is not documented
+  here.
 
-- **Sequencer output encoding.** The 16-bit sequencer word contains
-  the next-microaddress + test-select. The exact bit assignment
-  (how many bits are address, how many are condition select, how many
-  are stack-ops) hasn't been mapped to specific bit ranges in this
-  document. The ND-110's corresponding fields (stored within the main
-  microword at bits 31:20) are a reasonable starting hypothesis.
+- **Bit-level assignment of the "sequencer" slice.** Bits 48-63 of
+  the 64-bit microword come from `d17`..`d20` and encode the
+  next-microaddress plus condition-test / stack-op selectors. The
+  exact bit assignment (how many bits are address, how many are
+  condition select, how many are stack-ops) within that 16-bit range
+  should be nailed down in `defs/fields/nd100-fields.yaml`.
 
 - **Decode PLA address bus.** The three decode PROMs give 11-bit
   addressing (2048 entries) but macro instructions are 16-bit. Which

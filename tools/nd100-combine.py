@@ -57,88 +57,104 @@ import re
 import sys
 from pathlib import Path
 
-# Chip role mapping. Order matters: for the `microcode` role the first
-# entry in the list = low nibble (bits 0-3) of the output word.
+# Chip role mapping. Order matters: first entry in each list = LOW nibble
+# (bits 0-3) of the output word.
+#
+# The PCB column number is inversely related to bit position: the chip
+# at the HIGHEST-numbered column (d20 / c20 / b20) produces the LOWEST
+# nibble, and the chip at the lowest-numbered column (d5 / c5 / b18)
+# produces the HIGHEST nibble.
+#
+# Confirmed 100% bit-exact against Frode's independently-stitched ND-100
+# images (both 3033S and 3033E-CX banks + Map PLAs) on 2026-04-17.
 LAYOUTS = {
     "3033S": {
+        # 64-bit microword built from 16 chips (12 data d5-d16 + 4
+        # "sequencer" d17-d20). Column order is reversed wrt bit order:
+        # d20 = bits 0-3 (low nibble), d5 = bits 60-63 (high nibble).
         "microcode": [
-            ("01515N", "d5"),
-            ("01514N", "d6"),
-            ("01513N", "d7"),
-            ("01512N", "d8"),
-            ("01511N", "d9"),
-            ("01510N", "d10"),
-            ("01509N", "d11"),
-            ("01508N", "d12"),
-            ("01507N", "d13"),
-            ("01506N", "d14"),
-            ("01505N", "d15"),
-            ("01504N", "d16"),
-        ],
-        "sequencer": [
-            ("01503Q", "d17"),
-            ("01502Q", "d18"),
-            ("01501P", "d19"),
             ("01500P", "d20"),
+            ("01501P", "d19"),
+            ("01502Q", "d18"),
+            ("01503Q", "d17"),
+            ("01504N", "d16"),
+            ("01505N", "d15"),
+            ("01506N", "d14"),
+            ("01507N", "d13"),
+            ("01508N", "d12"),
+            ("01509N", "d11"),
+            ("01510N", "d10"),
+            ("01511N", "d9"),
+            ("01512N", "d8"),
+            ("01513N", "d7"),
+            ("01514N", "d6"),
+            ("01515N", "d5"),
         ],
+        # Decode PLA: 12-bit microaddress output. b20 = low nibble,
+        # b18 = high nibble (column-reversed, same as data chips).
         "decode": [
-            ("01602N", "b18"),
-            ("01601N", "b19"),
             ("01600N", "b20"),
+            ("01601N", "b19"),
+            ("01602N", "b18"),
         ],
     },
     "3033E-CX": {
-        # Base bank (rows d + b - note d15 is replaced with 01705N)
+        # Base bank (d15 replaced with 01705N).
         "microcode": [
-            ("01515N", "d5"),
-            ("01514N", "d6"),
-            ("01513N", "d7"),
-            ("01512N", "d8"),
-            ("01511N", "d9"),
-            ("01510N", "d10"),
-            ("01509N", "d11"),
-            ("01508N", "d12"),
-            ("01507N", "d13"),
-            ("01506N", "d14"),
-            ("01705N", "d15"),  # patched in CX variant
-            ("01504N", "d16"),
-        ],
-        "sequencer": [
-            ("01503Q", "d17"),
-            ("01502Q", "d18"),
-            ("01501P", "d19"),
             ("01500P", "d20"),
+            ("01501P", "d19"),
+            ("01502Q", "d18"),
+            ("01503Q", "d17"),
+            ("01504N", "d16"),
+            ("01705N", "d15"),  # patched in CX variant
+            ("01506N", "d14"),
+            ("01507N", "d13"),
+            ("01508N", "d12"),
+            ("01509N", "d11"),
+            ("01510N", "d10"),
+            ("01511N", "d9"),
+            ("01512N", "d8"),
+            ("01513N", "d7"),
+            ("01514N", "d6"),
+            ("01515N", "d5"),
         ],
-        # Extension bank (row c)
+        # Extension bank (row c), same 16-chip 64-bit layout.
         "microcode_ext": [
-            ("08515E", "c5"),
-            ("08514E", "c6"),
-            ("08513E", "c7"),
-            ("08512D", "c8"),
-            ("08511D", "c9"),
-            ("08510D", "c10"),
-            ("08509D", "c11"),
-            ("08508D", "c12"),
-            ("08507D", "c13"),
-            ("08506D", "c14"),
-            ("08505D", "c15"),
-            ("08504D", "c16"),
-        ],
-        "sequencer_ext": [
-            ("08503D", "c17"),
-            ("08502D", "c18"),
-            ("08501D", "c19"),
             ("08500D", "c20"),
+            ("08501D", "c19"),
+            ("08502D", "c18"),
+            ("08503D", "c17"),
+            ("08504D", "c16"),
+            ("08505D", "c15"),
+            ("08506D", "c14"),
+            ("08507D", "c13"),
+            ("08508D", "c12"),
+            ("08509D", "c11"),
+            ("08510D", "c10"),
+            ("08511D", "c9"),
+            ("08512D", "c8"),
+            ("08513E", "c7"),
+            ("08514E", "c6"),
+            ("08515E", "c5"),
         ],
         "decode": [
-            ("08602D", "b18"),
-            ("08601D", "b19"),
             ("08600D", "b20"),
+            ("08601D", "b19"),
+            ("08602D", "b18"),
         ],
     },
 }
 
 PROM_DEPTH = 2048  # 82S185 addresses
+
+# ND-100 XOR mask: bits 23-24 (SCOND + CONDENABL) are stored inverted
+# in the ROM relative to canonical form. Bits 25-27 (VECT0, SLWCS0,
+# MAPJ0) are genuinely active-low hardware signals and must NOT be
+# flipped. This was determined empirically: bit 24 is set in 87.3% of
+# raw ROM words but only 12.7% after XOR, matching the ND-110's
+# canonical SCOND distribution. Full 0x0FC00000 XOR destroys T,JMP0-3,
+# MAPJ, SLWCS, and LCOUNT tokens.
+ND100_XOR_MASK = 0x01800000
 
 def load_chip(directory: Path, partno: str, pos: str) -> bytes:
     """Find the chip file by part-number + position suffix."""
@@ -179,23 +195,36 @@ def combine_role(directory: Path, chips: list[tuple[str, str]]) -> list[int]:
     return out
 
 
-def write_code(words: list[int], path: Path, width_bits: int) -> None:
+def write_code(
+    words: list[int],
+    path: Path,
+    width_bits: int,
+    addr_offset: int = 0,
+) -> None:
     """Write in the .CODE format: 2-byte LE address + 8-byte LE word
     per record. Skip all-zero words. Matches the ND110Compile convention
-    so the TS library can parse it with parseCodeFile()."""
+    so the TS library can parse it with parseCodeFile().
+
+    ``addr_offset`` is added to each chip-local address so that the
+    stored record represents the real microaddress on the CPU (e.g. the
+    ND-100 extension bank is chip-addresses 0..2047 but those sit at
+    microaddresses 0o4000..0o7777 in the 12-bit uaddr space).
+    """
     bytes_per_word = 8  # always 8 bytes per record (same as ND-110/120)
     records = bytearray()
     for addr, word in enumerate(words):
         if word == 0:
             continue
-        records.append(addr & 0xFF)
-        records.append((addr >> 8) & 0xFF)
+        stored = addr + addr_offset
+        records.append(stored & 0xFF)
+        records.append((stored >> 8) & 0xFF)
         for i in range(bytes_per_word):
             records.append((word >> (i * 8)) & 0xFF)
     path.write_bytes(records)
     print(
         f"Wrote {len(records)} bytes ({len(records)//10} records) to {path}, "
-        f"{width_bits}-bit microcode",
+        f"{width_bits}-bit microcode"
+        + (f" (uaddr offset 0o{addr_offset:04o})" if addr_offset else ""),
     )
 
 
@@ -225,7 +254,18 @@ def combine(args: argparse.Namespace) -> None:
         code_path = out_dir / f"{variant}-{role}.CODE"
         raw_path = out_dir / f"{variant}-{role}.raw"
         width = 4 * len(chips)
-        write_code(words, code_path, width)
+
+        # The ND-100 CX extension bank (row c) sits at microaddresses
+        # 0o4000..0o7777 in the 12-bit uaddr space. Its chips only have
+        # 2K addresses (0..0o3777), so we need to add the 0o4000 offset
+        # when writing the .CODE file so the stored record addresses
+        # reflect the real microaddress the CPU sees. Same applies to
+        # the extension sequencer role.
+        addr_offset = 0
+        if role.endswith("_ext"):
+            addr_offset = 0o4000
+
+        write_code(words, code_path, width, addr_offset=addr_offset)
         if args.raw:
             write_raw(words, raw_path)
 
