@@ -319,3 +319,54 @@ export function loadDefinitions(
 
   return buildDefinitionPack(model, tokens, fields);
 }
+
+/**
+ * Load definitions from the pre-generated TypeScript module.
+ * No YAML parsing, no filesystem access — works in browser and VSCode.
+ *
+ * Requires that `lib/ts/scripts/generate-defs.mjs` has been run first
+ * (the Makefile target `generate` does this).
+ */
+/**
+ * Build a DefinitionPack from pre-generated JSON data (the output of
+ * generate-defs.mjs). No YAML, no filesystem.
+ *
+ * Usage:
+ *   import data from "./generated-defs.json";
+ *   const pack = loadDefinitionsFromJSON("nd110", data);
+ */
+export function loadDefinitionsFromJSON(
+  model: Model,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  generatedData: Record<string, any>,
+): DefinitionPack {
+  const data = generatedData[model];
+  if (!data) throw new Error(`No generated definitions for model "${model}"`);
+
+  const tokens = (data.tokens.tokens ?? []).map((raw: RawToken) => toToken(raw));
+  const baseFields = parseFieldsFromJSON(generatedData["nd110"].fields);
+
+  if (model === "nd120" || model === "nd100") {
+    const overrides = parseFieldsFromJSON(data.fields);
+    for (const [name, def] of overrides) baseFields.set(name, def);
+  }
+
+  return buildDefinitionPack(model, tokens, baseFields);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function parseFieldsFromJSON(doc: any): Map<string, FieldDef> {
+  const map = new Map<string, FieldDef>();
+  if (!doc?.fields) return map;
+  for (const [name, raw] of Object.entries(doc.fields) as [string, any][]) {
+    if (!raw.bits) continue;
+    map.set(name, {
+      name,
+      bits: raw.bits as [number, number],
+      width: raw.width ?? (raw.bits[0] - raw.bits[1] + 1),
+      description: raw.description,
+      default: raw.default,
+    });
+  }
+  return map;
+}

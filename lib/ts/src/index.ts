@@ -17,6 +17,7 @@ export {
 export type { ParseCodeOptions } from "./bitfield.js";
 export {
   loadDefinitions,
+  loadDefinitionsFromJSON,
   findDefsRoot,
   parseOctal,
   encodingToBigInt,
