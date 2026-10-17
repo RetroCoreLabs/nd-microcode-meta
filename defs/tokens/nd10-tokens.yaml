@@ -1,0 +1,1000 @@
+# NORD-10 Microcode Token Definitions (MICMAC mnemonics, 32-bit word)
+# Generated from ND110Compile/ND110Compile/ND10Tokens.cs
+# Sources: ND-06.010.01 section 3.1; bit positions from the MICMAC reconstruction
+# by Anders Magnusson, checked by round trip against two real PROM dumps.
+# DO NOT EDIT MANUALLY - regenerate via tools/generate_tokens_yaml_nd10.py
+# Encoding: parts is 2 octal strings, MSB part first: bits 31-16, bits 15-0.
+# Tokens are OR'd together to produce the final microinstruction word.
+
+model: NORD-10
+word_size_bits: 32
+part_count: 2
+token_count: 197
+source: "ND110Compile/ND110Compile/ND10Tokens.cs"
+
+tokens:
+  - token: "ARL"
+    category: format
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Arithmetic operation least significant unit"
+  - token: "ARM"
+    category: format
+    hex: "0x01000000"
+    encoding: { parts: ["000400", "000000"] }
+    description: "Arithmetic operation most significant unit"
+  - token: "CARL"
+    category: format
+    hex: "0x00008000"
+    encoding: { parts: ["000000", "100000"] }
+    description: "Conditional Arithmetic least significant unit"
+  - token: "CARM"
+    category: format
+    hex: "0x01008000"
+    encoding: { parts: ["000400", "100000"] }
+    description: "Conditional Arithmetic most significant unit"
+  - token: "LOGL"
+    category: format
+    hex: "0x20000000"
+    encoding: { parts: ["020000", "000000"] }
+    description: "Logical operation least significant unit"
+  - token: "LOGM"
+    category: format
+    hex: "0x21000000"
+    encoding: { parts: ["020400", "000000"] }
+    description: "Logical operation most significant unit"
+  - token: "CLOGL"
+    category: format
+    hex: "0x20008000"
+    encoding: { parts: ["020000", "100000"] }
+    description: "Conditional logical operation, least significant unit (formed like CLOGM; not in the manual's table)"
+  - token: "CLOGM"
+    category: format
+    hex: "0x21008000"
+    encoding: { parts: ["020400", "100000"] }
+    description: "Conditional logical operation most significant unit"
+  - token: "IARL"
+    category: format
+    hex: "0x40000000"
+    encoding: { parts: ["040000", "000000"] }
+    description: "Interblock arithmetic operation, least significant unit (formed like IARM; not in the manual's table)"
+  - token: "IARM"
+    category: format
+    hex: "0x41000000"
+    encoding: { parts: ["040400", "000000"] }
+    description: "Interblock arithmetic operation most significant unit"
+  - token: "ILOGL"
+    category: format
+    hex: "0x60000000"
+    encoding: { parts: ["060000", "000000"] }
+    description: "Interblock logical operation, least significant unit (formed like ILOGM; not in the manual's table)"
+  - token: "ILOGM"
+    category: format
+    hex: "0x61000000"
+    encoding: { parts: ["060400", "000000"] }
+    description: "Interblock logical operation most significant unit"
+  - token: "JMP"
+    category: format
+    hex: "0x80000000"
+    encoding: { parts: ["100000", "000000"] }
+    description: "Jump"
+  - token: "CJMP"
+    category: format
+    hex: "0x80008000"
+    encoding: { parts: ["100000", "100000"] }
+    description: "Conditional jump"
+  - token: ",CAR"
+    category: format
+    hex: "0x20000000"
+    encoding: { parts: ["020000", "000000"] }
+    description: "Jump address from CAR (Computed Address Register)"
+  - token: "JMP,CAR"
+    category: format
+    hex: "0xA0000000"
+    encoding: { parts: ["120000", "000000"] }
+    description: "Jump via CAR - the listing writes JMP,CAR as one word"
+  - token: "CJMP,CAR"
+    category: format
+    hex: "0xA0008000"
+    encoding: { parts: ["120000", "100000"] }
+    description: "Conditional jump via CAR (formed like JMP,CAR)"
+  - token: "CALL"
+    category: format
+    hex: "0x80000000"
+    encoding: { parts: ["100000", "000000"] }
+    description: "Jump to subroutine - the listing writes CALL OUTCH; the bits are a plain JMP, the return address was saved by the word before (ARM A,IO B,MPC)"
+  - token: "PRIV"
+    category: format
+    hex: "0x10000000"
+    encoding: { parts: ["010000", "000000"] }
+    description: "Privileged instructions"
+  - token: "LOOP"
+    category: format
+    hex: "0xC0000000"
+    encoding: { parts: ["140000", "000000"] }
+    description: "Loop instruction"
+  - token: "ZERO"
+    category: test
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Test for zero (condition 0) - the listing's spelling"
+  - token: "Z"
+    category: test
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Test for zero"
+  - token: "COND"
+    category: test
+    hex: "0x00008000"
+    encoding: { parts: ["000000", "100000"] }
+    description: "Condition bit set bit 15 in ROM"
+  - token: "CO17"
+    category: test
+    hex: "0x00007000"
+    encoding: { parts: ["000000", "070000"] }
+    description: "Conditional bit set and condition 7"
+  - token: "SPOS"
+    category: test
+    hex: "0x00001000"
+    encoding: { parts: ["000000", "010000"] }
+    description: "Sign positive"
+  - token: "POS"
+    category: test
+    hex: "0x00002000"
+    encoding: { parts: ["000000", "020000"] }
+    description: "Test for positive"
+  - token: "POSM"
+    category: test
+    hex: "0x00003000"
+    encoding: { parts: ["000000", "030000"] }
+    description: "Test for positive magnitude"
+  - token: "NZERO"
+    category: test
+    hex: "0x00004000"
+    encoding: { parts: ["000000", "040000"] }
+    description: "Test for not zero"
+  - token: "SNEG"
+    category: test
+    hex: "0x00005000"
+    encoding: { parts: ["000000", "050000"] }
+    description: "Sign negative"
+  - token: "NEG"
+    category: test
+    hex: "0x00006000"
+    encoding: { parts: ["000000", "060000"] }
+    description: "Test for negative"
+  - token: "NEGM"
+    category: test
+    hex: "0x00007000"
+    encoding: { parts: ["000000", "070000"] }
+    description: "Test for negative magnitude"
+  - token: "GREM"
+    category: test
+    hex: "0x00003000"
+    encoding: { parts: ["000000", "030000"] }
+    description: "Greater Magnitude (the listing writes CJMP GREM for condition 3, the same bits as POSM)"
+  - token: "CEATR"
+    category: cycle
+    hex: "0x00200000"
+    encoding: { parts: ["000040", "000000"] }
+    description: "Cycle 1, Effective address to R -- no request"
+  - token: "CPTR"
+    category: cycle
+    hex: "0x00400000"
+    encoding: { parts: ["000100", "000000"] }
+    description: "Cycle 2, Current P register to R register"
+  - token: "CFC"
+    category: cycle
+    hex: "0x00600000"
+    encoding: { parts: ["000140", "000000"] }
+    description: "Cycle 3, Fetch"
+  - token: "CWR1"
+    category: cycle
+    hex: "0x00800000"
+    encoding: { parts: ["000200", "000000"] }
+    description: "Cycle 4, Write into effective location + 1"
+  - token: "CW"
+    category: cycle
+    hex: "0x00A00000"
+    encoding: { parts: ["000240", "000000"] }
+    description: "Cycle 5, Write into effective location"
+  - token: "CRR1"
+    category: cycle
+    hex: "0x00C00000"
+    encoding: { parts: ["000300", "000000"] }
+    description: "Cycle 6, Read contents of effective address + 1"
+  - token: "CR"
+    category: cycle
+    hex: "0x00E00000"
+    encoding: { parts: ["000340", "000000"] }
+    description: "Cycle 7, Read contents of effective address"
+  - token: "CHLEV"
+    category: bit20_19
+    hex: "0x00100000"
+    encoding: { parts: ["000020", "000000"] }
+    description: "Change program level"
+  - token: "DSPL"
+    category: bit20_19
+    hex: "0x00100000"
+    encoding: { parts: ["000020", "000000"] }
+    description: "Destination register on level specified by bits 12-15 in ROM"
+  - token: "SACO"
+    category: bit20_19
+    hex: "0x00080000"
+    encoding: { parts: ["000010", "000000"] }
+    description: "Save Carry and Overflow"
+  - token: "ORBWO"
+    category: or
+    hex: "0x00010000"
+    encoding: { parts: ["000001", "000000"] }
+    description: "OR for bit operation without destination"
+  - token: "ORBW"
+    category: or
+    hex: "0x00030000"
+    encoding: { parts: ["000003", "000000"] }
+    description: "OR for bit operations with destination"
+  - token: "ORSKP"
+    category: or
+    hex: "0x00040000"
+    encoding: { parts: ["000004", "000000"] }
+    description: "OR for SKP"
+  - token: "ORROP"
+    category: or
+    hex: "0x00050000"
+    encoding: { parts: ["000005", "000000"] }
+    description: "OR for Register Operations"
+  - token: "ORSW2"
+    category: or
+    hex: "0x00060000"
+    encoding: { parts: ["000006", "000000"] }
+    description: "OR for SWAP cycle 2"
+  - token: "ORSW3"
+    category: or
+    hex: "0x00070000"
+    encoding: { parts: ["000007", "000000"] }
+    description: "OR for SWAP cycle 3"
+  - token: "ORIN"
+    category: or
+    hex: "0x00018000"
+    encoding: { parts: ["000001", "100000"] }
+    description: "OR for Interblock"
+  - token: "ORIN2"
+    category: or
+    hex: "0x00038000"
+    encoding: { parts: ["000003", "100000"] }
+    description: "OR for Interblock"
+  - token: "BM1"
+    category: alu
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "B-operand minus 1"
+  - token: "PLUS"
+    category: alu
+    hex: "0x02000000"
+    encoding: { parts: ["001000", "000000"] }
+    description: "A-operand + B-operand"
+  - token: "BMAM1"
+    category: alu
+    hex: "0x04000000"
+    encoding: { parts: ["002000", "000000"] }
+    description: "B-operand - A-operand -1 (B-A-1)"
+  - token: "BDI"
+    category: alu
+    hex: "0x06000000"
+    encoding: { parts: ["003000", "000000"] }
+    description: "B-operand direct during arithmetic operation"
+  - token: "ADDC"
+    category: alu
+    hex: "0x08000000"
+    encoding: { parts: ["004000", "000000"] }
+    description: "Add Carry Input"
+  - token: "ADD1"
+    category: alu
+    hex: "0x18000000"
+    encoding: { parts: ["014000", "000000"] }
+    description: "Forced Carry Input"
+  - token: "BMINA"
+    category: alu
+    hex: "0x1C000000"
+    encoding: { parts: ["016000", "000000"] }
+    description: "B-operand - A-operand (B-A)"
+  - token: "BDIRC"
+    category: alu
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "B complemented (logical)"
+  - token: "ANDC"
+    category: alu
+    hex: "0x02000000"
+    encoding: { parts: ["001000", "000000"] }
+    description: "AND complement \u2014 NAND = A\u0305 \u2219 B\u0305"
+  - token: "ORCB"
+    category: alu
+    hex: "0x04000000"
+    encoding: { parts: ["002000", "000000"] }
+    description: "A + B\u0305"
+  - token: "ONE"
+    category: alu
+    hex: "0x06000000"
+    encoding: { parts: ["003000", "000000"] }
+    description: "Logical 1 (all ones)"
+  - token: "ORC"
+    category: alu
+    hex: "0x08000000"
+    encoding: { parts: ["004000", "000000"] }
+    description: "OR complement (A\u0305 + B\u0305)"
+  - token: "ADIRC"
+    category: alu
+    hex: "0x0A000000"
+    encoding: { parts: ["005000", "000000"] }
+    description: "A-operand Direct Complemented = A\u0305"
+  - token: "EXORC"
+    category: alu
+    hex: "0x0C000000"
+    encoding: { parts: ["006000", "000000"] }
+    description: "Exclusive OR complement"
+  - token: "ORCA"
+    category: alu
+    hex: "0x0E000000"
+    encoding: { parts: ["007000", "000000"] }
+    description: "A\u0305 + B"
+  - token: "ANDCB"
+    category: alu
+    hex: "0x10000000"
+    encoding: { parts: ["010000", "000000"] }
+    description: "A \u2219 B\u0305"
+  - token: "EXOR"
+    category: alu
+    hex: "0x12000000"
+    encoding: { parts: ["011000", "000000"] }
+    description: "Exclusive OR"
+  - token: "ADIR"
+    category: alu
+    hex: "0x14000000"
+    encoding: { parts: ["012000", "000000"] }
+    description: "A-operand Direct through Arithmetic = A"
+  - token: "OR"
+    category: alu
+    hex: "0x16000000"
+    encoding: { parts: ["013000", "000000"] }
+    description: "Inclusive OR"
+  - token: "ANDCA"
+    category: alu
+    hex: "0x1A000000"
+    encoding: { parts: ["015000", "000000"] }
+    description: "A\u0305 \u2219 B"
+  - token: "AND"
+    category: alu
+    hex: "0x1C000000"
+    encoding: { parts: ["016000", "000000"] }
+    description: "Logical AND = A \u00b7 B"
+  - token: "BDIR"
+    category: alu
+    hex: "0x1E000000"
+    encoding: { parts: ["017000", "000000"] }
+    description: "B-operand direct during logical operation"
+  - token: "BM1A"
+    category: loop_alt
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "B-operand minus 1, alternative ALU specs."
+  - token: "PLUSA"
+    category: loop_alt
+    hex: "0x00100000"
+    encoding: { parts: ["000020", "000000"] }
+    description: "A-operand + B-operand alternative specs."
+  - token: "BDIA"
+    category: loop_alt
+    hex: "0x00300000"
+    encoding: { parts: ["000060", "000000"] }
+    description: "B-operation direct alternative ALU Specs."
+  - token: "BMAA"
+    category: loop_alt
+    hex: "0x00E00000"
+    encoding: { parts: ["000340", "000000"] }
+    description: "B-operand - A-operand alternative ALU spec."
+  - token: "ORSHT"
+    category: loop_shift
+    hex: "0x00040400"
+    encoding: { parts: ["000004", "002000"] }
+    description: "OR for Shift"
+  - token: "SHR"
+    category: loop_shift
+    hex: "0x00008000"
+    encoding: { parts: ["000000", "100000"] }
+    description: "Shift right"
+  - token: "SHRO"
+    category: loop_shift
+    hex: "0x00002000"
+    encoding: { parts: ["000000", "020000"] }
+    description: "Rotational Shift"
+  - token: "SHZE"
+    category: loop_shift
+    hex: "0x00004000"
+    encoding: { parts: ["000000", "040000"] }
+    description: "Zero end input"
+  - token: "SH32"
+    category: loop_shift
+    hex: "0x00001000"
+    encoding: { parts: ["000000", "010000"] }
+    description: "32 bits shift"
+  - token: "TGSH0"
+    category: loop_shift
+    hex: "0x00000100"
+    encoding: { parts: ["000000", "000400"] }
+    description: "TG = 1 if SH0=1"
+  - token: "TGAC0"
+    category: loop_shift
+    hex: "0x00000200"
+    encoding: { parts: ["000000", "001000"] }
+    description: "TG = 1 if ACO = 1"
+  - token: "TGS0"
+    category: loop_shift
+    hex: "0x00000300"
+    encoding: { parts: ["000000", "001400"] }
+    description: "TG = 1 if SUM0-31 = 0"
+  - token: "TSC0"
+    category: loop_shift
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Terminate when Shift Counter = 0"
+  - token: "TSH31"
+    category: loop_shift
+    hex: "0x00000008"
+    encoding: { parts: ["000000", "000010"] }
+    description: "Terminate when Shift Counter = 0 or SH\u2083\u2081 = 1"
+  - token: "TSH22"
+    category: loop_shift
+    hex: "0x0000000C"
+    encoding: { parts: ["000000", "000014"] }
+    description: "Terminate when SH\u2082\u2082 = 1 (32 bits floating)"
+  - token: "ENDID"
+    category: loop_shift
+    hex: "0x00000002"
+    encoding: { parts: ["000000", "000002"] }
+    description: "End input for division"
+  - token: "ASH31"
+    category: loop_shift
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Alternative ALU specs. if SH31 = 1"
+  - token: "ASH0"
+    category: loop_shift
+    hex: "0x00000001"
+    encoding: { parts: ["000000", "000001"] }
+    description: "Alternative ALU specs. if SH0 = 1"
+  - token: "LE0"
+    category: level
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Program level 0 (INTERBLOCK)"
+  - token: "LE1"
+    category: level
+    hex: "0x00001000"
+    encoding: { parts: ["000000", "010000"] }
+    description: "Program level 1 (INTERBLOCK)"
+  - token: "LE2"
+    category: level
+    hex: "0x00002000"
+    encoding: { parts: ["000000", "020000"] }
+    description: "Program level 2 (INTERBLOCK)"
+  - token: "LE3"
+    category: level
+    hex: "0x00003000"
+    encoding: { parts: ["000000", "030000"] }
+    description: "Program level 3 (INTERBLOCK)"
+  - token: "LE4"
+    category: level
+    hex: "0x00004000"
+    encoding: { parts: ["000000", "040000"] }
+    description: "Program level 4 (INTERBLOCK)"
+  - token: "LE5"
+    category: level
+    hex: "0x00005000"
+    encoding: { parts: ["000000", "050000"] }
+    description: "Program level 5 (INTERBLOCK)"
+  - token: "LE6"
+    category: level
+    hex: "0x00006000"
+    encoding: { parts: ["000000", "060000"] }
+    description: "Program level 6 (INTERBLOCK)"
+  - token: "LE7"
+    category: level
+    hex: "0x00007000"
+    encoding: { parts: ["000000", "070000"] }
+    description: "Program level 7 (INTERBLOCK)"
+  - token: "LE10"
+    category: level
+    hex: "0x00008000"
+    encoding: { parts: ["000000", "100000"] }
+    description: "Program level 10 (INTERBLOCK)"
+  - token: "LE11"
+    category: level
+    hex: "0x00009000"
+    encoding: { parts: ["000000", "110000"] }
+    description: "Program level 11 (INTERBLOCK)"
+  - token: "LE12"
+    category: level
+    hex: "0x0000A000"
+    encoding: { parts: ["000000", "120000"] }
+    description: "Program level 12 (INTERBLOCK)"
+  - token: "LE13"
+    category: level
+    hex: "0x0000B000"
+    encoding: { parts: ["000000", "130000"] }
+    description: "Program level 13 (INTERBLOCK)"
+  - token: "LE14"
+    category: level
+    hex: "0x0000C000"
+    encoding: { parts: ["000000", "140000"] }
+    description: "Program level 14 (INTERBLOCK)"
+  - token: "LE15"
+    category: level
+    hex: "0x0000D000"
+    encoding: { parts: ["000000", "150000"] }
+    description: "Program level 15 (INTERBLOCK)"
+  - token: "LE16"
+    category: level
+    hex: "0x0000E000"
+    encoding: { parts: ["000000", "160000"] }
+    description: "Program level 16 (INTERBLOCK)"
+  - token: "LE17"
+    category: level
+    hex: "0x0000F000"
+    encoding: { parts: ["000000", "170000"] }
+    description: "Program level 17 (INTERBLOCK)"
+  - token: "D,D"
+    category: dest
+    hex: "0x00000100"
+    encoding: { parts: ["000000", "000400"] }
+    description: "D register as destination"
+  - token: "D,P"
+    category: dest
+    hex: "0x00000200"
+    encoding: { parts: ["000000", "001000"] }
+    description: "CP register as destination"
+  - token: "D,B"
+    category: dest
+    hex: "0x00000300"
+    encoding: { parts: ["000000", "001400"] }
+    description: "B-register as destination"
+  - token: "D,L"
+    category: dest
+    hex: "0x00000400"
+    encoding: { parts: ["000000", "002000"] }
+    description: "L register as destination"
+  - token: "D,A"
+    category: dest
+    hex: "0x00000500"
+    encoding: { parts: ["000000", "002400"] }
+    description: "A register as destination register"
+  - token: "D,T"
+    category: dest
+    hex: "0x00000600"
+    encoding: { parts: ["000000", "003000"] }
+    description: "T register as destination"
+  - token: "D,X"
+    category: dest
+    hex: "0x00000700"
+    encoding: { parts: ["000000", "003400"] }
+    description: "X register as destination"
+  - token: "D,S"
+    category: dest
+    hex: "0x00000800"
+    encoding: { parts: ["000000", "004000"] }
+    description: "Status register as destination"
+  - token: "D,SH"
+    category: dest
+    hex: "0x00000900"
+    encoding: { parts: ["000000", "004400"] }
+    description: "Shift register as destination"
+  - token: "D,IO"
+    category: dest
+    hex: "0x00000A00"
+    encoding: { parts: ["000000", "005000"] }
+    description: "Special case, A-operand transferred to internal registers"
+  - token: "D,SC"
+    category: dest
+    hex: "0x00000B00"
+    encoding: { parts: ["000000", "005400"] }
+    description: "Shift counter as destination"
+  - token: "D,SCR"
+    category: dest
+    hex: "0x00000C00"
+    encoding: { parts: ["000000", "006000"] }
+    description: "Scratch register as destination"
+  - token: "D,SP"
+    category: dest
+    hex: "0x00000E00"
+    encoding: { parts: ["000000", "007000"] }
+    description: "Saved P as destination"
+  - token: "D,SS"
+    category: dest
+    hex: "0x00000F00"
+    encoding: { parts: ["000000", "007400"] }
+    description: "Saved Status as destination"
+  - token: "B,Z"
+    category: b_operand
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Zero as B-operand"
+  - token: "B,D"
+    category: b_operand
+    hex: "0x00000010"
+    encoding: { parts: ["000000", "000020"] }
+    description: "D register as B-operand"
+  - token: "B,P"
+    category: b_operand
+    hex: "0x00000020"
+    encoding: { parts: ["000000", "000040"] }
+    description: "CP register as B-operand"
+  - token: "B,B"
+    category: b_operand
+    hex: "0x00000030"
+    encoding: { parts: ["000000", "000060"] }
+    description: "B register as B-operand"
+  - token: "B,L"
+    category: b_operand
+    hex: "0x00000040"
+    encoding: { parts: ["000000", "000100"] }
+    description: "L register as B-operand"
+  - token: "B,A"
+    category: b_operand
+    hex: "0x00000050"
+    encoding: { parts: ["000000", "000120"] }
+    description: "A register as B-operand"
+  - token: "B,T"
+    category: b_operand
+    hex: "0x00000060"
+    encoding: { parts: ["000000", "000140"] }
+    description: "T register as B-operand"
+  - token: "B,X"
+    category: b_operand
+    hex: "0x00000070"
+    encoding: { parts: ["000000", "000160"] }
+    description: "X-register as B-operand"
+  - token: "B,SC"
+    category: b_operand
+    hex: "0x00000080"
+    encoding: { parts: ["000000", "000200"] }
+    description: "Shift Counter as B-operand"
+  - token: "B,SH"
+    category: b_operand
+    hex: "0x00000090"
+    encoding: { parts: ["000000", "000220"] }
+    description: "Shift register as B-operand"
+  - token: "B,IO"
+    category: b_operand
+    hex: "0x000000A0"
+    encoding: { parts: ["000000", "000240"] }
+    description: "Special case 2: bit mask as B operand (bit number in bits 15-12)"
+  - token: "B,BM"
+    category: b_operand
+    hex: "0x000000A0"
+    encoding: { parts: ["000000", "000240"] }
+    description: "Bit mask as B operand, bit number from the OR logic (ORBW/ORBWO)"
+  - token: "B,AC"
+    category: b_operand
+    hex: "0x000000B0"
+    encoding: { parts: ["000000", "000260"] }
+    description: "AC register (Temporary SUM or ACCUMULATOR) as B-operand"
+  - token: "B,HAC"
+    category: b_operand
+    hex: "0x000000C0"
+    encoding: { parts: ["000000", "000300"] }
+    description: "1/2 AC as B-operand"
+  - token: "B,2AC"
+    category: b_operand
+    hex: "0x000000D0"
+    encoding: { parts: ["000000", "000320"] }
+    description: "2 \u00b7 AC as B-operand"
+  - token: "B,B0"
+    category: b_operand
+    hex: "0x000000A0"
+    encoding: { parts: ["000000", "000240"] }
+    description: "Bit mask with bit 0 set as B operand"
+  - token: "B,B1"
+    category: b_operand
+    hex: "0x000010A0"
+    encoding: { parts: ["000000", "010240"] }
+    description: "Bit mask with bit 1 set as B operand"
+  - token: "B,B2"
+    category: b_operand
+    hex: "0x000020A0"
+    encoding: { parts: ["000000", "020240"] }
+    description: "Bit mask with bit 2 set as B operand"
+  - token: "B,B3"
+    category: b_operand
+    hex: "0x000030A0"
+    encoding: { parts: ["000000", "030240"] }
+    description: "Bit mask with bit 3 set as B operand"
+  - token: "B,B4"
+    category: b_operand
+    hex: "0x000040A0"
+    encoding: { parts: ["000000", "040240"] }
+    description: "Bit mask with bit 4 set as B operand"
+  - token: "B,B5"
+    category: b_operand
+    hex: "0x000050A0"
+    encoding: { parts: ["000000", "050240"] }
+    description: "Bit mask with bit 5 set as B operand"
+  - token: "B,B6"
+    category: b_operand
+    hex: "0x000060A0"
+    encoding: { parts: ["000000", "060240"] }
+    description: "Bit mask with bit 6 set as B operand"
+  - token: "B,B7"
+    category: b_operand
+    hex: "0x000070A0"
+    encoding: { parts: ["000000", "070240"] }
+    description: "Bit mask with bit 7 set as B operand"
+  - token: "B,B10"
+    category: b_operand
+    hex: "0x000080A0"
+    encoding: { parts: ["000000", "100240"] }
+    description: "Bit mask with bit 10 set as B operand"
+  - token: "B,B11"
+    category: b_operand
+    hex: "0x000090A0"
+    encoding: { parts: ["000000", "110240"] }
+    description: "Bit mask with bit 11 set as B operand"
+  - token: "B,B12"
+    category: b_operand
+    hex: "0x0000A0A0"
+    encoding: { parts: ["000000", "120240"] }
+    description: "Bit mask with bit 12 set as B operand"
+  - token: "B,B13"
+    category: b_operand
+    hex: "0x0000B0A0"
+    encoding: { parts: ["000000", "130240"] }
+    description: "Bit mask with bit 13 set as B operand"
+  - token: "B,B14"
+    category: b_operand
+    hex: "0x0000C0A0"
+    encoding: { parts: ["000000", "140240"] }
+    description: "Bit mask with bit 14 set as B operand"
+  - token: "B,B15"
+    category: b_operand
+    hex: "0x0000D0A0"
+    encoding: { parts: ["000000", "150240"] }
+    description: "Bit mask with bit 15 set as B operand"
+  - token: "B,B16"
+    category: b_operand
+    hex: "0x0000E0A0"
+    encoding: { parts: ["000000", "160240"] }
+    description: "Bit mask with bit 16 set as B operand"
+  - token: "B,B17"
+    category: b_operand
+    hex: "0x0000F0A0"
+    encoding: { parts: ["000000", "170240"] }
+    description: "Bit mask with bit 17 set as B operand"
+  - token: "B,PAC"
+    category: b_operand
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Panel Control as B-operand"
+  - token: "B,S"
+    category: b_operand
+    hex: "0x00000010"
+    encoding: { parts: ["000000", "000020"] }
+    description: "Status register (internal register, with D,IO or A,IO)"
+  - token: "B,LMP"
+    category: b_operand
+    hex: "0x00000020"
+    encoding: { parts: ["000000", "000040"] }
+    description: "Lamp register as B operand"
+  - token: "B,PCR"
+    category: b_operand
+    hex: "0x00000030"
+    encoding: { parts: ["000000", "000060"] }
+    description: "Paging control register (write, with D,IO)"
+  - token: "B,MIS"
+    category: b_operand
+    hex: "0x00000040"
+    encoding: { parts: ["000000", "000100"] }
+    description: "Miscellaneous register as B-operand"
+  - token: "B,MISC"
+    category: b_operand
+    hex: "0x00000040"
+    encoding: { parts: ["000000", "000100"] }
+    description: "Miscellaneous register (write, with D,IO) - alias of B,MIS"
+  - token: "B,IIE"
+    category: b_operand
+    hex: "0x00000050"
+    encoding: { parts: ["000000", "000120"] }
+    description: "Internal interrupt enable (write, with D,IO)"
+  - token: "B,PID"
+    category: b_operand
+    hex: "0x00000060"
+    encoding: { parts: ["000000", "000140"] }
+    description: "Priority Interrupt Detect as B-operand"
+  - token: "B,PIE"
+    category: b_operand
+    hex: "0x00000070"
+    encoding: { parts: ["000000", "000160"] }
+    description: "PIE as B-operand"
+  - token: "B,CAR"
+    category: b_operand
+    hex: "0x000000B0"
+    encoding: { parts: ["000000", "000260"] }
+    description: "Computed Address Register as B-operand"
+  - token: "B,IR"
+    category: b_operand
+    hex: "0x000000C0"
+    encoding: { parts: ["000000", "000300"] }
+    description: "IR as B-operand"
+  - token: "B,BIO"
+    category: b_operand
+    hex: "0x000000E0"
+    encoding: { parts: ["000000", "000340"] }
+    description: "I/O bus (source with A,IO, destination with D,IO)"
+  - token: "B,IR3"
+    category: b_operand
+    hex: "0x000000F0"
+    encoding: { parts: ["000000", "000360"] }
+    description: "IRO-3 as B-operand"
+  - token: "B,PAS"
+    category: b_operand
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Panel Status as B-operand"
+  - token: "B,OPR"
+    category: b_operand
+    hex: "0x00000020"
+    encoding: { parts: ["000000", "000040"] }
+    description: "Panel Switch Register as B operand"
+  - token: "B,PGS"
+    category: b_operand
+    hex: "0x00000030"
+    encoding: { parts: ["000000", "000060"] }
+    description: "Paging status register (read, with A,IO)"
+  - token: "B,PVL"
+    category: b_operand
+    hex: "0x00000040"
+    encoding: { parts: ["000000", "000100"] }
+    description: "Previous program level (read, with A,IO)"
+  - token: "B,IIC"
+    category: b_operand
+    hex: "0x00000050"
+    encoding: { parts: ["000000", "000120"] }
+    description: "Internal interrupt code (read, with A,IO)"
+  - token: "B,PIM"
+    category: b_operand
+    hex: "0x00000090"
+    encoding: { parts: ["000000", "000220"] }
+    description: "Decoded PIL as B-operand"
+  - token: "B,DPIL"
+    category: b_operand
+    hex: "0x00000090"
+    encoding: { parts: ["000000", "000220"] }
+    description: "Decoded PIL (read, with A,IO) - alias of B,PIM"
+  - token: "B,ALD"
+    category: b_operand
+    hex: "0x000000A0"
+    encoding: { parts: ["000000", "000240"] }
+    description: "ALD \u2014 Automatic Load Descriptor as B-operand"
+  - token: "B,PES"
+    category: b_operand
+    hex: "0x000000B0"
+    encoding: { parts: ["000000", "000260"] }
+    description: "Memory Error Status register as B-operand"
+  - token: "B,MPC"
+    category: b_operand
+    hex: "0x000000C0"
+    encoding: { parts: ["000000", "000300"] }
+    description: "Micro Program Counter as B-operand"
+  - token: "B,PEA"
+    category: b_operand
+    hex: "0x000000D0"
+    encoding: { parts: ["000000", "000320"] }
+    description: "Memory error address (read, with A,IO)"
+  - token: "B,BIR3"
+    category: b_operand
+    hex: "0x000000F0"
+    encoding: { parts: ["000000", "000360"] }
+    description: "Register selected by IR bits 0-3 (read, with A,IO)"
+  - token: "BIO"
+    category: b_operand
+    hex: "0x000000E0"
+    encoding: { parts: ["000000", "000340"] }
+    description: "I/O bus as source when A, IO: I/O bus as dest. when D, IO"
+  - token: "BIR"
+    category: b_operand
+    hex: "0x000000C0"
+    encoding: { parts: ["000000", "000300"] }
+    description: "IR as B-operand"
+  - token: "BIR3"
+    category: b_operand
+    hex: "0x000000F0"
+    encoding: { parts: ["000000", "000360"] }
+    description: "IR0-3 as B-operand"
+  - token: "BM"
+    category: b_operand
+    hex: "0x000000A0"
+    encoding: { parts: ["000000", "000240"] }
+    description: "B-operand = BIT MASK"
+  - token: "BMISC"
+    category: b_operand
+    hex: "0x00000040"
+    encoding: { parts: ["000000", "000100"] }
+    description: "Miscellaneous register as B-operand"
+  - token: "A,Z"
+    category: a_operand
+    hex: "0x00000000"
+    encoding: { parts: ["000000", "000000"] }
+    description: "Zero as A-operand"
+  - token: "A,D"
+    category: a_operand
+    hex: "0x00000001"
+    encoding: { parts: ["000000", "000001"] }
+    description: "D register as A-operand"
+  - token: "A,P"
+    category: a_operand
+    hex: "0x00000002"
+    encoding: { parts: ["000000", "000002"] }
+    description: "CP register as A-operand"
+  - token: "A,B"
+    category: a_operand
+    hex: "0x00000003"
+    encoding: { parts: ["000000", "000003"] }
+    description: "B register as A-operand"
+  - token: "A,L"
+    category: a_operand
+    hex: "0x00000004"
+    encoding: { parts: ["000000", "000004"] }
+    description: "L register as A-operand"
+  - token: "A,A"
+    category: a_operand
+    hex: "0x00000005"
+    encoding: { parts: ["000000", "000005"] }
+    description: "A register as A-operand"
+  - token: "A,T"
+    category: a_operand
+    hex: "0x00000006"
+    encoding: { parts: ["000000", "000006"] }
+    description: "T register as A-operand"
+  - token: "A,X"
+    category: a_operand
+    hex: "0x00000007"
+    encoding: { parts: ["000000", "000007"] }
+    description: "X register as A-operand"
+  - token: "A,S"
+    category: a_operand
+    hex: "0x00000008"
+    encoding: { parts: ["000000", "000010"] }
+    description: "STATUS as A-operand"
+  - token: "A,DH"
+    category: a_operand
+    hex: "0x00000009"
+    encoding: { parts: ["000000", "000011"] }
+    description: "Lower 8 bits of H with sign extension as A operand"
+  - token: "A,IO"
+    category: a_operand
+    hex: "0x0000000A"
+    encoding: { parts: ["000000", "000012"] }
+    description: "Special Case: Internal Register specified as B-operand to H register"
+  - token: "A,H"
+    category: a_operand
+    hex: "0x0000000B"
+    encoding: { parts: ["000000", "000013"] }
+    description: "H register as A-operand"
+  - token: "A,SCR"
+    category: a_operand
+    hex: "0x0000000C"
+    encoding: { parts: ["000000", "000014"] }
+    description: "SCRATCH register as A-operand"
+  - token: "A,R"
+    category: a_operand
+    hex: "0x0000000D"
+    encoding: { parts: ["000000", "000015"] }
+    description: "R register as A-operand"
+  - token: "A,SP"
+    category: a_operand
+    hex: "0x0000000E"
+    encoding: { parts: ["000000", "000016"] }
+    description: "SAVED P as A-operand"
+  - token: "A,SS"
+    category: a_operand
+    hex: "0x0000000F"
+    encoding: { parts: ["000000", "000017"] }
+    description: "SAVED STATUS as A-operand"

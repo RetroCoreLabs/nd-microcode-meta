@@ -26,12 +26,18 @@ that pull in `nd-microcode-meta` as a git submodule.
 ```
 defs/
 ├── tokens/
+│   ├── nd10-tokens.yaml        197 tokens (NORD-10, 32-bit word, `parts` encoding)
 │   ├── nd110-tokens.yaml       356 tokens
-│   └── nd120-tokens.yaml       358 tokens (12 ND-120-only are marked)
+│   ├── nd120-tokens.yaml       358 tokens (12 ND-120-only are marked) + `variant_overrides` for nd120-dly
+│   ├── nd500-tokens.yaml       721 tokens (ND-500, 144-bit word, 9 parts)
+│   └── nd5000-tokens.yaml      609 tokens (ND-5000, 128-bit word, 8 parts, field + value)
 ├── fields/
 │   ├── nd110-fields.yaml       Bit ranges for each named field
 │   ├── nd120-fields.yaml       ND-120 deltas
-│   └── nd100-fields.yaml       Placeholder (awaiting ROM analysis)
+│   ├── nd100-fields.yaml       Placeholder (awaiting ROM analysis)
+│   ├── nd10-fields.yaml        NORD-10: 30 fields, overlapping by format
+│   ├── nd500-fields.yaml       ND-500: partition (bits 143-32) + subfields
+│   └── nd5000-fields.yaml      ND-5000: partition (bits 127-0) + subfields
 ├── runtime/
 │   └── data-flow.yaml          ALU / IDBS / COMM runtime semantics
 ├── format/
@@ -52,23 +58,48 @@ reference/                           Read-only hardware reference material
 ├── ND-120-*.uc                       (work in progress - not yet valid)
 ├── ND-100-*.uc                       (not yet available)
 └── roms/
-    ├── ND100/                        (ROMs pending)
+    ├── ND100/                        3033S and 3033E-CX PROM files
     ├── ND110/
     │   ├── 37948L.bin                ND-110 3095 LOW chip  (version L / 0o14)
     │   └── 37949L.bin                ND-110 3095 HIGH chip (version L / 0o14)
     └── ND120/
-        ├── AM27256_45132L.bin        ND-120 AM27256 LOW chip  (version L / 0o14)
-        └── AM27256_45133L.bin        ND-120 AM27256 HIGH chip (version L / 0o14)
+        ├── 4MB/45132L.27c256.b23.bin  ND-120 4MB LOW chip  (version L / 0o14)
+        ├── 4MB/45133L.27c256.b26.bin  ND-120 4MB HIGH chip (version L / 0o14)
+        ├── 6MB/45132L.27c256.b23.bin  ND-120 6MB LOW chip  (differs from 4MB at byte 6633)
+        └── 6MB/45133L.27c256.b26.bin  ND-120 6MB HIGH chip
 
-NOTE: compile outputs (.CODE, .SYMBOLS.TXT) are NOT stored here.
-They are regenerable from the .uc sources and live with whichever
-toolchain produced them (ND110Compile C# assembler for now).
+NOTE: ND-110-RASK.CODE and ND-110-RASK.SYMBOLS.TXT are the C# assembler
+output for ND-110-RASK.uc, kept here as comparison files (see
+reference/README.md).
 
 schemas/                        (reserved for future JSON Schema files)
 tools/
 ├── validate.py                 Cross-checks YAML against reference binaries
-└── generate_tokens_yaml.py     Re-extracts tokens from the C# source
+├── generate_tokens_yaml.py     Re-extracts ND-110 / ND-120 tokens from the C# source
+├── generate_tokens_yaml_nd10.py    NORD-10 tokens from ND10Tokens.cs
+├── generate_tokens_yaml_nd500.py   ND-500 tokens from ND500Tokens.cs
+├── generate_tokens_yaml_nd5000.py  ND-5000 tokens from ND5000Tokens.cs
+├── generate_fields_yaml.py     NORD-10 / ND-500 / ND-5000 fields from the C# field files
+└── validate_new_models.py      Checks the new YAML files against the C# files
 ```
+
+## ND-120 variant nd120-dly (version L register selects)
+
+`nd120-tokens.yaml` holds the version K token values (the C# `ND120Tokens`
+table). The real ND-120 L EPROM never sets DLY1 (bit 27, w2 `004000`)
+together with B-operand P, B or X, so the C# assembler replaces three
+tokens when it compiles version L (`ND120Tokens.AdjustTokensForVersionL()`).
+The YAML keeps that as the block `variant_overrides: nd120-dly:` at the end
+of `nd120-tokens.yaml`. The variant is `nd120` with exactly these three
+tokens replaced; everything else is identical:
+
+| Token | nd120 (K), w2 | nd120-dly (L), w2 |
+|-------|---------------|-------------------|
+| `B,P` | `004002` | `000002` |
+| `B,B` | `004003` | `000003` |
+| `B,X` | `004007` | `000007` |
+
+Accepted names for the variant: `nd120-dly`, `nd120l`, `nd120-l`.
 
 ## Versioning
 

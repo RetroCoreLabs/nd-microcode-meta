@@ -2409,3 +2409,15 @@ tokens:
     provides: AB
     nd120_only: true
     models: [nd120]
+
+variant_overrides:
+  nd120-dly:
+    - token: "B,P"
+      encoding: { w4: "000000", w3: "000000", w2: "000002", w1: "000000" }
+      description: "B-OP. IS 2. USED TO ADDR. THE P-REGISTER (L: no DLY1)"
+    - token: "B,B"
+      encoding: { w4: "000000", w3: "000000", w2: "000003", w1: "000000" }
+      description: "B-OP. IS 3. USED TO ADDR. THE B-REGISTER (L: no DLY1)"
+    - token: "B,X"
+      encoding: { w4: "000000", w3: "000000", w2: "000007", w1: "000000" }
+      description: "B-OP. IS 7. USED TO ADDR. THE X-REGISTER (L: no DLY1)"

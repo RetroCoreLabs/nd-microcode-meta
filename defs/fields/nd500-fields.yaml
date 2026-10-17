@@ -1,0 +1,236 @@
+# ND-500 Microinstruction Word Field Definitions
+# Generated from ND110Compile/ND110Compile/ND500Fields.cs
+# DO NOT EDIT MANUALLY - regenerate via tools/generate_fields_yaml.py
+# Bit positions are numbered LSB-first (bit 0 is the least significant bit).
+
+model: ND-500
+word_size_bits: 144
+byte_count: 18
+byte_order: big-endian
+part_count: 9
+control_store_words: 8192
+binary_format: packed18
+
+partition:
+  - name: CTRL143
+    high_bit: 143
+    low_bit: 143
+    description: "control function / spare (chart shows PARITY here - uncertain)"
+  - name: SPAREBIT
+    high_bit: 142
+    low_bit: 142
+    description: "spare / inhibit SP clock"
+  - name: ALU_TRUE
+    high_bit: 141
+    low_bit: 137
+    description: "ALU function, true path"
+  - name: CARRY
+    high_bit: 136
+    low_bit: 135
+    description: "carry select"
+  - name: ASEL
+    high_bit: 134
+    low_bit: 125
+    description: "A operand select (3-bit mux + 7-bit sub select)"
+  - name: BSEL
+    high_bit: 124
+    low_bit: 116
+    description: "B operand select (3-bit mux + 6-bit sub select)"
+  - name: DSEL
+    high_bit: 115
+    low_bit: 106
+    description: "destination select (3-bit group + 7-bit sub select)"
+  - name: ORA
+    high_bit: 105
+    low_bit: 105
+    description: "OR logic enable: A operand"
+  - name: ORB
+    high_bit: 104
+    low_bit: 104
+    description: "OR logic enable: B operand"
+  - name: ORD
+    high_bit: 103
+    low_bit: 103
+    description: "OR logic enable: destination"
+  - name: ORMEM
+    high_bit: 102
+    low_bit: 102
+    description: "OR logic enable: memory"
+  - name: ORT
+    high_bit: 101
+    low_bit: 101
+    description: "OR logic enable: test"
+  - name: TYP
+    high_bit: 100
+    low_bit: 99
+    description: "data type"
+  - name: MEMRQ
+    high_bit: 98
+    low_bit: 98
+    description: "memory request"
+  - name: ALTMOD
+    high_bit: 97
+    low_bit: 97
+    description: "alternative page table mode"
+  - name: MEMMV
+    high_bit: 96
+    low_bit: 96
+    description: "memory move"
+  - name: MEMWR
+    high_bit: 95
+    low_bit: 95
+    description: "memory write"
+  - name: MEMNBY
+    high_bit: 94
+    low_bit: 93
+    description: "memory number of bytes"
+  - name: CSAVE
+    high_bit: 92
+    low_bit: 92
+    description: "condition save"
+  - name: CSEQ
+    high_bit: 91
+    low_bit: 91
+    description: "conditional sequence enable"
+  - name: CALU
+    high_bit: 90
+    low_bit: 90
+    description: "conditional ALU enable"
+  - name: CMEM
+    high_bit: 89
+    low_bit: 89
+    description: "conditional memory enable"
+  - name: COND
+    high_bit: 88
+    low_bit: 84
+    description: "test condition select"
+  - name: SEQ_TRUE
+    high_bit: 83
+    low_bit: 76
+    description: "sequence instruction, true path"
+  - name: SET
+    high_bit: 75
+    low_bit: 75
+    description: "set condition select"
+  - name: CSEQD
+    high_bit: 74
+    low_bit: 74
+    description: "delayed conditional sequence"
+  - name: SEQ_FALSE
+    high_bit: 73
+    low_bit: 66
+    description: "sequence instruction, false path"
+  - name: STCTL
+    high_bit: 65
+    low_bit: 64
+    description: "status control"
+  - name: PRF
+    high_bit: 63
+    low_bit: 60
+    description: "prefetch control"
+  - name: TIM
+    high_bit: 59
+    low_bit: 58
+    description: "timing control"
+  - name: WAIT
+    high_bit: 57
+    low_bit: 55
+    description: "wait for select"
+  - name: STSAVA
+    high_bit: 54
+    low_bit: 54
+    description: "status save"
+  - name: LCDECR
+    high_bit: 53
+    low_bit: 53
+    description: "loop counter decrement"
+  - name: IADJ
+    high_bit: 52
+    low_bit: 52
+    description: "index counter adjust"
+  - name: AACTL
+    high_bit: 51
+    low_bit: 49
+    description: "address arithmetic control"
+  - name: AB
+    high_bit: 48
+    low_bit: 45
+    description: "address arithmetic B operand"
+  - name: AA
+    high_bit: 44
+    low_bit: 43
+    description: "address arithmetic A operand"
+  - name: EXACT
+    high_bit: 42
+    low_bit: 42
+    description: "external unit activate"
+  - name: EXUNIT
+    high_bit: 41
+    low_bit: 40
+    description: "external unit select (overlay: CARRY_FALSE)"
+  - name: MVBUS
+    high_bit: 39
+    low_bit: 38
+    description: "move bus control"
+  - name: XRES
+    high_bit: 37
+    low_bit: 37
+    description: "external unit reserve"
+  - name: EXFUNC
+    high_bit: 36
+    low_bit: 32
+    description: "external unit function (overlay: ALU_FALSE)"
+
+subfields:
+  - name: AMUX
+    high_bit: 134
+    low_bit: 132
+    description: "A operand mux (top 3 bits of ASEL)"
+  - name: ASUB
+    high_bit: 131
+    low_bit: 125
+    description: "A operand sub select"
+  - name: BMUX
+    high_bit: 124
+    low_bit: 122
+    description: "B operand mux (top 3 bits of BSEL)"
+  - name: BSUB
+    high_bit: 121
+    low_bit: 116
+    description: "B operand sub select"
+  - name: DGROUP
+    high_bit: 115
+    low_bit: 113
+    description: "destination group (top 3 bits of DSEL)"
+  - name: DSUB
+    high_bit: 112
+    low_bit: 106
+    description: "destination sub select"
+  - name: IXSEL
+    high_bit: 117
+    low_bit: 116
+    description: "index register select (overlays BSUB bits 1-0)"
+  - name: CARRY_FALSE
+    high_bit: 41
+    low_bit: 40
+    description: "alternative carry select (overlays EXUNIT)"
+  - name: ALU_FALSE
+    high_bit: 36
+    low_bit: 32
+    description: "alternative ALU function (overlays EXFUNC)"
+  - name: EA2INH
+    high_bit: 31
+    low_bit: 31
+    description: "EA2 clock inhibit (argument area bit 31)"
+  - name: EA1INH
+    high_bit: 30
+    low_bit: 30
+    description: "EA1 clock inhibit (argument area bit 30)"
+  - name: CSA_ADDRESS
+    high_bit: 29
+    low_bit: 16
+    description: "absolute micro program address"
+  - name: SHORT_ARGUMENT
+    high_bit: 15
+    low_bit: 0
+    description: "short argument"

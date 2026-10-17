@@ -1,0 +1,134 @@
+# NORD-10 Microinstruction Word Field Definitions
+# Generated from ND110Compile/ND110Compile/ND10Fields.cs
+# DO NOT EDIT MANUALLY - regenerate via tools/generate_fields_yaml.py
+# Bit positions are numbered LSB-first (bit 0 is the least significant bit).
+
+model: NORD-10
+word_size_bits: 32
+byte_count: 4
+byte_order: big-endian
+part_count: 2
+control_store_words: [1024, 4096]
+binary_format: prom-hex
+
+fields:
+  - name: OP
+    high_bit: 31
+    low_bit: 30
+    format: ALL
+  - name: LOG
+    high_bit: 29
+    low_bit: 29
+    format: ARITHMETIC|INTERBLOCK
+  - name: ALU
+    high_bit: 28
+    low_bit: 25
+    format: ARITHMETIC|INTERBLOCK
+  - name: UNIT
+    high_bit: 24
+    low_bit: 24
+    format: ARITHMETIC|INTERBLOCK
+  - name: CYCLE
+    high_bit: 23
+    low_bit: 21
+    format: ARITHMETIC|INTERBLOCK
+  - name: CHLEV
+    high_bit: 20
+    low_bit: 20
+    format: ARITHMETIC|INTERBLOCK
+  - name: SACO
+    high_bit: 19
+    low_bit: 19
+    format: ARITHMETIC|INTERBLOCK
+  - name: OR
+    high_bit: 18
+    low_bit: 16
+    format: ARITHMETIC|INTERBLOCK
+  - name: COND
+    high_bit: 15
+    low_bit: 15
+    format: ARITHMETIC|INTERBLOCK
+  - name: TC
+    high_bit: 14
+    low_bit: 12
+    format: ARITHMETIC|INTERBLOCK
+  - name: LEVEL
+    high_bit: 15
+    low_bit: 12
+    format: ARITHMETIC|INTERBLOCK
+  - name: DEST
+    high_bit: 11
+    low_bit: 8
+    format: ARITHMETIC|INTERBLOCK
+  - name: B
+    high_bit: 7
+    low_bit: 4
+    format: ARITHMETIC|INTERBLOCK
+  - name: A
+    high_bit: 3
+    low_bit: 0
+    format: ARITHMETIC|INTERBLOCK
+  - name: CAR
+    high_bit: 29
+    low_bit: 29
+    format: JUMP
+  - name: PRIV
+    high_bit: 28
+    low_bit: 28
+    format: JUMP
+  - name: UNUSED27_16
+    high_bit: 27
+    low_bit: 16
+    format: JUMP
+  - name: ADDR
+    high_bit: 11
+    low_bit: 0
+    format: JUMP
+  - name: ALT
+    high_bit: 24
+    low_bit: 20
+    format: LOOP
+  - name: ORSHT
+    high_bit: 18
+    low_bit: 18
+    format: LOOP
+  - name: UNUSED17_16
+    high_bit: 17
+    low_bit: 16
+    format: LOOP
+  - name: SHR
+    high_bit: 15
+    low_bit: 15
+    format: LOOP
+  - name: SHT
+    high_bit: 14
+    low_bit: 13
+    format: LOOP
+  - name: SH32
+    high_bit: 12
+    low_bit: 12
+    format: LOOP
+  - name: UNUSED11
+    high_bit: 11
+    low_bit: 11
+    format: LOOP
+  - name: M
+    high_bit: 10
+    low_bit: 10
+    format: LOOP
+  - name: TG
+    high_bit: 9
+    low_bit: 8
+    format: LOOP
+  - name: TERM
+    high_bit: 3
+    low_bit: 2
+    format: LOOP
+  - name: ENDID
+    high_bit: 1
+    low_bit: 1
+    format: LOOP
+  - name: ASH
+    high_bit: 0
+    low_bit: 0
+    format: LOOP

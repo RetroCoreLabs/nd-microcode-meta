@@ -1,0 +1,3656 @@
+# ND-5000 Microcode Token Definitions
+# Generated from ND110Compile/ND110Compile/ND5000Tokens.cs
+# (which is generated from microcode-5000-def.json, ND-05.022.1 Reference Manual Appendix A)
+# DO NOT EDIT MANUALLY - regenerate via tools/generate_tokens_yaml_nd5000.py
+# Encoding: parts is 8 octal strings, MSB part first: bits 127-112 ... bits 15-0.
+# field + value: the token puts value << lowBit of field (see defs/fields/nd5000-fields.yaml).
+# mem_code: memory operation, 4-bit code split: bit 3 -> word bit 41, bits 2-0 -> bits 34-32.
+# Tokens are OR'd together to produce the final microinstruction word.
+
+model: ND-5000
+word_size_bits: 128
+part_count: 8
+token_count: 609
+source: "ND110Compile/ND110Compile/ND5000Tokens.cs"
+
+tokens:
+  - token: "A,A1"
+    category: A_OP
+    field: A_OP
+    value: 36
+    encoding: { parts: ["000000", "000000", "044000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING MOST REGISTER A1"
+  - token: "A,A2"
+    category: A_OP
+    field: A_OP
+    value: 37
+    encoding: { parts: ["000000", "000000", "045000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING MOST REGISTER A2"
+  - token: "A,A3"
+    category: A_OP
+    field: A_OP
+    value: 38
+    encoding: { parts: ["000000", "000000", "046000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING MOST REGISTER A3"
+  - token: "A,A4"
+    category: A_OP
+    field: A_OP
+    value: 39
+    encoding: { parts: ["000000", "000000", "047000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING MOST REGISTER A4"
+  - token: "A,AAPRES"
+    category: A_OP
+    field: A_OP
+    value: 58
+    encoding: { parts: ["000000", "000000", "072000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS AAP RESULT"
+  - token: "A,ALU,REG37"
+    category: A_OP
+    field: A_OP
+    value: 63
+    encoding: { parts: ["000000", "000000", "077000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "[UNDOCUMENTED GUESS] A-BUS IS ALU REGISTER 37 - very common (674 uses), possibly special/reserved register"
+  - token: "A,ALU,STS"
+    category: A_OP
+    field: A_OP
+    value: 60
+    encoding: { parts: ["000000", "000000", "074000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS ALU STATUS BITS"
+  - token: "A,ALU,TE"
+    category: A_OP
+    field: A_OP
+    value: 61
+    encoding: { parts: ["000000", "000000", "075000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS ALU TRAP ENABLE BITS"
+  - token: "A,BM00"
+    category: A_OP
+    field: A_OP
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 0"
+  - token: "A,BM01"
+    category: A_OP
+    field: A_OP
+    value: 1
+    encoding: { parts: ["000000", "000000", "001000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 1"
+  - token: "A,BM02"
+    category: A_OP
+    field: A_OP
+    value: 2
+    encoding: { parts: ["000000", "000000", "002000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 2"
+  - token: "A,BM03"
+    category: A_OP
+    field: A_OP
+    value: 3
+    encoding: { parts: ["000000", "000000", "003000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 3"
+  - token: "A,BM04"
+    category: A_OP
+    field: A_OP
+    value: 4
+    encoding: { parts: ["000000", "000000", "004000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 4"
+  - token: "A,BM05"
+    category: A_OP
+    field: A_OP
+    value: 5
+    encoding: { parts: ["000000", "000000", "005000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 5"
+  - token: "A,BM06"
+    category: A_OP
+    field: A_OP
+    value: 6
+    encoding: { parts: ["000000", "000000", "006000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 6"
+  - token: "A,BM07"
+    category: A_OP
+    field: A_OP
+    value: 7
+    encoding: { parts: ["000000", "000000", "007000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 7"
+  - token: "A,BM10"
+    category: A_OP
+    field: A_OP
+    value: 8
+    encoding: { parts: ["000000", "000000", "010000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 10"
+  - token: "A,BM11"
+    category: A_OP
+    field: A_OP
+    value: 9
+    encoding: { parts: ["000000", "000000", "011000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 11"
+  - token: "A,BM12"
+    category: A_OP
+    field: A_OP
+    value: 10
+    encoding: { parts: ["000000", "000000", "012000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 12"
+  - token: "A,BM13"
+    category: A_OP
+    field: A_OP
+    value: 11
+    encoding: { parts: ["000000", "000000", "013000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 13"
+  - token: "A,BM14"
+    category: A_OP
+    field: A_OP
+    value: 12
+    encoding: { parts: ["000000", "000000", "014000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 14"
+  - token: "A,BM15"
+    category: A_OP
+    field: A_OP
+    value: 13
+    encoding: { parts: ["000000", "000000", "015000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 15"
+  - token: "A,BM16"
+    category: A_OP
+    field: A_OP
+    value: 14
+    encoding: { parts: ["000000", "000000", "016000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 16"
+  - token: "A,BM17"
+    category: A_OP
+    field: A_OP
+    value: 15
+    encoding: { parts: ["000000", "000000", "017000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 17"
+  - token: "A,BM20"
+    category: A_OP
+    field: A_OP
+    value: 16
+    encoding: { parts: ["000000", "000000", "020000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 20"
+  - token: "A,BM21"
+    category: A_OP
+    field: A_OP
+    value: 17
+    encoding: { parts: ["000000", "000000", "021000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 21"
+  - token: "A,BM22"
+    category: A_OP
+    field: A_OP
+    value: 18
+    encoding: { parts: ["000000", "000000", "022000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 22"
+  - token: "A,BM23"
+    category: A_OP
+    field: A_OP
+    value: 19
+    encoding: { parts: ["000000", "000000", "023000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 23"
+  - token: "A,BM24"
+    category: A_OP
+    field: A_OP
+    value: 20
+    encoding: { parts: ["000000", "000000", "024000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 24"
+  - token: "A,BM25"
+    category: A_OP
+    field: A_OP
+    value: 21
+    encoding: { parts: ["000000", "000000", "025000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 25"
+  - token: "A,BM26"
+    category: A_OP
+    field: A_OP
+    value: 22
+    encoding: { parts: ["000000", "000000", "026000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 26"
+  - token: "A,BM27"
+    category: A_OP
+    field: A_OP
+    value: 23
+    encoding: { parts: ["000000", "000000", "027000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 27"
+  - token: "A,BM30"
+    category: A_OP
+    field: A_OP
+    value: 24
+    encoding: { parts: ["000000", "000000", "030000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 30"
+  - token: "A,BM31"
+    category: A_OP
+    field: A_OP
+    value: 25
+    encoding: { parts: ["000000", "000000", "031000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 31"
+  - token: "A,BM32"
+    category: A_OP
+    field: A_OP
+    value: 26
+    encoding: { parts: ["000000", "000000", "032000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 32"
+  - token: "A,BM33"
+    category: A_OP
+    field: A_OP
+    value: 27
+    encoding: { parts: ["000000", "000000", "033000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 33"
+  - token: "A,BM34"
+    category: A_OP
+    field: A_OP
+    value: 28
+    encoding: { parts: ["000000", "000000", "034000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 34"
+  - token: "A,BM35"
+    category: A_OP
+    field: A_OP
+    value: 29
+    encoding: { parts: ["000000", "000000", "035000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 35"
+  - token: "A,BM36"
+    category: A_OP
+    field: A_OP
+    value: 30
+    encoding: { parts: ["000000", "000000", "036000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 36"
+  - token: "A,BM37"
+    category: A_OP
+    field: A_OP
+    value: 31
+    encoding: { parts: ["000000", "000000", "037000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK 37"
+  - token: "A,BMLC"
+    category: A_OP
+    field: A_OP
+    value: 57
+    encoding: { parts: ["000000", "000000", "071000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS BIT MASK FROM LOOP COUNTER"
+  - token: "A,DAC,B"
+    category: A_OP
+    field: A_OP
+    value: 234
+    encoding: { parts: ["000000", "000001", "152000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC B REGISTER"
+  - token: "A,DAC,DLAR"
+    category: A_OP
+    field: A_OP
+    value: 227
+    encoding: { parts: ["000000", "000001", "143000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC LA-REGISTER"
+  - token: "A,DAC,EA1"
+    category: A_OP
+    field: A_OP
+    value: 229
+    encoding: { parts: ["000000", "000001", "145000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC EA1 REGISTER"
+  - token: "A,DAC,EA2"
+    category: A_OP
+    field: A_OP
+    value: 230
+    encoding: { parts: ["000000", "000001", "146000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC EA2 REGISTER"
+  - token: "A,DAC,EA3"
+    category: A_OP
+    field: A_OP
+    value: 231
+    encoding: { parts: ["000000", "000001", "147000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC EA3 REGISTER"
+  - token: "A,DAC,EAO"
+    category: A_OP
+    field: A_OP
+    value: 228
+    encoding: { parts: ["000000", "000001", "144000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC EAO REGISTER"
+  - token: "A,DAC,R"
+    category: A_OP
+    field: A_OP
+    value: 235
+    encoding: { parts: ["000000", "000001", "153000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC R REGISTER"
+  - token: "A,DAC,XFER"
+    category: A_OP
+    field: A_OP
+    value: 245
+    encoding: { parts: ["000000", "000001", "165000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "[UNDOCUMENTED GUESS] A-BUS IS DAC TRANSFER REGISTER - used at DAC_R_SC10, DAC_R_SC6 for DAC-to-scratch transfers"
+  - token: "A,DATA"
+    category: A_OP
+    field: A_OP
+    value: 56
+    encoding: { parts: ["000000", "000000", "070000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DATA INPUT REGISTER"
+  - token: "A,DMM,ADOM"
+    category: A_OP
+    field: A_OP
+    value: 79
+    encoding: { parts: ["000000", "000000", "117000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM ADOM REGISTER"
+  - token: "A,DMM,CAP"
+    category: A_OP
+    field: A_OP
+    value: 68
+    encoding: { parts: ["000000", "000000", "104000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM CAPABILITY"
+  - token: "A,DMM,DOM"
+    category: A_OP
+    field: A_OP
+    value: 71
+    encoding: { parts: ["000000", "000000", "107000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM DOM REGISTER"
+  - token: "A,DMM,LA"
+    category: A_OP
+    field: A_OP
+    value: 66
+    encoding: { parts: ["000000", "000000", "102000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM LA REGISTER"
+  - token: "A,DMM,MEM"
+    category: A_OP
+    field: A_OP
+    value: 72
+    encoding: { parts: ["000000", "000000", "110000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DATA MEMORY"
+  - token: "A,DMM,PHS"
+    category: A_OP
+    field: A_OP
+    value: 70
+    encoding: { parts: ["000000", "000000", "106000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM PHS REGISTER"
+  - token: "A,DMM,PHYS"
+    category: A_OP
+    field: A_OP
+    value: 74
+    encoding: { parts: ["000000", "000000", "112000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DATA PHYSICAL ADDRESS"
+  - token: "A,DMM,PS"
+    category: A_OP
+    field: A_OP
+    value: 69
+    encoding: { parts: ["000000", "000000", "105000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM PS REGISTER"
+  - token: "A,DMM,PSTP"
+    category: A_OP
+    field: A_OP
+    value: 64
+    encoding: { parts: ["000000", "000000", "100000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM PSTP REGISTER"
+  - token: "A,DMM,PUWP"
+    category: A_OP
+    field: A_OP
+    value: 65
+    encoding: { parts: ["000000", "000000", "101000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM PUWP REGISTER"
+  - token: "A,DMM,STS"
+    category: A_OP
+    field: A_OP
+    value: 75
+    encoding: { parts: ["000000", "000000", "113000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM STS REGISTER"
+  - token: "A,DMM,WR"
+    category: A_OP
+    field: A_OP
+    value: 67
+    encoding: { parts: ["000000", "000000", "103000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DMM WR REGISTER"
+  - token: "A,E1"
+    category: A_OP
+    field: A_OP
+    value: 44
+    encoding: { parts: ["000000", "000000", "054000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING LEAST REGISTER E1"
+  - token: "A,E2"
+    category: A_OP
+    field: A_OP
+    value: 45
+    encoding: { parts: ["000000", "000000", "055000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING LEAST REGISTER E2"
+  - token: "A,E3"
+    category: A_OP
+    field: A_OP
+    value: 46
+    encoding: { parts: ["000000", "000000", "056000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING LEAST REGISTER E3"
+  - token: "A,E4"
+    category: A_OP
+    field: A_OP
+    value: 47
+    encoding: { parts: ["000000", "000000", "057000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FLOATING LEAST REGISTER E4"
+  - token: "A,IAC,ILAR"
+    category: A_OP
+    field: A_OP
+    value: 195
+    encoding: { parts: ["000000", "000001", "103000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAC LA-REGISTER"
+  - token: "A,IAC,L"
+    category: A_OP
+    field: A_OP
+    value: 202
+    encoding: { parts: ["000000", "000001", "112000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAC L (LINK) REGISTER"
+  - token: "A,IAC,NPC"
+    category: A_OP
+    field: A_OP
+    value: 204
+    encoding: { parts: ["000000", "000001", "114000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAC NPC REGISTER"
+  - token: "A,IAC,P"
+    category: A_OP
+    field: A_OP
+    value: 203
+    encoding: { parts: ["000000", "000001", "113000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAC P REGISTER"
+  - token: "A,IAC,S"
+    category: A_OP
+    field: A_OP
+    value: 196
+    encoding: { parts: ["000000", "000001", "104000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAC SCRATCH REGISTER"
+  - token: "A,IAC,SP"
+    category: A_OP
+    field: A_OP
+    value: 198
+    encoding: { parts: ["000000", "000001", "106000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAC SP REGISTER"
+  - token: "A,IAC,Y"
+    category: A_OP
+    field: A_OP
+    value: 197
+    encoding: { parts: ["000000", "000001", "105000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAC Y REGISTER"
+  - token: "A,IDU,B2"
+    category: A_OP
+    field: A_OP
+    value: 164
+    encoding: { parts: ["000000", "000001", "044000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IDU BUFFER-2"
+  - token: "A,IDU,DPA"
+    category: A_OP
+    field: A_OP
+    value: 166
+    encoding: { parts: ["000000", "000001", "046000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DPA-BUS-REGISTER"
+  - token: "A,IDU,HL"
+    category: A_OP
+    field: A_OP
+    value: 161
+    encoding: { parts: ["000000", "000001", "041000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IDU HL REGISTER"
+  - token: "A,IDU,LIMC"
+    category: A_OP
+    field: A_OP
+    value: 163
+    encoding: { parts: ["000000", "000001", "043000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IDU LIMIT CONTROL REGISTER"
+  - token: "A,IDU,LL"
+    category: A_OP
+    field: A_OP
+    value: 162
+    encoding: { parts: ["000000", "000001", "042000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IDU LL REGISTER"
+  - token: "A,IDU,STS"
+    category: A_OP
+    field: A_OP
+    value: 165
+    encoding: { parts: ["000000", "000001", "045000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IDU STATUS REGISTER"
+  - token: "A,IDU,TE"
+    category: A_OP
+    field: A_OP
+    value: 160
+    encoding: { parts: ["000000", "000001", "040000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MIC TRAP ENABLE REGISTER"
+  - token: "A,IMM,ADOM"
+    category: A_OP
+    field: A_OP
+    value: 95
+    encoding: { parts: ["000000", "000000", "137000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM ADOM REGISTER"
+  - token: "A,IMM,CAP"
+    category: A_OP
+    field: A_OP
+    value: 84
+    encoding: { parts: ["000000", "000000", "124000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM CAPABILITY"
+  - token: "A,IMM,DOM"
+    category: A_OP
+    field: A_OP
+    value: 87
+    encoding: { parts: ["000000", "000000", "127000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM DOM REGISTER"
+  - token: "A,IMM,LA"
+    category: A_OP
+    field: A_OP
+    value: 82
+    encoding: { parts: ["000000", "000000", "122000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM LA REGISTER"
+  - token: "A,IMM,MEM"
+    category: A_OP
+    field: A_OP
+    value: 88
+    encoding: { parts: ["000000", "000000", "130000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INSTRUCTION MEMORY"
+  - token: "A,IMM,PHS"
+    category: A_OP
+    field: A_OP
+    value: 86
+    encoding: { parts: ["000000", "000000", "126000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM PHS REGISTER"
+  - token: "A,IMM,PHYS"
+    category: A_OP
+    field: A_OP
+    value: 90
+    encoding: { parts: ["000000", "000000", "132000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INSTRUCTION PHYSICAL ADDR"
+  - token: "A,IMM,PS"
+    category: A_OP
+    field: A_OP
+    value: 85
+    encoding: { parts: ["000000", "000000", "125000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM PS REGISTER"
+  - token: "A,IMM,PSTP"
+    category: A_OP
+    field: A_OP
+    value: 80
+    encoding: { parts: ["000000", "000000", "120000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM PSTP REGISTER"
+  - token: "A,IMM,PUWP"
+    category: A_OP
+    field: A_OP
+    value: 81
+    encoding: { parts: ["000000", "000000", "121000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM PUWP REGISTER"
+  - token: "A,IMM,STS"
+    category: A_OP
+    field: A_OP
+    value: 91
+    encoding: { parts: ["000000", "000000", "133000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM STS REGISTER"
+  - token: "A,IMM,WR"
+    category: A_OP
+    field: A_OP
+    value: 83
+    encoding: { parts: ["000000", "000000", "123000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IMM WR REGISTER"
+  - token: "A,LARG"
+    category: A_OP
+    field: A_OP
+    value: 239
+    encoding: { parts: ["000000", "000001", "157000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS LONG ARGUMENT"
+  - token: "A,MARG"
+    category: A_OP
+    field: A_OP
+    value: 233
+    encoding: { parts: ["000000", "000001", "151000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MINI ARGUMENT"
+  - token: "A,MIC,CNT32"
+    category: A_OP
+    field: A_OP
+    value: 135
+    encoding: { parts: ["000000", "000001", "007000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MIC 32-BIT COUNTER"
+  - token: "A,MIC,CURR"
+    category: A_OP
+    field: A_OP
+    value: 134
+    encoding: { parts: ["000000", "000001", "006000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MIC CURR REGISTER"
+  - token: "A,MIC,MISTS"
+    category: A_OP
+    field: A_OP
+    value: 128
+    encoding: { parts: ["000000", "000001", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MIC STATUS REGISTER"
+  - token: "A,MIC,RFA1"
+    category: A_OP
+    field: A_OP
+    value: 130
+    encoding: { parts: ["000000", "000001", "002000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS RF-ADDRESS REGISTER 1"
+  - token: "A,MIC,RFA2"
+    category: A_OP
+    field: A_OP
+    value: 131
+    encoding: { parts: ["000000", "000001", "003000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS RF-ADDRESS REGISTER 2"
+  - token: "A,MIC,STS"
+    category: A_OP
+    field: A_OP
+    value: 132
+    encoding: { parts: ["000000", "000001", "004000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MIC STATUS BITS"
+  - token: "A,MIC,TE"
+    category: A_OP
+    field: A_OP
+    value: 133
+    encoding: { parts: ["000000", "000001", "005000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MIC TRAP ENABLE BITS"
+  - token: "A,MIC,VECT"
+    category: A_OP
+    field: A_OP
+    value: 129
+    encoding: { parts: ["000000", "000001", "001000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MIC VECTOR REGISTER"
+  - token: "A,PXBM"
+    category: A_OP
+    field: A_OP
+    value: 62
+    encoding: { parts: ["000000", "000000", "076000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS POST-INDEX BIT-MASK"
+  - token: "A,Q"
+    category: A_OP
+    field: A_OP
+    value: 59
+    encoding: { parts: ["000000", "000000", "073000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS Q-REGISTER"
+  - token: "A,RF1"
+    category: A_OP
+    field: A_OP
+    value: 140
+    encoding: { parts: ["000000", "000001", "014000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS REG.FILE POINTED TO BY RF1 REGISTER"
+  - token: "A,RF1D"
+    category: A_OP
+    field: A_OP
+    value: 142
+    encoding: { parts: ["000000", "000001", "016000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS REG.FILE POINTED TO BY RF1, RF1 DECREMENT"
+  - token: "A,RF2"
+    category: A_OP
+    field: A_OP
+    value: 141
+    encoding: { parts: ["000000", "000001", "015000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS REG.FILE POINTED TO BY RF2 REGISTER"
+  - token: "A,RF2D"
+    category: A_OP
+    field: A_OP
+    value: 143
+    encoding: { parts: ["000000", "000001", "017000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS REG.FILE POINTED TO BY RF2, RF2 DECREMENT"
+  - token: "A,SARG"
+    category: A_OP
+    field: A_OP
+    value: 238
+    encoding: { parts: ["000000", "000001", "156000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SHORT ARGUMENT"
+  - token: "A,SC1"
+    category: A_OP
+    field: A_OP
+    value: 40
+    encoding: { parts: ["000000", "000000", "050000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 1"
+  - token: "A,SC10"
+    category: A_OP
+    field: A_OP
+    value: 51
+    encoding: { parts: ["000000", "000000", "063000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 10"
+  - token: "A,SC11"
+    category: A_OP
+    field: A_OP
+    value: 52
+    encoding: { parts: ["000000", "000000", "064000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 11"
+  - token: "A,SC12"
+    category: A_OP
+    field: A_OP
+    value: 53
+    encoding: { parts: ["000000", "000000", "065000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 12"
+  - token: "A,SC13"
+    category: A_OP
+    field: A_OP
+    value: 54
+    encoding: { parts: ["000000", "000000", "066000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 13"
+  - token: "A,SC14"
+    category: A_OP
+    field: A_OP
+    value: 55
+    encoding: { parts: ["000000", "000000", "067000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 14"
+  - token: "A,SC2"
+    category: A_OP
+    field: A_OP
+    value: 41
+    encoding: { parts: ["000000", "000000", "051000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 2"
+  - token: "A,SC3"
+    category: A_OP
+    field: A_OP
+    value: 42
+    encoding: { parts: ["000000", "000000", "052000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 3"
+  - token: "A,SC4"
+    category: A_OP
+    field: A_OP
+    value: 43
+    encoding: { parts: ["000000", "000000", "053000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 4"
+  - token: "A,SC5"
+    category: A_OP
+    field: A_OP
+    value: 48
+    encoding: { parts: ["000000", "000000", "060000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 5"
+  - token: "A,SC6"
+    category: A_OP
+    field: A_OP
+    value: 49
+    encoding: { parts: ["000000", "000000", "061000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 6"
+  - token: "A,SC7"
+    category: A_OP
+    field: A_OP
+    value: 50
+    encoding: { parts: ["000000", "000000", "062000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SCRATCH REGISTER 7"
+  - token: "A,SPEC,AC"
+    category: A_OP
+    field: A_OP
+    value: 102
+    encoding: { parts: ["000000", "000000", "146000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS ADDRESS-CACHE"
+  - token: "A,SPEC,ACH"
+    category: A_OP
+    field: A_OP
+    value: 109
+    encoding: { parts: ["000000", "000000", "155000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS AC-HOLD-REGISTER"
+  - token: "A,SPEC,AFLAG"
+    category: A_OP
+    field: A_OP
+    value: 105
+    encoding: { parts: ["000000", "000000", "151000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS ACCP-FLAG-REGISTER"
+  - token: "A,SPEC,AOB"
+    category: A_OP
+    field: A_OP
+    value: 97
+    encoding: { parts: ["000000", "000000", "141000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS AOB-REGISTER"
+  - token: "A,SPEC,AOBASR"
+    category: A_OP
+    field: A_OP
+    value: 106
+    encoding: { parts: ["000000", "000000", "152000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS COMM.-REGISTER"
+  - token: "A,SPEC,ATRACE"
+    category: A_OP
+    field: A_OP
+    value: 121
+    encoding: { parts: ["000000", "000000", "171000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS ATRACE"
+  - token: "A,SPEC,CSTRC"
+    category: A_OP
+    field: A_OP
+    value: 117
+    encoding: { parts: ["000000", "000000", "165000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS CSTRC"
+  - token: "A,SPEC,CTRACE"
+    category: A_OP
+    field: A_OP
+    value: 123
+    encoding: { parts: ["000000", "000000", "173000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS CTRACE"
+  - token: "A,SPEC,DACR"
+    category: A_OP
+    field: A_OP
+    value: 108
+    encoding: { parts: ["000000", "000000", "154000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DAC-REGISTER"
+  - token: "A,SPEC,DCADAT"
+    category: A_OP
+    field: A_OP
+    value: 118
+    encoding: { parts: ["000000", "000000", "166000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DATA-CACHE DATA"
+  - token: "A,SPEC,DCALA"
+    category: A_OP
+    field: A_OP
+    value: 116
+    encoding: { parts: ["000000", "000000", "164000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DATA-CACHE LA"
+  - token: "A,SPEC,DLAH"
+    category: A_OP
+    field: A_OP
+    value: 110
+    encoding: { parts: ["000000", "000000", "156000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DLA-HOLD-REGISTER"
+  - token: "A,SPEC,DPSDOM"
+    category: A_OP
+    field: A_OP
+    value: 113
+    encoding: { parts: ["000000", "000000", "161000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DATA PS/DOM"
+  - token: "A,SPEC,DTRACE"
+    category: A_OP
+    field: A_OP
+    value: 122
+    encoding: { parts: ["000000", "000000", "172000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DTRACE"
+  - token: "A,SPEC,FLA"
+    category: A_OP
+    field: A_OP
+    value: 112
+    encoding: { parts: ["000000", "000000", "160000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS FORWARD-LA-LATCH"
+  - token: "A,SPEC,IAR"
+    category: A_OP
+    field: A_OP
+    value: 98
+    encoding: { parts: ["000000", "000000", "142000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS IAR-REGISTER"
+  - token: "A,SPEC,IC"
+    category: A_OP
+    field: A_OP
+    value: 103
+    encoding: { parts: ["000000", "000000", "147000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INSTRUCTION-CACHE"
+  - token: "A,SPEC,IDIR"
+    category: A_OP
+    field: A_OP
+    value: 115
+    encoding: { parts: ["000000", "000000", "163000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INSTR.-CACHE-DIR"
+  - token: "A,SPEC,IPSDOM"
+    category: A_OP
+    field: A_OP
+    value: 114
+    encoding: { parts: ["000000", "000000", "162000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INSTRUCTION PS/DOM"
+  - token: "A,SPEC,IRL"
+    category: A_OP
+    field: A_OP
+    value: 107
+    encoding: { parts: ["000000", "000000", "153000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INSTR.-READ-LATCH"
+  - token: "A,SPEC,ITRACE"
+    category: A_OP
+    field: A_OP
+    value: 120
+    encoding: { parts: ["000000", "000000", "170000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS ITRACE"
+  - token: "A,SPEC,LA"
+    category: A_OP
+    field: A_OP
+    value: 111
+    encoding: { parts: ["000000", "000000", "157000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS LA-LATCH"
+  - token: "A,SPEC,MOD"
+    category: A_OP
+    field: A_OP
+    value: 96
+    encoding: { parts: ["000000", "000000", "140000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS MODUS-REGISTER"
+  - token: "A,SPEC,OC,AD"
+    category: A_OP
+    field: A_OP
+    value: 100
+    encoding: { parts: ["000000", "000000", "144000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS NADDR-PART OF OC"
+  - token: "A,SPEC,OC,CO"
+    category: A_OP
+    field: A_OP
+    value: 101
+    encoding: { parts: ["000000", "000000", "145000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS CONTROL-PART OF OC"
+  - token: "A,SPEC,OC,DP"
+    category: A_OP
+    field: A_OP
+    value: 99
+    encoding: { parts: ["000000", "000000", "143000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS DPA-PART OF OC"
+  - token: "A,SPEC,OLAH2"
+    category: A_OP
+    field: A_OP
+    value: 104
+    encoding: { parts: ["000000", "000000", "150000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS OLAH2-REGISTER"
+  - token: "A,SPEC,REG34"
+    category: A_OP
+    field: A_OP
+    value: 124
+    encoding: { parts: ["000000", "000000", "174000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "[UNDOCUMENTED GUESS] A-BUS IS SPEC REGISTER 34 - unknown purpose, single use with ALU,XOR at address 004615"
+  - token: "A,SPEC,STRACE"
+    category: A_OP
+    field: A_OP
+    value: 119
+    encoding: { parts: ["000000", "000000", "167000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS STRACE"
+  - token: "A,SRF0"
+    category: A_OP
+    field: A_OP
+    value: 144
+    encoding: { parts: ["000000", "000001", "020000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 0"
+  - token: "A,SRF1"
+    category: A_OP
+    field: A_OP
+    value: 145
+    encoding: { parts: ["000000", "000001", "021000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 1"
+  - token: "A,SRF10"
+    category: A_OP
+    field: A_OP
+    value: 152
+    encoding: { parts: ["000000", "000001", "030000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 10"
+  - token: "A,SRF11"
+    category: A_OP
+    field: A_OP
+    value: 153
+    encoding: { parts: ["000000", "000001", "031000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 11"
+  - token: "A,SRF12"
+    category: A_OP
+    field: A_OP
+    value: 154
+    encoding: { parts: ["000000", "000001", "032000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 12"
+  - token: "A,SRF13"
+    category: A_OP
+    field: A_OP
+    value: 155
+    encoding: { parts: ["000000", "000001", "033000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 13"
+  - token: "A,SRF14"
+    category: A_OP
+    field: A_OP
+    value: 156
+    encoding: { parts: ["000000", "000001", "034000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 14"
+  - token: "A,SRF15"
+    category: A_OP
+    field: A_OP
+    value: 157
+    encoding: { parts: ["000000", "000001", "035000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 15"
+  - token: "A,SRF16"
+    category: A_OP
+    field: A_OP
+    value: 158
+    encoding: { parts: ["000000", "000001", "036000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 16"
+  - token: "A,SRF17"
+    category: A_OP
+    field: A_OP
+    value: 159
+    encoding: { parts: ["000000", "000001", "037000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 17"
+  - token: "A,SRF2"
+    category: A_OP
+    field: A_OP
+    value: 146
+    encoding: { parts: ["000000", "000001", "022000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 2"
+  - token: "A,SRF3"
+    category: A_OP
+    field: A_OP
+    value: 147
+    encoding: { parts: ["000000", "000001", "023000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 3"
+  - token: "A,SRF4"
+    category: A_OP
+    field: A_OP
+    value: 148
+    encoding: { parts: ["000000", "000001", "024000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 4"
+  - token: "A,SRF5"
+    category: A_OP
+    field: A_OP
+    value: 149
+    encoding: { parts: ["000000", "000001", "025000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 5"
+  - token: "A,SRF6"
+    category: A_OP
+    field: A_OP
+    value: 150
+    encoding: { parts: ["000000", "000001", "026000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 6"
+  - token: "A,SRF7"
+    category: A_OP
+    field: A_OP
+    value: 151
+    encoding: { parts: ["000000", "000001", "027000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS SRF-WORD 7"
+  - token: "A,X1"
+    category: A_OP
+    field: A_OP
+    value: 32
+    encoding: { parts: ["000000", "000000", "040000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INDEX REGISTER X1"
+  - token: "A,X2"
+    category: A_OP
+    field: A_OP
+    value: 33
+    encoding: { parts: ["000000", "000000", "041000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INDEX REGISTER X2"
+  - token: "A,X3"
+    category: A_OP
+    field: A_OP
+    value: 34
+    encoding: { parts: ["000000", "000000", "042000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INDEX REGISTER X3"
+  - token: "A,X4"
+    category: A_OP
+    field: A_OP
+    value: 35
+    encoding: { parts: ["000000", "000000", "043000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-BUS IS INDEX REGISTER X4"
+  - token: "AA,0"
+    category: AA
+    field: AA
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ADDRESS A OPERAND IS ZERO"
+  - token: "AA,DATA"
+    category: AA
+    field: AA
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "060000"] }
+    description: "ADDRESS A OPERAND IS DATA REGISTER"
+  - token: "AA,DISP"
+    category: AA
+    field: AA
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "040000"] }
+    description: "ADDRESS A OPERAND IS DISPLACEMENT"
+  - token: "AA,EA1"
+    category: AA
+    field: AA
+    value: 5
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "120000"] }
+    description: "ADDRESS A OPERAND IS EA1 REGISTER"
+  - token: "AA,EA2"
+    category: AA
+    field: AA
+    value: 6
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "140000"] }
+    description: "ADDRESS A OPERAND IS EA2 REGISTER"
+  - token: "AA,EA3"
+    category: AA
+    field: AA
+    value: 7
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "160000"] }
+    description: "ADDRESS A OPERAND IS EA3 REGISTER"
+  - token: "AA,EAO"
+    category: AA
+    field: AA
+    value: 4
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "100000"] }
+    description: "ADDRESS A OPERAND IS EAO REGISTER"
+  - token: "AA,MARG"
+    category: AA
+    field: AA
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "020000"] }
+    description: "ADDRESS A OPERAND IS MINIARGUMENT"
+  - token: "AAP1,A*B"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 56
+    encoding: { parts: ["000000", "016000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A*B"
+  - token: "AAP1,A+B"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 49
+    encoding: { parts: ["000000", "014200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A+B"
+  - token: "AAP1,A-B"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 52
+    encoding: { parts: ["000000", "015000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-B"
+  - token: "AAP1,A/B"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 54
+    encoding: { parts: ["000000", "015400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A/B"
+  - token: "AAP1,B-A"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 50
+    encoding: { parts: ["000000", "014400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-A"
+  - token: "AAP1,B/A"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 51
+    encoding: { parts: ["000000", "014600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B/A"
+  - token: "AAP1,CLEAR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 62
+    encoding: { parts: ["000000", "017400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "COPY A TO F / RESET AAP"
+  - token: "AAP1,COMP"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 53
+    encoding: { parts: ["000000", "015200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "COMPARE (A-B)"
+  - token: "AAP1,CTBY"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 40
+    encoding: { parts: ["000000", "012000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO BYTE"
+  - token: "AAP1,CTBYR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 37
+    encoding: { parts: ["000000", "011200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO BYTE ROUNDED"
+  - token: "AAP1,CTDF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 34
+    encoding: { parts: ["000000", "010400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO DOUBLE FLOATING"
+  - token: "AAP1,CTF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 33
+    encoding: { parts: ["000000", "010200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO FLOATING"
+  - token: "AAP1,CTHW"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 41
+    encoding: { parts: ["000000", "012200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO HALFWORD"
+  - token: "AAP1,CTHWR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 38
+    encoding: { parts: ["000000", "011400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO HALFWORD ROUNDED"
+  - token: "AAP1,CTW"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 42
+    encoding: { parts: ["000000", "012400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO WORD"
+  - token: "AAP1,CTWR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 39
+    encoding: { parts: ["000000", "011600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO WORD ROUNDED"
+  - token: "AAP1,DIVP"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 55
+    encoding: { parts: ["000000", "015600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "PARTIAL DIVIDE A/B"
+  - token: "AAP1,DTOFR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 48
+    encoding: { parts: ["000000", "014000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT DOUBLE TO FLOATING ROUNDED"
+  - token: "AAP1,INT"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 44
+    encoding: { parts: ["000000", "013000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INTEGER-PART TRUNCATED"
+  - token: "AAP1,INTR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 43
+    encoding: { parts: ["000000", "012600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INTEGER-PART ROUNDED"
+  - token: "AAP1,MUL4"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 58
+    encoding: { parts: ["000000", "016400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MULTIPLY WITH OVERFLOW"
+  - token: "AAP1,RRF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 59
+    encoding: { parts: ["000000", "016600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "READ AAP REGISTERFILE"
+  - token: "AAP1,SHA"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 45
+    encoding: { parts: ["000000", "013200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHIFT ARITHMETICAL"
+  - token: "AAP1,SHL"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 46
+    encoding: { parts: ["000000", "013400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHIFT LOGICAL"
+  - token: "AAP1,SHR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 47
+    encoding: { parts: ["000000", "013600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHIFT ROTATIONAL"
+  - token: "AAP1,UCTDF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 36
+    encoding: { parts: ["000000", "011000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "UNSIGNED CONVERT TO DOUBLE FLOATING"
+  - token: "AAP1,UCTF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 35
+    encoding: { parts: ["000000", "010600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "UNSIGNED CONVERT TO FLOATING"
+  - token: "AAP1,UMUL"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 57
+    encoding: { parts: ["000000", "016200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "UNSIGNED MULTIPLY"
+  - token: "AAP1,WRF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 60
+    encoding: { parts: ["000000", "017000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE AAP REGISTERFILE"
+  - token: "AAP2,ABSADD"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 73
+    encoding: { parts: ["000000", "022200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MAGNITUDE OF SUM"
+  - token: "AAP2,ABSSUB"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 65
+    encoding: { parts: ["000000", "020200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MAGNITUDE OF DIFFERENCE"
+  - token: "AAP2,ADD"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 72
+    encoding: { parts: ["000000", "022000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ADD"
+  - token: "AAP2,ADDABS"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 74
+    encoding: { parts: ["000000", "022400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SUM OF MAGNITUDES"
+  - token: "AAP2,CBF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 94
+    encoding: { parts: ["000000", "027400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO OTHER FLOATING FORMAT"
+  - token: "AAP2,CLEAR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 88
+    encoding: { parts: ["000000", "026000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CLEAR ONGOING AAP2-SEQUENCE"
+  - token: "AAP2,CTF"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 93
+    encoding: { parts: ["000000", "027200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO FLOATING"
+  - token: "AAP2,CTI"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 91
+    encoding: { parts: ["000000", "026600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO INTEGER"
+  - token: "AAP2,CTIR"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 92
+    encoding: { parts: ["000000", "027000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONVERT TO INTEGER ROUNDED"
+  - token: "AAP2,EXPISO"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 95
+    encoding: { parts: ["000000", "027600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "EXPONENT ISOLATE"
+  - token: "AAP2,IMUL"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 84
+    encoding: { parts: ["000000", "025000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INTEGER MUL, ONE RESULT"
+  - token: "AAP2,IMULD"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 85
+    encoding: { parts: ["000000", "025200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INTEGER MUL, TWO RESULTS"
+  - token: "AAP2,IMULU"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 86
+    encoding: { parts: ["000000", "025400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INTEGER UMUL, ONE RESULT"
+  - token: "AAP2,IMULUD"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 87
+    encoding: { parts: ["000000", "025600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INTEGER UMUL, TWO RESULTS"
+  - token: "AAP2,MUL"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 66
+    encoding: { parts: ["000000", "020400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MULTIPLY"
+  - token: "AAP2,MULABSA"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 67
+    encoding: { parts: ["000000", "020600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B TIMES MAGNITUDE OF A"
+  - token: "AAP2,MULABSB"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 69
+    encoding: { parts: ["000000", "021200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A TIMES MAGNITUDE OF B"
+  - token: "AAP2,MULNEG"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 70
+    encoding: { parts: ["000000", "021400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MULTIPLY AND NEGATE"
+  - token: "AAP2,MULNEGA"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 71
+    encoding: { parts: ["000000", "021600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B TIMES NEGATIVE VALUE OF A"
+  - token: "AAP2,MULNEGAB"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 77
+    encoding: { parts: ["000000", "023200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "NEGATIVE VALUE OF A TIMES B"
+  - token: "AAP2,MULNEGB"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 75
+    encoding: { parts: ["000000", "022600", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A TIMES NEGATIVE VALUE OF B"
+  - token: "AAP2,NEG"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 68
+    encoding: { parts: ["000000", "021000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "NEGATE"
+  - token: "AAP2,PASS"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 76
+    encoding: { parts: ["000000", "023000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IDENTITY"
+  - token: "AAP2,PASSABS"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 78
+    encoding: { parts: ["000000", "023400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ABSOLUTE VALUE"
+  - token: "AAP2,SUBAB"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 64
+    encoding: { parts: ["000000", "020000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SUBTRACT A-B"
+  - token: "AAP2,SUBABABS"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 81
+    encoding: { parts: ["000000", "024200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DIFFERENCE OF MAGNITUDES (A-B)"
+  - token: "AAP2,SUBBA"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 80
+    encoding: { parts: ["000000", "024000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SUBTRACT B-A"
+  - token: "AAP2,SUBBAABS"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 82
+    encoding: { parts: ["000000", "024400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DIFFERENCE OF MAGNITUDES (B-A)"
+  - token: "AAPSYNC"
+    category: AAPSYNC
+    field: AAPSYNC
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "002000", "000000", "000000"] }
+    description: "WAIT FOR AAP READY"
+  - token: "AB,0"
+    category: AB
+    field: AB
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ADDRESS B OPERAND IS ZERO"
+  - token: "AB,ADR"
+    category: AB
+    field: AB
+    value: 9
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "011000"] }
+    description: "EAO IF RECYCLE NOT NECESSARY"
+  - token: "AB,ADR+4"
+    category: AB
+    field: AB
+    value: 11
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "013000"] }
+    description: "PREVIOUS ADDRESS +4 IF RECYCLE NOT NECESSARY"
+  - token: "AB,B"
+    category: AB
+    field: AB
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "002000"] }
+    description: "ADDRESS B OPERAND IS BASE (B) REGISTER"
+  - token: "AB,CMBRET"
+    category: AB
+    field: AB
+    value: 8
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "010000"] }
+    description: "RETURN FROM CMISS U-CODE"
+  - token: "AB,EA1DIR"
+    category: AB
+    field: AB
+    value: 10
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "012000"] }
+    description: "EA1 IF RECYCLE NOT NECESSARY"
+  - token: "AB,IX1"
+    category: AB
+    field: AB
+    value: 4
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "004000"] }
+    description: "ADDRESS B OPERAND IS INDEX REGISTER X1"
+  - token: "AB,IX2"
+    category: AB
+    field: AB
+    value: 5
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "005000"] }
+    description: "ADDRESS B OPERAND IS INDEX REGISTER X2"
+  - token: "AB,IX3"
+    category: AB
+    field: AB
+    value: 6
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "006000"] }
+    description: "ADDRESS B OPERAND IS INDEX REGISTER X3"
+  - token: "AB,IX4"
+    category: AB
+    field: AB
+    value: 7
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "007000"] }
+    description: "ADDRESS B OPERAND IS INDEX REGISTER X4"
+  - token: "AB,MARG"
+    category: AB
+    field: AB
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "001000"] }
+    description: "ADDRESS B OPERAND IS MINIARGUMENT"
+  - token: "AB,R"
+    category: AB
+    field: AB
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "003000"] }
+    description: "ADDRESS B OPERAND IS RECORD (R) REGISTER"
+  - token: "AB,X1ORS"
+    category: AB
+    field: AB
+    value: 12
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "014000"] }
+    description: "DESC(X)(I1), I1 SCALED ACCORDING TO INSTRUCTION"
+  - token: "AB,X2ORS"
+    category: AB
+    field: AB
+    value: 13
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "015000"] }
+    description: "DESC(X)(I2), I2 SCALED ACCORDING TO INSTRUCTION"
+  - token: "AB,X3ORS"
+    category: AB
+    field: AB
+    value: 14
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "016000"] }
+    description: "DESC(X)(I3), I3 SCALED ACCORDING TO INSTRUCTION"
+  - token: "AB,X4ORS"
+    category: AB
+    field: AB
+    value: 15
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "017000"] }
+    description: "DESC(X)(I4), I4 SCALED ACCORDING TO INSTRUCTION"
+  - token: "ABR,NEXT"
+    category: ABR
+    field: ABR
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000010", "000000", "000000", "000000"] }
+    description: "CALCULATE NEXT INSTRUCTION STREAM ADDRESS"
+  - token: "ABR,NEXTL"
+    category: ABR
+    field: ABR
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000030", "000000", "000000", "000000"] }
+    description: "CALCULATE NEXT ADDRESS TO LINK REGISTER"
+  - token: "ABR,NPCREL"
+    category: ABR
+    field: ABR
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000020", "000000", "000000", "000000"] }
+    description: "CALCULATE JUMP TARGET ADDRESS"
+  - token: "ADACT"
+    category: ADACT
+    field: ADACT
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000010", "000000", "000000"] }
+    description: "ADDRESS ARITHMETIC ACTIVATE"
+  - token: "ALU,A"
+    category: ALU_OP
+    field: ALU_OP
+    value: 4
+    encoding: { parts: ["040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A OPERAND DIRECT THROUGH THE ALU"
+  - token: "ALU,A+B"
+    category: ALU_OP
+    field: ALU_OP
+    value: 13
+    encoding: { parts: ["150000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A OPERAND ADDED B OPERAND"
+  - token: "ALU,A+B,*2"
+    category: ALU_OP
+    field: ALU_OP
+    value: 15
+    encoding: { parts: ["170000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT*2; FBUS(00) = 0"
+  - token: "ALU,A+B,/2"
+    category: ALU_OP
+    field: ALU_OP
+    value: 12
+    encoding: { parts: ["140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT/2; FBUS(31) = CARRY"
+  - token: "ALU,A,/2"
+    category: ALU_OP
+    field: ALU_OP
+    value: 9
+    encoding: { parts: ["110000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT/2; FBUS(31) = CARRY"
+  - token: "ALU,A-1"
+    category: ALU_OP
+    field: ALU_OP
+    value: 8
+    encoding: { parts: ["100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DECREMENT A OPERAND"
+  - token: "ALU,A-B"
+    category: ALU_OP
+    field: ALU_OP
+    value: 10
+    encoding: { parts: ["120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A MINUS B OPERAND (carry selects -1 or +C)"
+  - token: "ALU,A-B,*2"
+    category: ALU_OP
+    field: ALU_OP
+    value: 11
+    encoding: { parts: ["130000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT*2; FBUS(00) = 0"
+  - token: "ALU,ADIRC"
+    category: ALU_OP
+    field: ALU_OP
+    value: 1
+    encoding: { parts: ["010000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ALU OUTPUT COMPLEMENTED"
+  - token: "ALU,AND"
+    category: ALU_OP
+    field: ALU_OP
+    value: 2
+    encoding: { parts: ["020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL AND OF A AND B"
+  - token: "ALU,ANDCA"
+    category: ALU_OP
+    field: ALU_OP
+    value: 6
+    encoding: { parts: ["060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL AND OF A COMPLEMENTED AND B"
+  - token: "ALU,ANDCB"
+    category: ALU_OP
+    field: ALU_OP
+    value: 3
+    encoding: { parts: ["030000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL AND OF A AND B COMPLEMENTED"
+  - token: "ALU,B-A"
+    category: ALU_OP
+    field: ALU_OP
+    value: 14
+    encoding: { parts: ["160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B OPERAND MINUS A OPERAND (carry selects -1 or +C)"
+  - token: "ALU,FZRO"
+    category: ALU_OP
+    field: ALU_OP
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FORCE ZERO ALU OUTPUT"
+  - token: "ALU,OR"
+    category: ALU_OP
+    field: ALU_OP
+    value: 7
+    encoding: { parts: ["070000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL OR OF A AND B"
+  - token: "ALU,XOR"
+    category: ALU_OP
+    field: ALU_OP
+    value: 5
+    encoding: { parts: ["050000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL EXCLUSIVE OR OF A AND B"
+  - token: "ALUF,A"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 4
+    encoding: { parts: ["000400", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A OPERAND DIRECT THROUGH THE ALU"
+  - token: "ALUF,A+B"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 13
+    encoding: { parts: ["001500", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A OPERAND ADDED B OPERAND"
+  - token: "ALUF,A+B,*2"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 15
+    encoding: { parts: ["001700", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT*2"
+  - token: "ALUF,A+B,/2"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 12
+    encoding: { parts: ["001400", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT/2"
+  - token: "ALUF,A,/2"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 9
+    encoding: { parts: ["001100", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT/2; FBUS(31) = CARRY"
+  - token: "ALUF,A-1"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 8
+    encoding: { parts: ["001000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DECREMENT A OPERAND"
+  - token: "ALUF,A-B"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 10
+    encoding: { parts: ["001200", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A MINUS B OPERAND (carry selects -1 or +C)"
+  - token: "ALUF,A-B,*2"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 11
+    encoding: { parts: ["001300", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FBUS = ALU.OUTPUT*2"
+  - token: "ALUF,ADRC"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 1
+    encoding: { parts: ["000100", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ALU OUTPUT COMPLEMENTED"
+  - token: "ALUF,AND"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 2
+    encoding: { parts: ["000200", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL AND OF A AND B"
+  - token: "ALUF,ANDCA"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 6
+    encoding: { parts: ["000600", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL AND OF A COMPLEMENTED AND B"
+  - token: "ALUF,ANDCB"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 3
+    encoding: { parts: ["000300", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL AND OF A AND B COMPLEMENTED"
+  - token: "ALUF,B-A"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 14
+    encoding: { parts: ["001600", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B OPERAND MINUS A OPERAND (carry selects -1 or +C)"
+  - token: "ALUF,FZRO"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FORCE ZERO ALU OUTPUT"
+  - token: "ALUF,OR"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 7
+    encoding: { parts: ["000700", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL OR OF A AND B"
+  - token: "ALUF,XOR"
+    category: ALUF_OP
+    field: ALUF_OP
+    value: 5
+    encoding: { parts: ["000500", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOGICAL EXCLUSIVE OR OF A AND B"
+  - token: "B,A1"
+    category: B_OP
+    field: B_OP
+    value: 4
+    encoding: { parts: ["000000", "000000", "000100", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING MOST REGISTER A1"
+  - token: "B,A2"
+    category: B_OP
+    field: B_OP
+    value: 5
+    encoding: { parts: ["000000", "000000", "000120", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING MOST REGISTER A2"
+  - token: "B,A3"
+    category: B_OP
+    field: B_OP
+    value: 6
+    encoding: { parts: ["000000", "000000", "000140", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING MOST REGISTER A3"
+  - token: "B,A4"
+    category: B_OP
+    field: B_OP
+    value: 7
+    encoding: { parts: ["000000", "000000", "000160", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING MOST REGISTER A4"
+  - token: "B,BCD"
+    category: B_OP
+    field: B_OP
+    value: 26
+    encoding: { parts: ["000000", "000000", "000640", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS BCD CORRECTION (1/4 OR 0/8)"
+  - token: "B,E1"
+    category: B_OP
+    field: B_OP
+    value: 12
+    encoding: { parts: ["000000", "000000", "000300", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING LEAST REGISTER E1"
+  - token: "B,E2"
+    category: B_OP
+    field: B_OP
+    value: 13
+    encoding: { parts: ["000000", "000000", "000320", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING LEAST REGISTER E2"
+  - token: "B,E3"
+    category: B_OP
+    field: B_OP
+    value: 14
+    encoding: { parts: ["000000", "000000", "000340", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING LEAST REGISTER E3"
+  - token: "B,E4"
+    category: B_OP
+    field: B_OP
+    value: 15
+    encoding: { parts: ["000000", "000000", "000360", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS FLOATING LEAST REGISTER E4"
+  - token: "B,IXC"
+    category: B_OP
+    field: B_OP
+    value: 27
+    encoding: { parts: ["000000", "000000", "000660", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS INDEX-COUNTERS"
+  - token: "B,LC"
+    category: B_OP
+    field: B_OP
+    value: 24
+    encoding: { parts: ["000000", "000000", "000600", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS LOOP COUNTER (LC)"
+  - token: "B,Q"
+    category: B_OP
+    field: B_OP
+    value: 25
+    encoding: { parts: ["000000", "000000", "000620", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS Q-REGISTER"
+  - token: "B,SC1"
+    category: B_OP
+    field: B_OP
+    value: 8
+    encoding: { parts: ["000000", "000000", "000200", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC1"
+  - token: "B,SC10"
+    category: B_OP
+    field: B_OP
+    value: 19
+    encoding: { parts: ["000000", "000000", "000460", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC10"
+  - token: "B,SC11"
+    category: B_OP
+    field: B_OP
+    value: 20
+    encoding: { parts: ["000000", "000000", "000500", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC11"
+  - token: "B,SC12"
+    category: B_OP
+    field: B_OP
+    value: 21
+    encoding: { parts: ["000000", "000000", "000520", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC12"
+  - token: "B,SC13"
+    category: B_OP
+    field: B_OP
+    value: 22
+    encoding: { parts: ["000000", "000000", "000540", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC13"
+  - token: "B,SC14"
+    category: B_OP
+    field: B_OP
+    value: 23
+    encoding: { parts: ["000000", "000000", "000560", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC14"
+  - token: "B,SC2"
+    category: B_OP
+    field: B_OP
+    value: 9
+    encoding: { parts: ["000000", "000000", "000220", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC2"
+  - token: "B,SC3"
+    category: B_OP
+    field: B_OP
+    value: 10
+    encoding: { parts: ["000000", "000000", "000240", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC3"
+  - token: "B,SC4"
+    category: B_OP
+    field: B_OP
+    value: 11
+    encoding: { parts: ["000000", "000000", "000260", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC4"
+  - token: "B,SC5"
+    category: B_OP
+    field: B_OP
+    value: 16
+    encoding: { parts: ["000000", "000000", "000400", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC5"
+  - token: "B,SC6"
+    category: B_OP
+    field: B_OP
+    value: 17
+    encoding: { parts: ["000000", "000000", "000420", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC6"
+  - token: "B,SC7"
+    category: B_OP
+    field: B_OP
+    value: 18
+    encoding: { parts: ["000000", "000000", "000440", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS SCRATCH REGISTER SC7"
+  - token: "B,X1"
+    category: B_OP
+    field: B_OP
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS INDEX REGISTER X1"
+  - token: "B,X2"
+    category: B_OP
+    field: B_OP
+    value: 1
+    encoding: { parts: ["000000", "000000", "000020", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS INDEX REGISTER X2"
+  - token: "B,X3"
+    category: B_OP
+    field: B_OP
+    value: 2
+    encoding: { parts: ["000000", "000000", "000040", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS INDEX REGISTER X3"
+  - token: "B,X4"
+    category: B_OP
+    field: B_OP
+    value: 3
+    encoding: { parts: ["000000", "000000", "000060", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B-BUS IS INDEX REGISTER X4"
+  - token: "C,ALU"
+    category: COND_ALU
+    field: COND_ALU
+    value: 1
+    encoding: { parts: ["000004", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ENABLE CONDITIONAL ALU OPERATION"
+  - token: "C,MEMOT"
+    category: MEMOT
+    field: MEMOT
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000040", "000000", "000000"] }
+    description: "MEMORY REQUEST IF DATA-OPERAND"
+  - token: "C,SEQ"
+    category: COND_SEQ
+    field: COND_SEQ
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000040", "000000", "000000", "000000", "000000"] }
+    description: "ENABLE CONDITIONAL SEQUENCE"
+  - token: "CCD"
+    category: MEM
+    mem_code: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000003", "000000", "000000"] }
+    description: "CLEAR CACHE AND DUMP DIRTY"
+  - token: "CLEAR"
+    category: GET
+    field: GET
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "010000", "000000", "000000"] }
+    description: "CLEAR IAC"
+  - token: "COND,AQSLZ"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 57
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003440", "000000", "000000", "000000"] }
+    description: "Q0 FOR ALU, LCZ FOR SEQ."
+  - token: "COND,CALL"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 60
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003600", "000000", "000000", "000000"] }
+    description: "MACROINSTR. IS CALL"
+  - token: "COND,CNZ"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 8
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000400", "000000", "000000", "000000"] }
+    description: "AND OF C AND NOT Z FROM STATUS (S1)"
+  - token: "COND,CONOP"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 35
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002140", "000000", "000000", "000000"] }
+    description: "CHECK FOR CONSTANT AS OPERAND"
+  - token: "COND,CRY"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 18
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001100", "000000", "000000", "000000"] }
+    description: "C FROM S1"
+  - token: "COND,DATOP"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 34
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002100", "000000", "000000", "000000"] }
+    description: "CHECK FOR DATA AS OPERAND"
+  - token: "COND,ENTER"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 32
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002000", "000000", "000000", "000000"] }
+    description: "CHECK FOR ENT- INSTRUCTIONS"
+  - token: "COND,ENTM"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 61
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003640", "000000", "000000", "000000"] }
+    description: "MACROINSTR. IS ENTM"
+  - token: "COND,ENTT"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 62
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003700", "000000", "000000", "000000"] }
+    description: "MACROINSTR. IS ENTT"
+  - token: "COND,GOOPS"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 56
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003400", "000000", "000000", "000000"] }
+    description: "GET-TYPE IS G,OOPS"
+  - token: "COND,IRALT"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 59
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003540", "000000", "000000", "000000"] }
+    description: "FIRST-OPERAND IS ALT-ADDRESSED"
+  - token: "COND,JUMPG"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 63
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003740", "000000", "000000", "000000"] }
+    description: "MACROINSTR. IS JUMPG"
+  - token: "COND,K"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 20
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001200", "000000", "000000", "000000"] }
+    description: "K FROM S1"
+  - token: "COND,LCZ"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 28
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001600", "000000", "000000", "000000"] }
+    description: "LOOP COUNTER ZERO RESULT"
+  - token: "COND,MBO"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 44
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002600", "000000", "000000", "000000"] }
+    description: "O FROM BCD AAP"
+  - token: "COND,MCNZ"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000140", "000000", "000000", "000000"] }
+    description: "AND OF C AND NOT Z FROM ALU OPERATION"
+  - token: "COND,MCRY"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 10
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000500", "000000", "000000", "000000"] }
+    description: "C FROM ALU OPERATION"
+  - token: "COND,MDZ"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 42
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002500", "000000", "000000", "000000"] }
+    description: "DIVIDE BY 0 FROM FLOATING AAP"
+  - token: "COND,MFO"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 40
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002400", "000000", "000000", "000000"] }
+    description: "O FROM FLOATING AAP"
+  - token: "COND,MFS"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 37
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002240", "000000", "000000", "000000"] }
+    description: "S FROM FLOATING AAP"
+  - token: "COND,MFU"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 41
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002440", "000000", "000000", "000000"] }
+    description: "U FROM FLOATING AAP"
+  - token: "COND,MIVO"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 43
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002540", "000000", "000000", "000000"] }
+    description: "INVALID OPERATION FROM BCD AAP"
+  - token: "COND,MOVFL"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 16
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001000", "000000", "000000", "000000"] }
+    description: "O FROM ALU OPERATION"
+  - token: "COND,MSEXO"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "EXOR OF S AND O FROM ALU RESULT"
+  - token: "COND,MSGN"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 11
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000540", "000000", "000000", "000000"] }
+    description: "S FROM ALU OPERATION"
+  - token: "COND,MSORZ"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000040", "000000", "000000", "000000"] }
+    description: "OR OF S AND Z FROM ALU OPERATION"
+  - token: "COND,MZRO"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 9
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000440", "000000", "000000", "000000"] }
+    description: "Z FROM ALU OPERATION"
+  - token: "COND,OVFL"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 21
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001240", "000000", "000000", "000000"] }
+    description: "O FROM S1"
+  - token: "COND,PARITY"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 24
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001400", "000000", "000000", "000000"] }
+    description: "PARITY OF LEAST SIGNIFICANT BYTE OF F-BUS"
+  - token: "COND,PDONE"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 36
+    encoding: { parts: ["000000", "000000", "000000", "000000", "002200", "000000", "000000", "000000"] }
+    description: "PART DONE FROM STATUS (S1)"
+  - token: "COND,Q0"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 25
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001440", "000000", "000000", "000000"] }
+    description: "Q-REGISTER BIT 0"
+  - token: "COND,RF1OCT"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 48
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003000", "000000", "000000", "000000"] }
+    description: "ZERO IN RF-ADDRESS 1 BITS 0-2"
+  - token: "COND,RF2OCT"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 49
+    encoding: { parts: ["000000", "000000", "000000", "000000", "003040", "000000", "000000", "000000"] }
+    description: "ZERO IN RF-ADDRESS 2 BITS 0-2"
+  - token: "COND,SAVC1"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 26
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001500", "000000", "000000", "000000"] }
+    description: "TOP BIT OF SAVED CONDITION STACK"
+  - token: "COND,SAVC2"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 27
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001540", "000000", "000000", "000000"] }
+    description: "BOTTOM BIT OF SAVED CONDITION STACK"
+  - token: "COND,SGN"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 19
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001140", "000000", "000000", "000000"] }
+    description: "S FROM S1"
+  - token: "COND,SORZ"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000100", "000000", "000000", "000000"] }
+    description: "OR OF S AND Z FROM STATUS (S1)"
+  - token: "COND,ZRO"
+    category: TESTOBJ
+    field: TESTOBJ
+    value: 17
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001040", "000000", "000000", "000000"] }
+    description: "Z FROM S1"
+  - token: "CRY,C"
+    category: ALU_CRY
+    field: ALU_CRY
+    value: 2
+    encoding: { parts: ["004000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "C FROM STATUS AS CARRY"
+  - token: "CRY,MC"
+    category: ALU_CRY
+    field: ALU_CRY
+    value: 3
+    encoding: { parts: ["006000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO CARRY AS CARRY"
+  - token: "CRY,ONE"
+    category: ALU_CRY
+    field: ALU_CRY
+    value: 1
+    encoding: { parts: ["002000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ONE AS CARRY"
+  - token: "CRYF,C"
+    category: ALUF_CRY
+    field: ALUF_CRY
+    value: 2
+    encoding: { parts: ["000040", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "C FROM STATUS AS CARRY"
+  - token: "CRYF,MC"
+    category: ALUF_CRY
+    field: ALUF_CRY
+    value: 3
+    encoding: { parts: ["000060", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO CARRY AS CARRY"
+  - token: "CRYF,ONE"
+    category: ALUF_CRY
+    field: ALUF_CRY
+    value: 1
+    encoding: { parts: ["000020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ONE AS CARRY"
+  - token: "CSAVE"
+    category: CSAVE
+    field: CSAVE
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "004000", "000000", "000000", "000000"] }
+    description: "PUSH TEST CONDITION TO STACK(2)"
+  - token: "D,A1"
+    category: DEST
+    field: DEST
+    value: 4
+    encoding: { parts: ["000000", "000000", "000000", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING MOST REGISTER A1"
+  - token: "D,A2"
+    category: DEST
+    field: DEST
+    value: 5
+    encoding: { parts: ["000000", "000000", "000000", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING MOST REGISTER A2"
+  - token: "D,A3"
+    category: DEST
+    field: DEST
+    value: 6
+    encoding: { parts: ["000000", "000000", "000000", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING MOST REGISTER A3"
+  - token: "D,A4"
+    category: DEST
+    field: DEST
+    value: 7
+    encoding: { parts: ["000000", "000000", "000000", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING MOST REGISTER A4"
+  - token: "D,ALU,REG37"
+    category: DEST
+    field: DEST
+    value: 31
+    encoding: { parts: ["000000", "000000", "000001", "170000", "000000", "000000", "000000", "000000"] }
+    description: "[UNDOCUMENTED GUESS] DESTINATION IS ALU REGISTER 37 - very common (253 uses), possibly special/reserved register"
+  - token: "D,DAC,B"
+    category: DEST
+    field: DEST
+    value: 226
+    encoding: { parts: ["000000", "000000", "000016", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DAC B (BASE) REGISTER"
+  - token: "D,DAC,DPA"
+    category: DEST
+    field: DEST
+    value: 232
+    encoding: { parts: ["000000", "000000", "000016", "100000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DAC DPA-REGISTER"
+  - token: "D,DAC,LDRES"
+    category: DEST
+    field: DEST
+    value: 252
+    encoding: { parts: ["000000", "000000", "000017", "140000", "000000", "000000", "000000", "000000"] }
+    description: "[UNDOCUMENTED GUESS] DESTINATION IS DAC LOAD RESULT REGISTER - used at LOADR, LOADCT_R, LOADRB_R with READ operations"
+  - token: "D,DAC,R"
+    category: DEST
+    field: DEST
+    value: 225
+    encoding: { parts: ["000000", "000000", "000016", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DAC R (RECORD) REGISTER"
+  - token: "D,DAC,REG04"
+    category: DEST
+    field: DEST
+    value: 228
+    encoding: { parts: ["000000", "000000", "000016", "040000", "000000", "000000", "000000", "000000"] }
+    description: "[UNDOCUMENTED GUESS] DESTINATION IS DAC REGISTER 04 - 8 occurrences"
+  - token: "D,DAC,REG05"
+    category: DEST
+    field: DEST
+    value: 229
+    encoding: { parts: ["000000", "000000", "000016", "050000", "000000", "000000", "000000", "000000"] }
+    description: "[UNDOCUMENTED GUESS] DESTINATION IS DAC REGISTER 05 - 12 occurrences"
+  - token: "D,DAC,SUMB"
+    category: DEST
+    field: DEST
+    value: 227
+    encoding: { parts: ["000000", "000000", "000016", "030000", "000000", "000000", "000000", "000000"] }
+    description: "SUM IS TRANSFERRED TO DAC B REGISTER"
+  - token: "D,DMM,ADOM"
+    category: DEST
+    field: DEST
+    value: 95
+    encoding: { parts: ["000000", "000000", "000005", "170000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM ADOM REGISTER"
+  - token: "D,DMM,CAP"
+    category: DEST
+    field: DEST
+    value: 84
+    encoding: { parts: ["000000", "000000", "000005", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM CAPABILITY REGISTER"
+  - token: "D,DMM,CTRPOCK"
+    category: DEST
+    field: DEST
+    value: 91
+    encoding: { parts: ["000000", "000000", "000005", "130000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP CLEAR AND UNLOCK THE DMM"
+  - token: "D,DMM,CTSB"
+    category: DEST
+    field: DEST
+    value: 90
+    encoding: { parts: ["000000", "000000", "000005", "120000", "000000", "000000", "000000", "000000"] }
+    description: "DMM TSB CLEAR"
+  - token: "D,DMM,DIRTY"
+    category: DEST
+    field: DEST
+    value: 94
+    encoding: { parts: ["000000", "000000", "000005", "160000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM DIRTY-DOM-PS REGISTER"
+  - token: "D,DMM,DOM"
+    category: DEST
+    field: DEST
+    value: 87
+    encoding: { parts: ["000000", "000000", "000005", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM DOM REGISTER"
+  - token: "D,DMM,LA"
+    category: DEST
+    field: DEST
+    value: 82
+    encoding: { parts: ["000000", "000000", "000005", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM LA REGISTER"
+  - token: "D,DMM,MEM"
+    category: DEST
+    field: DEST
+    value: 88
+    encoding: { parts: ["000000", "000000", "000005", "100000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE MEMORY DMM"
+  - token: "D,DMM,PHS"
+    category: DEST
+    field: DEST
+    value: 86
+    encoding: { parts: ["000000", "000000", "000005", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM PHS REGISTER"
+  - token: "D,DMM,PS"
+    category: DEST
+    field: DEST
+    value: 85
+    encoding: { parts: ["000000", "000000", "000005", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM PS REGISTER"
+  - token: "D,DMM,PSTP"
+    category: DEST
+    field: DEST
+    value: 80
+    encoding: { parts: ["000000", "000000", "000005", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM PSTP REGISTER"
+  - token: "D,DMM,PUWP"
+    category: DEST
+    field: DEST
+    value: 81
+    encoding: { parts: ["000000", "000000", "000005", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM PUWP REGISTER"
+  - token: "D,DMM,WR"
+    category: DEST
+    field: DEST
+    value: 83
+    encoding: { parts: ["000000", "000000", "000005", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM WR REGISTER"
+  - token: "D,DMM,WTSB"
+    category: DEST
+    field: DEST
+    value: 89
+    encoding: { parts: ["000000", "000000", "000005", "110000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS DMM TSB"
+  - token: "D,E1"
+    category: DEST
+    field: DEST
+    value: 12
+    encoding: { parts: ["000000", "000000", "000000", "140000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING LEAST REGISTER E1"
+  - token: "D,E2"
+    category: DEST
+    field: DEST
+    value: 13
+    encoding: { parts: ["000000", "000000", "000000", "150000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING LEAST REGISTER E2"
+  - token: "D,E3"
+    category: DEST
+    field: DEST
+    value: 14
+    encoding: { parts: ["000000", "000000", "000000", "160000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING LEAST REGISTER E3"
+  - token: "D,E4"
+    category: DEST
+    field: DEST
+    value: 15
+    encoding: { parts: ["000000", "000000", "000000", "170000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS FLOATING LEAST REGISTER E4"
+  - token: "D,IAC,CLKNPC"
+    category: DEST
+    field: DEST
+    value: 205
+    encoding: { parts: ["000000", "000000", "000014", "150000", "000000", "000000", "000000", "000000"] }
+    description: "LA -> NPC"
+  - token: "D,IAC,CLKP"
+    category: DEST
+    field: DEST
+    value: 206
+    encoding: { parts: ["000000", "000000", "000014", "160000", "000000", "000000", "000000", "000000"] }
+    description: "NPC -> P"
+  - token: "D,IAC,CLKSP"
+    category: DEST
+    field: DEST
+    value: 207
+    encoding: { parts: ["000000", "000000", "000014", "170000", "000000", "000000", "000000", "000000"] }
+    description: "P -> SP"
+  - token: "D,IAC,DPA"
+    category: DEST
+    field: DEST
+    value: 200
+    encoding: { parts: ["000000", "000000", "000014", "100000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IAC-DPA-REGISTER"
+  - token: "D,IAC,L"
+    category: DEST
+    field: DEST
+    value: 196
+    encoding: { parts: ["000000", "000000", "000014", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IAC L (LINK) REGISTER"
+  - token: "D,IAC,NPC"
+    category: DEST
+    field: DEST
+    value: 193
+    encoding: { parts: ["000000", "000000", "000014", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IAC NPC REGISTER"
+  - token: "D,IAC,P"
+    category: DEST
+    field: DEST
+    value: 194
+    encoding: { parts: ["000000", "000000", "000014", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IAC P REGISTER"
+  - token: "D,IAC,SUML"
+    category: DEST
+    field: DEST
+    value: 197
+    encoding: { parts: ["000000", "000000", "000014", "050000", "000000", "000000", "000000", "000000"] }
+    description: "SUM IS TRANSFERRED TO IAC Y REGISTER"
+  - token: "D,IDU,AREG"
+    category: DEST
+    field: DEST
+    value: 166
+    encoding: { parts: ["000000", "000000", "000012", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IDU ADDRESS REGISTER"
+  - token: "D,IDU,CSIT"
+    category: DEST
+    field: DEST
+    value: 164
+    encoding: { parts: ["000000", "000000", "000012", "040000", "000000", "000000", "000000", "000000"] }
+    description: "CONDITIONAL SETTING OF SINGLE INSTRUCTION-TRAP"
+  - token: "D,IDU,HL"
+    category: DEST
+    field: DEST
+    value: 161
+    encoding: { parts: ["000000", "000000", "000012", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IDU HL REGISTER"
+  - token: "D,IDU,IBUF"
+    category: DEST
+    field: DEST
+    value: 167
+    encoding: { parts: ["000000", "000000", "000012", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IDU IBUF-REGISTER"
+  - token: "D,IDU,LIMC"
+    category: DEST
+    field: DEST
+    value: 163
+    encoding: { parts: ["000000", "000000", "000012", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IDU LIMIT CONTROL REGISTER"
+  - token: "D,IDU,LL"
+    category: DEST
+    field: DEST
+    value: 162
+    encoding: { parts: ["000000", "000000", "000012", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IDU LL REGISTER"
+  - token: "D,IDU,STS"
+    category: DEST
+    field: DEST
+    value: 165
+    encoding: { parts: ["000000", "000000", "000012", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IDU STATUS REGISTER"
+  - token: "D,IDU,TE"
+    category: DEST
+    field: DEST
+    value: 160
+    encoding: { parts: ["000000", "000000", "000012", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS MIC TRAP ENABLE REGISTER"
+  - token: "D,IMM,ADOM"
+    category: DEST
+    field: DEST
+    value: 111
+    encoding: { parts: ["000000", "000000", "000006", "170000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM ADOM REGISTER"
+  - token: "D,IMM,CAP"
+    category: DEST
+    field: DEST
+    value: 100
+    encoding: { parts: ["000000", "000000", "000006", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM CAPABILITY REGISTER"
+  - token: "D,IMM,CTRP"
+    category: DEST
+    field: DEST
+    value: 107
+    encoding: { parts: ["000000", "000000", "000006", "130000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP CLEAR AND UNLOCK THE IMM"
+  - token: "D,IMM,CTSB"
+    category: DEST
+    field: DEST
+    value: 106
+    encoding: { parts: ["000000", "000000", "000006", "120000", "000000", "000000", "000000", "000000"] }
+    description: "IMM TSB CLEAR"
+  - token: "D,IMM,DIRTY"
+    category: DEST
+    field: DEST
+    value: 110
+    encoding: { parts: ["000000", "000000", "000006", "160000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM DIRTY-DOM-PS REGISTER"
+  - token: "D,IMM,DOM"
+    category: DEST
+    field: DEST
+    value: 103
+    encoding: { parts: ["000000", "000000", "000006", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM DOM REGISTER"
+  - token: "D,IMM,LA"
+    category: DEST
+    field: DEST
+    value: 98
+    encoding: { parts: ["000000", "000000", "000006", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM LA REGISTER"
+  - token: "D,IMM,MEM"
+    category: DEST
+    field: DEST
+    value: 104
+    encoding: { parts: ["000000", "000000", "000006", "100000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE MEMORY IMM"
+  - token: "D,IMM,PHS"
+    category: DEST
+    field: DEST
+    value: 102
+    encoding: { parts: ["000000", "000000", "000006", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM PHS REGISTER"
+  - token: "D,IMM,PS"
+    category: DEST
+    field: DEST
+    value: 101
+    encoding: { parts: ["000000", "000000", "000006", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM PS REGISTER"
+  - token: "D,IMM,PSTP"
+    category: DEST
+    field: DEST
+    value: 96
+    encoding: { parts: ["000000", "000000", "000006", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM PSTP REGISTER"
+  - token: "D,IMM,PUWP"
+    category: DEST
+    field: DEST
+    value: 97
+    encoding: { parts: ["000000", "000000", "000006", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM PUWP REGISTER"
+  - token: "D,IMM,WR"
+    category: DEST
+    field: DEST
+    value: 99
+    encoding: { parts: ["000000", "000000", "000006", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM WR REGISTER"
+  - token: "D,IMM,WTSB"
+    category: DEST
+    field: DEST
+    value: 105
+    encoding: { parts: ["000000", "000000", "000006", "110000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM TSB"
+  - token: "D,IXC"
+    category: DEST
+    field: DEST
+    value: 25
+    encoding: { parts: ["000000", "000000", "000001", "110000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS INDEX-COUNTERS CLEAR"
+  - token: "D,LC"
+    category: DEST
+    field: DEST
+    value: 26
+    encoding: { parts: ["000000", "000000", "000001", "120000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS LOOP COUNTER (LC)"
+  - token: "D,MIC,BRK"
+    category: DEST
+    field: DEST
+    value: 134
+    encoding: { parts: ["000000", "000000", "000010", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS MIC BREAKPOINT-REGISTER"
+  - token: "D,MIC,CNT32"
+    category: DEST
+    field: DEST
+    value: 135
+    encoding: { parts: ["000000", "000000", "000010", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS MIC 32-BIT COUNTER"
+  - token: "D,MIC,MISTS"
+    category: DEST
+    field: DEST
+    value: 128
+    encoding: { parts: ["000000", "000000", "000010", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS MIC STATUS REGISTER"
+  - token: "D,MIC,RESTU"
+    category: DEST
+    field: DEST
+    value: 136
+    encoding: { parts: ["000000", "000000", "000010", "100000", "000000", "000000", "000000", "000000"] }
+    description: "CLEAR STACK UNDERFLOW"
+  - token: "D,MIC,STS"
+    category: DEST
+    field: DEST
+    value: 132
+    encoding: { parts: ["000000", "000000", "000010", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS MIC STS-BITS"
+  - token: "D,MIC,TE"
+    category: DEST
+    field: DEST
+    value: 133
+    encoding: { parts: ["000000", "000000", "000010", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS MIC TRAP ENABLE BITS"
+  - token: "D,MIC,VECT"
+    category: DEST
+    field: DEST
+    value: 129
+    encoding: { parts: ["000000", "000000", "000010", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS MIC VECTOR REGISTER"
+  - token: "D,MM,ADOM"
+    category: DEST
+    field: DEST
+    value: 127
+    encoding: { parts: ["000000", "000000", "000007", "170000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM ADOM REGISTER"
+  - token: "D,MM,CAP"
+    category: DEST
+    field: DEST
+    value: 116
+    encoding: { parts: ["000000", "000000", "000007", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM CAP REGISTERS"
+  - token: "D,MM,CTRP"
+    category: DEST
+    field: DEST
+    value: 123
+    encoding: { parts: ["000000", "000000", "000007", "130000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP CLEAR AND UNLOCK THE IMM AND DMM"
+  - token: "D,MM,CTSB"
+    category: DEST
+    field: DEST
+    value: 122
+    encoding: { parts: ["000000", "000000", "000007", "120000", "000000", "000000", "000000", "000000"] }
+    description: "IMM AND DMM TSB CLEAR"
+  - token: "D,MM,DIRTY"
+    category: DEST
+    field: DEST
+    value: 126
+    encoding: { parts: ["000000", "000000", "000007", "160000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM DIRTY-DOM-PS REGISTER"
+  - token: "D,MM,DOM"
+    category: DEST
+    field: DEST
+    value: 119
+    encoding: { parts: ["000000", "000000", "000007", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM DOM REGISTER"
+  - token: "D,MM,LA"
+    category: DEST
+    field: DEST
+    value: 114
+    encoding: { parts: ["000000", "000000", "000007", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM LA REGISTER"
+  - token: "D,MM,PHS"
+    category: DEST
+    field: DEST
+    value: 118
+    encoding: { parts: ["000000", "000000", "000007", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM PHS REGISTER"
+  - token: "D,MM,PS"
+    category: DEST
+    field: DEST
+    value: 117
+    encoding: { parts: ["000000", "000000", "000007", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM PS REGISTER"
+  - token: "D,MM,PSTP"
+    category: DEST
+    field: DEST
+    value: 112
+    encoding: { parts: ["000000", "000000", "000007", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM PSTP REGISTER"
+  - token: "D,MM,PUWP"
+    category: DEST
+    field: DEST
+    value: 113
+    encoding: { parts: ["000000", "000000", "000007", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM PUWP REGISTER"
+  - token: "D,MM,WR"
+    category: DEST
+    field: DEST
+    value: 115
+    encoding: { parts: ["000000", "000000", "000007", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM WR REGISTER"
+  - token: "D,MM,WTSB"
+    category: DEST
+    field: DEST
+    value: 121
+    encoding: { parts: ["000000", "000000", "000007", "110000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS IMM AND DMM TSB"
+  - token: "D,NONE"
+    category: DEST
+    field: DEST
+    value: 24
+    encoding: { parts: ["000000", "000000", "000001", "100000", "000000", "000000", "000000", "000000"] }
+    description: "NO DESTINATION"
+  - token: "D,RF1"
+    category: DEST
+    field: DEST
+    value: 140
+    encoding: { parts: ["000000", "000000", "000010", "140000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS REG.FILE POINTED TO BY RF1 REGISTER"
+  - token: "D,RF1D"
+    category: DEST
+    field: DEST
+    value: 142
+    encoding: { parts: ["000000", "000000", "000010", "160000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS REG.FILE POINTED TO BY RF1, RF1 DECR."
+  - token: "D,RF2"
+    category: DEST
+    field: DEST
+    value: 141
+    encoding: { parts: ["000000", "000000", "000010", "150000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS REG.FILE POINTED TO BY RF2 REGISTER"
+  - token: "D,RF2D"
+    category: DEST
+    field: DEST
+    value: 143
+    encoding: { parts: ["000000", "000000", "000010", "170000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS REG.FILE POINTED TO BY RF2, RF2 DECR."
+  - token: "D,RFA1"
+    category: DEST
+    field: DEST
+    value: 130
+    encoding: { parts: ["000000", "000000", "000010", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DEST. IS RF1 ADDR. REG."
+  - token: "D,RFA2"
+    category: DEST
+    field: DEST
+    value: 131
+    encoding: { parts: ["000000", "000000", "000010", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DEST. IS RF2 ADDR. REG."
+  - token: "D,SC1"
+    category: DEST
+    field: DEST
+    value: 8
+    encoding: { parts: ["000000", "000000", "000000", "100000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC1"
+  - token: "D,SC10"
+    category: DEST
+    field: DEST
+    value: 19
+    encoding: { parts: ["000000", "000000", "000001", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC10"
+  - token: "D,SC11"
+    category: DEST
+    field: DEST
+    value: 20
+    encoding: { parts: ["000000", "000000", "000001", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC11"
+  - token: "D,SC12"
+    category: DEST
+    field: DEST
+    value: 21
+    encoding: { parts: ["000000", "000000", "000001", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC12"
+  - token: "D,SC13"
+    category: DEST
+    field: DEST
+    value: 22
+    encoding: { parts: ["000000", "000000", "000001", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC13"
+  - token: "D,SC14"
+    category: DEST
+    field: DEST
+    value: 23
+    encoding: { parts: ["000000", "000000", "000001", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC14"
+  - token: "D,SC2"
+    category: DEST
+    field: DEST
+    value: 9
+    encoding: { parts: ["000000", "000000", "000000", "110000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC2"
+  - token: "D,SC3"
+    category: DEST
+    field: DEST
+    value: 10
+    encoding: { parts: ["000000", "000000", "000000", "120000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC3"
+  - token: "D,SC4"
+    category: DEST
+    field: DEST
+    value: 11
+    encoding: { parts: ["000000", "000000", "000000", "130000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC4"
+  - token: "D,SC5"
+    category: DEST
+    field: DEST
+    value: 16
+    encoding: { parts: ["000000", "000000", "000001", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC5"
+  - token: "D,SC6"
+    category: DEST
+    field: DEST
+    value: 17
+    encoding: { parts: ["000000", "000000", "000001", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC6"
+  - token: "D,SC7"
+    category: DEST
+    field: DEST
+    value: 18
+    encoding: { parts: ["000000", "000000", "000001", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SCRATCH REGISTER SC7"
+  - token: "D,SPEC,AC"
+    category: DEST
+    field: DEST
+    value: 38
+    encoding: { parts: ["000000", "000000", "000002", "060000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE ADDRESS-CACHE"
+  - token: "D,SPEC,AIB"
+    category: DEST
+    field: DEST
+    value: 33
+    encoding: { parts: ["000000", "000000", "000002", "010000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE ACCP-INPUT-BUFFER"
+  - token: "D,SPEC,CC"
+    category: DEST
+    field: DEST
+    value: 43
+    encoding: { parts: ["000000", "000000", "000002", "130000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE CONTROL-WORD-CACHE"
+  - token: "D,SPEC,CLDCA"
+    category: DEST
+    field: DEST
+    value: 46
+    encoding: { parts: ["000000", "000000", "000002", "160000", "000000", "000000", "000000", "000000"] }
+    description: "CLEAR DATA-CACHE"
+  - token: "D,SPEC,CLICA"
+    category: DEST
+    field: DEST
+    value: 47
+    encoding: { parts: ["000000", "000000", "000002", "170000", "000000", "000000", "000000", "000000"] }
+    description: "CLEAR INSTRUCTION-CACHE"
+  - token: "D,SPEC,CTRACE"
+    category: DEST
+    field: DEST
+    value: 48
+    encoding: { parts: ["000000", "000000", "000003", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE CTRACE"
+  - token: "D,SPEC,DCADAT"
+    category: DEST
+    field: DEST
+    value: 34
+    encoding: { parts: ["000000", "000000", "000002", "020000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE DATA-CACHE DATA"
+  - token: "D,SPEC,FLA"
+    category: DEST
+    field: DEST
+    value: 45
+    encoding: { parts: ["000000", "000000", "000002", "150000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE FORWARD-LA-REGISTER"
+  - token: "D,SPEC,IC"
+    category: DEST
+    field: DEST
+    value: 39
+    encoding: { parts: ["000000", "000000", "000002", "070000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE INSTRUCTION-CACHE"
+  - token: "D,SPEC,LA"
+    category: DEST
+    field: DEST
+    value: 44
+    encoding: { parts: ["000000", "000000", "000002", "140000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE LA-REGISTER"
+  - token: "D,SPEC,MIB"
+    category: DEST
+    field: DEST
+    value: 40
+    encoding: { parts: ["000000", "000000", "000002", "100000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE MIB-REGISTER"
+  - token: "D,SPEC,MOD"
+    category: DEST
+    field: DEST
+    value: 32
+    encoding: { parts: ["000000", "000000", "000002", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE MODUS REGISTER"
+  - token: "D,SPEC,OC,AD"
+    category: DEST
+    field: DEST
+    value: 36
+    encoding: { parts: ["000000", "000000", "000002", "040000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE NADDR-PART OF OC"
+  - token: "D,SPEC,OC,CO"
+    category: DEST
+    field: DEST
+    value: 37
+    encoding: { parts: ["000000", "000000", "000002", "050000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE CONTROL-PART OF OC"
+  - token: "D,SPEC,OC,DP"
+    category: DEST
+    field: DEST
+    value: 35
+    encoding: { parts: ["000000", "000000", "000002", "030000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE DPA-PART OF OC"
+  - token: "D,SPEC,TRPARM"
+    category: DEST
+    field: DEST
+    value: 41
+    encoding: { parts: ["000000", "000000", "000002", "110000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP-ARM"
+  - token: "D,SPEC,TRPCLR"
+    category: DEST
+    field: DEST
+    value: 42
+    encoding: { parts: ["000000", "000000", "000002", "120000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP-CLEAR"
+  - token: "D,SRF0"
+    category: DEST
+    field: DEST
+    value: 144
+    encoding: { parts: ["000000", "000000", "000011", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 0"
+  - token: "D,SRF1"
+    category: DEST
+    field: DEST
+    value: 145
+    encoding: { parts: ["000000", "000000", "000011", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 1"
+  - token: "D,SRF10"
+    category: DEST
+    field: DEST
+    value: 152
+    encoding: { parts: ["000000", "000000", "000011", "100000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 10"
+  - token: "D,SRF11"
+    category: DEST
+    field: DEST
+    value: 153
+    encoding: { parts: ["000000", "000000", "000011", "110000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 11"
+  - token: "D,SRF12"
+    category: DEST
+    field: DEST
+    value: 154
+    encoding: { parts: ["000000", "000000", "000011", "120000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 12"
+  - token: "D,SRF13"
+    category: DEST
+    field: DEST
+    value: 155
+    encoding: { parts: ["000000", "000000", "000011", "130000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 13"
+  - token: "D,SRF14"
+    category: DEST
+    field: DEST
+    value: 156
+    encoding: { parts: ["000000", "000000", "000011", "140000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 14"
+  - token: "D,SRF15"
+    category: DEST
+    field: DEST
+    value: 157
+    encoding: { parts: ["000000", "000000", "000011", "150000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 15"
+  - token: "D,SRF16"
+    category: DEST
+    field: DEST
+    value: 158
+    encoding: { parts: ["000000", "000000", "000011", "160000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 16"
+  - token: "D,SRF17"
+    category: DEST
+    field: DEST
+    value: 159
+    encoding: { parts: ["000000", "000000", "000011", "170000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 17"
+  - token: "D,SRF2"
+    category: DEST
+    field: DEST
+    value: 146
+    encoding: { parts: ["000000", "000000", "000011", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 2"
+  - token: "D,SRF3"
+    category: DEST
+    field: DEST
+    value: 147
+    encoding: { parts: ["000000", "000000", "000011", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 3"
+  - token: "D,SRF4"
+    category: DEST
+    field: DEST
+    value: 148
+    encoding: { parts: ["000000", "000000", "000011", "040000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 4"
+  - token: "D,SRF5"
+    category: DEST
+    field: DEST
+    value: 149
+    encoding: { parts: ["000000", "000000", "000011", "050000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 5"
+  - token: "D,SRF6"
+    category: DEST
+    field: DEST
+    value: 150
+    encoding: { parts: ["000000", "000000", "000011", "060000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 6"
+  - token: "D,SRF7"
+    category: DEST
+    field: DEST
+    value: 151
+    encoding: { parts: ["000000", "000000", "000011", "070000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS SRF-WORD 7"
+  - token: "D,X1"
+    category: DEST
+    field: DEST
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS INDEX REGISTER X1"
+  - token: "D,X2"
+    category: DEST
+    field: DEST
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "010000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS INDEX REGISTER X2"
+  - token: "D,X3"
+    category: DEST
+    field: DEST
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "020000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS INDEX REGISTER X3"
+  - token: "D,X4"
+    category: DEST
+    field: DEST
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "030000", "000000", "000000", "000000", "000000"] }
+    description: "DESTINATION IS INDEX REGISTER X4"
+  - token: "EA1SAVE"
+    category: EA_SAVE
+    field: EA_SAVE
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000100", "000000", "000000"] }
+    description: "SAVE ADDRESS IN EA1 AND EAO"
+  - token: "EA2SAVE"
+    category: EA_SAVE
+    field: EA_SAVE
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000200", "000000", "000000"] }
+    description: "SAVE ADDRESS IN EA2 AND EAO"
+  - token: "EA3SAVE"
+    category: EA_SAVE
+    field: EA_SAVE
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000300", "000000", "000000"] }
+    description: "SAVE ADDRESS IN EA3 AND EAO"
+  - token: "EXPISO"
+    category: AAP_CTRL
+    field: AAP_CTRL
+    value: 192
+    encoding: { parts: ["000000", "060000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Exponent isolate (standalone)"
+  - token: "EXUC"
+    category: EXUC
+    field: EXUC
+    value: 1
+    encoding: { parts: ["000010", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "EXECUTE UNCONDITIONAL"
+  - token: "F,HOLD"
+    category: SEQF_STACK
+    field: SEQF_STACK
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FALSE HOLD SEQUENCER STACK"
+  - token: "F,JMP"
+    category: SEQF_TYPE
+    field: SEQF_TYPE
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FALSE JUMP TO ADDRESS"
+  - token: "F,JMPREL"
+    category: SEQF_TYPE
+    field: SEQF_TYPE
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "100000", "000000", "000000", "000000"] }
+    description: "FALSE VECTOR JUMP TO ADDRESS"
+  - token: "F,LOAD"
+    category: SEQF_STACK
+    field: SEQF_STACK
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "040000", "000000", "000000", "000000"] }
+    description: "FALSE LOAD SEQUENCER STACK"
+  - token: "F,NEXT"
+    category: SEQF_TYPE
+    field: SEQF_TYPE
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000001", "100000", "000000", "000000", "000000"] }
+    description: "FALSE NEXT MICRO INSTRUCTION"
+  - token: "F,POP"
+    category: SEQF_STACK
+    field: SEQF_STACK
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "020000", "000000", "000000", "000000"] }
+    description: "FALSE POP SEQUENCER STACK"
+  - token: "F,PUSH"
+    category: SEQF_STACK
+    field: SEQF_STACK
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "060000", "000000", "000000", "000000"] }
+    description: "FALSE PUSH SEQUENCER STACK"
+  - token: "F,RETURN"
+    category: SEQF_TYPE
+    field: SEQF_TYPE
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000001", "000000", "000000", "000000", "000000"] }
+    description: "FALSE RETURN TO TOP OF STACK"
+  - token: "G,COOPS"
+    category: GET
+    field: GET
+    value: 7
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "070000", "000000", "000000"] }
+    description: "GET NEXT INSTRUCTION AND OPERAND AFTER CALL"
+  - token: "G,DIR1"
+    category: GET
+    field: GET
+    value: 8
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "100000", "000000", "000000"] }
+    description: "GET IMMEDIATE OPERAND 1 BYTE LONG"
+  - token: "G,DIR2"
+    category: GET
+    field: GET
+    value: 9
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "110000", "000000", "000000"] }
+    description: "GET IMMEDIATE OPERAND 2 BYTES LONG"
+  - token: "G,DIR4"
+    category: GET
+    field: GET
+    value: 11
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "130000", "000000", "000000"] }
+    description: "GET IMMEDIATE OPERAND 4 BYTES LONG"
+  - token: "G,OOPS"
+    category: GET
+    field: GET
+    value: 4
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "040000", "000000", "000000"] }
+    description: "GET NEXT INSTRUCTION AND OPERAND SPECIFIER"
+  - token: "G,OOPS,F"
+    category: GET
+    field: GET
+    value: 6
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "060000", "000000", "000000"] }
+    description: "GET NEXT INSTRUCTION AND OPERAND SPECIFIER IF FALSE"
+  - token: "G,OOPS,T"
+    category: GET
+    field: GET
+    value: 5
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "050000", "000000", "000000"] }
+    description: "GET NEXT INSTRUCTION AND OPERAND SPECIFIER IF TRUE"
+  - token: "G,OPS"
+    category: GET
+    field: GET
+    value: 10
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "120000", "000000", "000000"] }
+    description: "GET SECOND OR LATER OPERAND SPECIFIER"
+  - token: "G,OPSTRD"
+    category: GET
+    field: GET
+    value: 13
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "150000", "000000", "000000"] }
+    description: "GET SECOND OPERAND SPECIFIER FOR STRING INSTR"
+  - token: "G,TOOPS"
+    category: GET
+    field: GET
+    value: 14
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "160000", "000000", "000000"] }
+    description: "GET NEXT INSTRUCTION CODE, FOR TESTING ONLY"
+  - token: "INVSEQ"
+    category: INVSEQ
+    field: INVSEQ
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "010000", "000000", "000000", "000000"] }
+    description: "INVERT TEST CONDITION FOR SEQUENCE"
+  - token: "ISAMP"
+    category: GET
+    field: GET
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "030000", "000000", "000000"] }
+    description: "INTERRUPT SAMPLE"
+  - token: "IX*1"
+    category: SCAL
+    field: SCAL
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SCALING = *1 (Byte)"
+  - token: "IX*16"
+    category: SCAL
+    field: SCAL
+    value: 5
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000500"] }
+    description: "SCALING = *16 (80-bit floating)"
+  - token: "IX*2"
+    category: SCAL
+    field: SCAL
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000100"] }
+    description: "SCALING = *2 (Halfword)"
+  - token: "IX*4"
+    category: SCAL
+    field: SCAL
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000200"] }
+    description: "SCALING = *4 (Word/Single float)"
+  - token: "IX*8"
+    category: SCAL
+    field: SCAL
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000300"] }
+    description: "SCALING = *8 (Double float)"
+  - token: "IX/8"
+    category: SCAL
+    field: SCAL
+    value: 4
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000400"] }
+    description: "SCALING = /8 (Bit)"
+  - token: "IXADJ"
+    category: IXC_INCR
+    field: IXC_INCR
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000200", "000000", "000000", "000000", "000000"] }
+    description: "INDEX COUNTER INCREMENT"
+  - token: "K,1IFZ"
+    category: STATUS
+    field: STATUS
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "001400", "000000", "000000", "000000", "000000"] }
+    description: "SET K TO 1 IF ALU OPERATION IS 0"
+  - token: "K,ONE"
+    category: STATUS
+    field: STATUS
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000400", "000000", "000000", "000000", "000000"] }
+    description: "SET K (FLAG) 1 TO K"
+  - token: "K,ZRO"
+    category: STATUS
+    field: STATUS
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "001000", "000000", "000000", "000000", "000000"] }
+    description: "CLEAR K (FLAG) 0 TO K"
+  - token: "LADDR"
+    category: MEM
+    mem_code: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000001", "000000", "000000"] }
+    description: "PERFORM A LADDER REQUEST"
+  - token: "LCDECR"
+    category: LC_DECR
+    field: LC_DECR
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000100", "000000", "000000", "000000", "000000"] }
+    description: "DECREMENT THE LOOP COUNTER"
+  - token: "LOADLA"
+    category: GET
+    field: GET
+    value: 15
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "170000", "000000", "000000"] }
+    description: "SET START ADDRESS FROM IB TO LA"
+  - token: "OR,NE"
+    category: ORCON_E
+    field: ORCON_E
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000020"] }
+    description: "ENABLE EXTENSION REGISTER IN NEXT MICRO CYCLE"
+  - token: "OR.N"
+    category: ORCON_N
+    field: ORCON_N
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000040"] }
+    description: "OR-CONTROL IS FOR NEXT CYCLE"
+  - token: "ORA,ALTEN"
+    category: ORCON_A
+    field: ORCON_A
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000014"] }
+    description: "OR A OPERAND FROM STRING SOURCE OPERAND"
+  - token: "ORA,IN"
+    category: ORCON_A
+    field: ORCON_A
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR A OPERAND FROM INSTRUCTION"
+  - token: "ORA,OP"
+    category: ORCON_A
+    field: ORCON_A
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000004"] }
+    description: "OR A OPERAND FROM OPERAND SPECIFIER"
+  - token: "ORA/ORD"
+    category: OR_ENABLE
+    field: OR_ENABLE
+    value: 1
+    encoding: { parts: ["000000", "000002", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR control enabled"
+  - token: "ORB,IN"
+    category: B_OP
+    field: B_OP
+    value: 31
+    encoding: { parts: ["000000", "000000", "000760", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR B-operand from instruction"
+  - token: "ORD,ALTEN"
+    category: ORCON_D
+    field: ORCON_D
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000003"] }
+    description: "OR DESTINATION FROM STRING DEST. OPERAND"
+  - token: "ORD,IN"
+    category: ORCON_D
+    field: ORCON_D
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR DESTINATION FROM INSTRUCTION"
+  - token: "ORD,OP"
+    category: ORCON_D
+    field: ORCON_D
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000001"] }
+    description: "OR DESTINATION FROM OPERAND SPECIFIER"
+  - token: "ORD,OP1"
+    category: ORCON_D
+    field: ORCON_D
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000002"] }
+    description: "OR DESTINATION FROM FIRST OPERAND SPECIFIER"
+  - token: "Q,F"
+    category: Q_REG
+    field: Q_REG
+    value: 1
+    encoding: { parts: ["000000", "100000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Q <- ALU OUTPUT"
+  - token: "Q,Q*DIV"
+    category: Q_REG
+    field: Q_REG
+    value: 2
+    encoding: { parts: ["000001", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Q <- Q*2; Q(00) <- DIVR (divide shift)"
+  - token: "Q,Q*LOG"
+    category: Q_REG
+    field: Q_REG
+    value: 3
+    encoding: { parts: ["000001", "100000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Q <- Q*2; Q(00) <- 0 (logical shift left)"
+  - token: "Q,Q*ROT"
+    category: Q_REG
+    field: Q_REG
+    value: 7
+    encoding: { parts: ["000003", "100000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Q <- Q*2; Q(00) <- Q(SIGN.BIT) (rotate left)"
+  - token: "Q,Q/ARI"
+    category: Q_REG
+    field: Q_REG
+    value: 4
+    encoding: { parts: ["000002", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Q <- Q/2; Q(SIGN.BIT) <- Q(SIGN.BIT) (arithmetic shift right)"
+  - token: "Q,Q/LOG"
+    category: Q_REG
+    field: Q_REG
+    value: 5
+    encoding: { parts: ["000002", "100000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Q <- Q/2; Q(SIGN.BIT) <- 0 (logical shift right)"
+  - token: "Q,Q/ROT"
+    category: Q_REG
+    field: Q_REG
+    value: 6
+    encoding: { parts: ["000003", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Q <- Q/2; Q(SIGN.BIT) <- Q(00) (rotate right)"
+  - token: "QVACC"
+    category: MEM
+    mem_code: 8
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001000", "000000", "000000"] }
+    description: "FORCE QVACC (USE WITH A,IAC, AND LOADLA)"
+  - token: "RD,ADOM"
+    category: MEM
+    mem_code: 14
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001006", "000000", "000000"] }
+    description: "READ DATA MEMORY IN ALTERNATIVE DOMAIN"
+  - token: "RD,DOM"
+    category: MEM
+    mem_code: 13
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001005", "000000", "000000"] }
+    description: "READ DATA MEMORY IN NORMAL DOMAIN"
+  - token: "RD,PHYS"
+    category: MEM
+    mem_code: 12
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001004", "000000", "000000"] }
+    description: "READ PHYSICAL SEGMENT"
+  - token: "RD,POF"
+    category: MEM
+    mem_code: 9
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001001", "000000", "000000"] }
+    description: "PERFORM A PHYSICAL READ WITH MMS"
+  - token: "RD,PX"
+    category: MEM
+    mem_code: 11
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001003", "000000", "000000"] }
+    description: "READ DATA MEMORY, WRITE PERMIT REQUIRED"
+  - token: "READ"
+    category: MEM
+    mem_code: 15
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001007", "000000", "000000"] }
+    description: "READ DATA MEMORY"
+  - token: "SLOW1"
+    category: TIMING
+    field: TIMING
+    value: 1
+    encoding: { parts: ["000000", "000040", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CYCLE TIME = 110 N.SEC."
+  - token: "SLOW2"
+    category: TIMING
+    field: TIMING
+    value: 2
+    encoding: { parts: ["000000", "000100", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CYCLE TIME = 160 N.SEC."
+  - token: "SLOW3"
+    category: TIMING
+    field: TIMING
+    value: 3
+    encoding: { parts: ["000000", "000140", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "Slowest cycle time"
+  - token: "ST,ACCA"
+    category: STATUS
+    field: STATUS
+    value: 12
+    encoding: { parts: ["000000", "000000", "000000", "006000", "000000", "000000", "000000", "000000"] }
+    description: "SAVE AND ACCUMULATE ALU STATUS"
+  - token: "ST,ACCF"
+    category: STATUS
+    field: STATUS
+    value: 14
+    encoding: { parts: ["000000", "000000", "000000", "007000", "000000", "000000", "000000", "000000"] }
+    description: "SAVE AND ACCUMULATE AAP STATUS"
+  - token: "ST,ACCM"
+    category: STATUS
+    field: STATUS
+    value: 13
+    encoding: { parts: ["000000", "000000", "000000", "006400", "000000", "000000", "000000", "000000"] }
+    description: "SAVE AND ACCUMULATE MIXED STATUS"
+  - token: "ST,LOAD"
+    category: STATUS
+    field: STATUS
+    value: 8
+    encoding: { parts: ["000000", "000000", "000000", "004000", "000000", "000000", "000000", "000000"] }
+    description: "LOAD ALU STATUS"
+  - token: "ST,SAVA"
+    category: STATUS
+    field: STATUS
+    value: 4
+    encoding: { parts: ["000000", "000000", "000000", "002000", "000000", "000000", "000000", "000000"] }
+    description: "SAVE STATUS FROM ALU OPERATION"
+  - token: "ST,SAVB"
+    category: STATUS
+    field: STATUS
+    value: 7
+    encoding: { parts: ["000000", "000000", "000000", "003400", "000000", "000000", "000000", "000000"] }
+    description: "SAVE STATUS FROM BCD OPERATION"
+  - token: "ST,SAVC"
+    category: STATUS
+    field: STATUS
+    value: 5
+    encoding: { parts: ["000000", "000000", "000000", "002400", "000000", "000000", "000000", "000000"] }
+    description: "SAVE STATUS FROM ALU IN COMPARE"
+  - token: "ST,SAVF"
+    category: STATUS
+    field: STATUS
+    value: 6
+    encoding: { parts: ["000000", "000000", "000000", "003000", "000000", "000000", "000000", "000000"] }
+    description: "SAVE STATUS FROM FLOATING OPERATION"
+  - token: "ST,SAVM"
+    category: STATUS
+    field: STATUS
+    value: 9
+    encoding: { parts: ["000000", "000000", "000000", "004400", "000000", "000000", "000000", "000000"] }
+    description: "SAVE MIXED STATUS FOR INTEGER MULTIPLY"
+  - token: "STOP"
+    category: STOP
+    field: STOP
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "004000", "000000", "000000"] }
+    description: "STOP-MICROPROGRAM"
+  - token: "T,HOLD"
+    category: SEQT_STACK
+    field: SEQT_STACK
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "HOLD SEQUENCER STACK"
+  - token: "T,JMP"
+    category: SEQT_TYPE
+    field: SEQT_TYPE
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO ADDRESS (1 cycle)"
+  - token: "T,JMPREL"
+    category: SEQT_TYPE
+    field: SEQT_TYPE
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000010", "000000", "000000", "000000", "000000"] }
+    description: "JUMP RELATIVE / VECTOR (2 cycles)"
+  - token: "T,LOAD"
+    category: SEQT_STACK
+    field: SEQT_STACK
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000004", "000000", "000000", "000000", "000000"] }
+    description: "LOAD SEQUENCER STACK"
+  - token: "T,NEXT"
+    category: SEQT_TYPE
+    field: SEQT_TYPE
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000030", "000000", "000000", "000000", "000000"] }
+    description: "NEXT MICRO INSTRUCTION (2 cycles)"
+  - token: "T,POP"
+    category: SEQT_STACK
+    field: SEQT_STACK
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000002", "000000", "000000", "000000", "000000"] }
+    description: "POP SEQUENCER STACK"
+  - token: "T,PUSH"
+    category: SEQT_STACK
+    field: SEQT_STACK
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000006", "000000", "000000", "000000", "000000"] }
+    description: "PUSH SEQUENCER STACK"
+  - token: "T,RETURN"
+    category: SEQT_TYPE
+    field: SEQT_TYPE
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000020", "000000", "000000", "000000", "000000"] }
+    description: "RETURN TO SEQUENCER ADDRESS (2 cycles)"
+  - token: "TBC,INCILAR"
+    category: TBC
+    field: TBC
+    value: 6
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000006", "000000", "000000", "000000"] }
+    description: "ILAR + 4 -> ILAR"
+  - token: "TBC,L"
+    category: TBC
+    field: TBC
+    value: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000002", "000000", "000000", "000000"] }
+    description: "CACHE WRITE LINK REGISTER (ASSUMING)"
+  - token: "TBC,NEXT"
+    category: TBC
+    field: TBC
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CACHE WRITE NEXT INSTRUCTION STREAM ADDRESS"
+  - token: "TBC,NOOP"
+    category: TBC
+    field: TBC
+    value: 7
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000007", "000000", "000000", "000000"] }
+    description: "NO TBC-OPERATION"
+  - token: "TBC,NPCREL"
+    category: TBC
+    field: TBC
+    value: 3
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000003", "000000", "000000", "000000"] }
+    description: "CACHE WRITE NPC RELATIVE JUMP ADDRESS"
+  - token: "TBC,PREL"
+    category: TBC
+    field: TBC
+    value: 4
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000004", "000000", "000000", "000000"] }
+    description: "CACHE WRITE P RELATIVE JUMP ADDRESS"
+  - token: "TBC,SUBR"
+    category: TBC
+    field: TBC
+    value: 1
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000001", "000000", "000000", "000000"] }
+    description: "CACHE WRITE SUBROUTINE ADDRESS"
+  - token: "TE,ALU,LOAD"
+    category: STATUS
+    field: STATUS
+    value: 15
+    encoding: { parts: ["000000", "000000", "000000", "007400", "000000", "000000", "000000", "000000"] }
+    description: "LOAD ALU TRAP ENABLE BITS"
+  - token: "TYP,BI"
+    category: DATATYPE
+    field: DATATYPE
+    value: 4
+    encoding: { parts: ["000000", "000020", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE IS BIT"
+  - token: "TYP,BY"
+    category: DATATYPE
+    field: DATATYPE
+    value: 3
+    encoding: { parts: ["000000", "000014", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE IS BYTE (8 bits)"
+  - token: "TYP,DD"
+    category: DATATYPE
+    field: DATATYPE
+    value: 6
+    encoding: { parts: ["000000", "000030", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE IS 128 BITS FLOATING POINT"
+  - token: "TYP,DF"
+    category: DATATYPE
+    field: DATATYPE
+    value: 5
+    encoding: { parts: ["000000", "000024", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE IS DOUBLE FLOATING (64 bits)"
+  - token: "TYP,DR"
+    category: DATATYPE
+    field: DATATYPE
+    value: 7
+    encoding: { parts: ["000000", "000034", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE CONTROLLED BY ICA (OR-logic)"
+  - token: "TYP,F"
+    category: DATATYPE
+    field: DATATYPE
+    value: 1
+    encoding: { parts: ["000000", "000004", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE IS SINGLE FLOATING (32 bits)"
+  - token: "TYP,HW"
+    category: DATATYPE
+    field: DATATYPE
+    value: 2
+    encoding: { parts: ["000000", "000010", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE IS HALF WORD (16 bits)"
+  - token: "TYP,W"
+    category: DATATYPE
+    field: DATATYPE
+    value: 0
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA TYPE IS WORD (32 bits)"
+  - token: "WR,ADOM"
+    category: MEM
+    mem_code: 6
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000006", "000000", "000000"] }
+    description: "WRITE DATA MEMORY IN ALTERNATIVE DOMAIN"
+  - token: "WR,DOM"
+    category: MEM
+    mem_code: 5
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000005", "000000", "000000"] }
+    description: "WRITE DATA MEMORY IN NORMAL DOMAIN"
+  - token: "WR,PHYS"
+    category: MEM
+    mem_code: 4
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000004", "000000", "000000"] }
+    description: "WRITE PHYSICAL SEGMENT"
+  - token: "WR,POF"
+    category: MEM
+    mem_code: 2
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000002", "000000", "000000"] }
+    description: "PERFORM A PHYSICAL WRITE WITH MMS"
+  - token: "WRITE"
+    category: MEM
+    mem_code: 7
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000007", "000000", "000000"] }
+    description: "WRITE DATA MEMORY"

@@ -7,6 +7,33 @@ This repository uses [Semantic Versioning](https://semver.org/):
 - **MINOR** - new tokens, new runtime facts, backwards-compatible
 - **PATCH** - description fixes, typo corrections, doc updates
 
+## Unreleased
+
+### Added
+
+- **NORD-10, ND-500, ND-5000 tokens and fields** - `defs/tokens/nd10-tokens.yaml`
+  (197), `nd500-tokens.yaml` (721), `nd5000-tokens.yaml` (609) and
+  `defs/fields/nd10-fields.yaml`, `nd500-fields.yaml`, `nd5000-fields.yaml`,
+  generated from the C# files `ND10Tokens.cs`, `ND500Tokens.cs`,
+  `ND5000Tokens.cs` and the matching `*Fields.cs`. New encoding form
+  `encoding: { parts: [...] }` (6-digit octal, most significant part first).
+- **Tools** - `generate_tokens_yaml_nd10.py`, `_nd500.py`, `_nd5000.py`,
+  `generate_fields_yaml.py`, and `validate_new_models.py` (compares the
+  YAML with the C# files).
+- **nd120-dly variant** - `variant_overrides` block in `nd120-tokens.yaml`:
+  `B,P`, `B,B`, `B,X` without the DLY1 bit (w2 `000002`, `000003`,
+  `000007`), as the C# `ND120Tokens.AdjustTokensForVersionL()` does.
+- **Reference files** - `reference/ND-110-RASK.CODE` and
+  `reference/ND-110-RASK.SYMBOLS.TXT` (C# assembler output, comparison files).
+
+### Changed
+
+- `lib/ts/scripts/generate-defs.mjs` also writes NORD-10, ND-500 and
+  ND-5000 into `lib/ts/src/generated-defs.json`.
+- Library tests read their files from `reference/` (paths were wrong);
+  a 6MB ND-120 ROM round-trip test was added.
+- `reference/README.md` and `README.md` describe the 4MB / 6MB ROM folders.
+
 ## 1.0.0 - 2026-04-16
 
 Initial extraction from the `nd100uc` repository. Establishes this as

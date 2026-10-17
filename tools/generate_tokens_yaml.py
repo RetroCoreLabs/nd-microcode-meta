@@ -164,6 +164,27 @@ def yaml_escape(s):
     return s
 
 
+# Variant nd120-dly (aliases nd120l, nd120-l): the three register-select tokens
+# without the DLY1 bit (bit 27, w2 004000). The block is copied by hand from
+# ND120Tokens.AdjustTokensForVersionL() in the C# source, so the generator
+# writes it after the token list. Keys not given here (category, display_line,
+# provides, models) are taken from the token of the same name in `tokens`.
+# The real ND-120 L EPROM never sets bit 27 together with B-operand P, B or X.
+ND120_VARIANT_OVERRIDES = """
+variant_overrides:
+  nd120-dly:
+    - token: "B,P"
+      encoding: { w4: "000000", w3: "000000", w2: "000002", w1: "000000" }
+      description: "B-OP. IS 2. USED TO ADDR. THE P-REGISTER (L: no DLY1)"
+    - token: "B,B"
+      encoding: { w4: "000000", w3: "000000", w2: "000003", w1: "000000" }
+      description: "B-OP. IS 3. USED TO ADDR. THE B-REGISTER (L: no DLY1)"
+    - token: "B,X"
+      encoding: { w4: "000000", w3: "000000", w2: "000007", w1: "000000" }
+      description: "B-OP. IS 7. USED TO ADDR. THE X-REGISTER (L: no DLY1)"
+"""
+
+
 def emit_yaml(tokens, model, header, out_path, nd120_only_names=None):
     """Write tokens to a YAML file."""
     nd120_only_names = nd120_only_names or set()
@@ -190,7 +211,10 @@ def emit_yaml(tokens, model, header, out_path, nd120_only_names=None):
                 lines.append(f'    models: [nd100, nd110, nd120]')
             else:
                 lines.append(f'    models: [nd100, nd110, nd120]')
-    Path(out_path).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    text = "\n".join(lines) + "\n"
+    if model == "ND-120":
+        text += ND120_VARIANT_OVERRIDES
+    Path(out_path).write_text(text, encoding="utf-8")
     print(f"Wrote {len(tokens)} tokens to {out_path}")
 
 

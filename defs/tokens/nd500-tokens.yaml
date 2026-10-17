@@ -1,0 +1,2898 @@
+# ND-500 Microcode Token Definitions
+# Generated from ND110Compile/ND110Compile/ND500Tokens.cs
+# (which is generated from docs/ND500-MNEMONIC-VALUES.md, Appendix A of ND-30.013.02)
+# DO NOT EDIT MANUALLY - regenerate via tools/generate_tokens_yaml_nd500.py
+# Encoding: parts is 9 octal strings, MSB part first: CS8 (bits 143-128) ... CS0 (bits 15-0).
+# Tokens are OR'd together to produce the final microinstruction word.
+
+model: ND-500
+word_size_bits: 144
+part_count: 9
+token_count: 721
+source: "ND110Compile/ND110Compile/ND500Tokens.cs"
+
+tokens:
+  - token: "A,-1"
+    category: ASEL
+    encoding: { parts: ["000000", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FLOATING -1.0"
+  - token: "A,A#0"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 0"
+  - token: "A,A#1"
+    category: ASEL
+    encoding: { parts: ["000000", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 1"
+  - token: "A,A#2"
+    category: ASEL
+    encoding: { parts: ["000000", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 2"
+  - token: "A,A#3"
+    category: ASEL
+    encoding: { parts: ["000000", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 3"
+  - token: "A,AL#0"
+    category: ASEL
+    encoding: { parts: ["000004", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 0 LEAST SIGN."
+  - token: "A,AL#1"
+    category: ASEL
+    encoding: { parts: ["000004", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 1 LEAST SIGN."
+  - token: "A,AL#10"
+    category: ASEL
+    encoding: { parts: ["000005", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 10 LEAST SIGN."
+  - token: "A,AL#11"
+    category: ASEL
+    encoding: { parts: ["000005", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 11 LEAST SIGN."
+  - token: "A,AL#12"
+    category: ASEL
+    encoding: { parts: ["000005", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 12 LEAST SIGN."
+  - token: "A,AL#13"
+    category: ASEL
+    encoding: { parts: ["000005", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 13 LEAST SIGN."
+  - token: "A,AL#14"
+    category: ASEL
+    encoding: { parts: ["000005", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 14 LEAST SIGN."
+  - token: "A,AL#15"
+    category: ASEL
+    encoding: { parts: ["000005", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 15 LEAST SIGN."
+  - token: "A,AL#16"
+    category: ASEL
+    encoding: { parts: ["000005", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 16 LEAST SIGN."
+  - token: "A,AL#17"
+    category: ASEL
+    encoding: { parts: ["000005", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 17 LEAST SIGN."
+  - token: "A,AL#2"
+    category: ASEL
+    encoding: { parts: ["000004", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 2 LEAST SIGN."
+  - token: "A,AL#20"
+    category: ASEL
+    encoding: { parts: ["000006", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 20 LEAST SIGN."
+  - token: "A,AL#21"
+    category: ASEL
+    encoding: { parts: ["000006", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 21 LEAST SIGN."
+  - token: "A,AL#22"
+    category: ASEL
+    encoding: { parts: ["000006", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 22 LEAST SIGN."
+  - token: "A,AL#23"
+    category: ASEL
+    encoding: { parts: ["000006", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 23 LEAST SIGN."
+  - token: "A,AL#24"
+    category: ASEL
+    encoding: { parts: ["000006", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 24 LEAST SIGN."
+  - token: "A,AL#25"
+    category: ASEL
+    encoding: { parts: ["000006", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 25 LEAST SIGN."
+  - token: "A,AL#26"
+    category: ASEL
+    encoding: { parts: ["000006", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 26 LEAST SIGN."
+  - token: "A,AL#27"
+    category: ASEL
+    encoding: { parts: ["000006", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 27 LEAST SIGN."
+  - token: "A,AL#3"
+    category: ASEL
+    encoding: { parts: ["000004", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 3 LEAST SIGN."
+  - token: "A,AL#30"
+    category: ASEL
+    encoding: { parts: ["000007", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 30 LEAST SIGN."
+  - token: "A,AL#31"
+    category: ASEL
+    encoding: { parts: ["000007", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 31 LEAST SIGN."
+  - token: "A,AL#32"
+    category: ASEL
+    encoding: { parts: ["000007", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 32 LEAST SIGN."
+  - token: "A,AL#33"
+    category: ASEL
+    encoding: { parts: ["000007", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 33 LEAST SIGN."
+  - token: "A,AL#34"
+    category: ASEL
+    encoding: { parts: ["000007", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 34 LEAST SIGN."
+  - token: "A,AL#35"
+    category: ASEL
+    encoding: { parts: ["000007", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 35 LEAST SIGN."
+  - token: "A,AL#36"
+    category: ASEL
+    encoding: { parts: ["000007", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 36 LEAST SIGN."
+  - token: "A,AL#37"
+    category: ASEL
+    encoding: { parts: ["000007", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 37 LEAST SIGN."
+  - token: "A,AL#4"
+    category: ASEL
+    encoding: { parts: ["000004", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 4 LEAST SIGN."
+  - token: "A,AL#5"
+    category: ASEL
+    encoding: { parts: ["000004", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 5 LEAST SIGN."
+  - token: "A,AL#6"
+    category: ASEL
+    encoding: { parts: ["000004", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 6 LEAST SIGN."
+  - token: "A,AL#7"
+    category: ASEL
+    encoding: { parts: ["000004", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 7 LEAST SIGN."
+  - token: "A,AM#0"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 0 MOST SIGN."
+  - token: "A,AM#1"
+    category: ASEL
+    encoding: { parts: ["000000", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 1 MOST SIGN."
+  - token: "A,AM#10"
+    category: ASEL
+    encoding: { parts: ["000001", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 10 MOST SIGN."
+  - token: "A,AM#11"
+    category: ASEL
+    encoding: { parts: ["000001", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 11 MOST SIGN."
+  - token: "A,AM#12"
+    category: ASEL
+    encoding: { parts: ["000001", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 12 MOST SIGN."
+  - token: "A,AM#13"
+    category: ASEL
+    encoding: { parts: ["000001", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 13 MOST SIGN."
+  - token: "A,AM#14"
+    category: ASEL
+    encoding: { parts: ["000001", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 14 MOST SIGN."
+  - token: "A,AM#15"
+    category: ASEL
+    encoding: { parts: ["000001", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 15 MOST SIGN."
+  - token: "A,AM#16"
+    category: ASEL
+    encoding: { parts: ["000001", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 16 MOST SIGN."
+  - token: "A,AM#17"
+    category: ASEL
+    encoding: { parts: ["000001", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 17 MOST SIGN."
+  - token: "A,AM#2"
+    category: ASEL
+    encoding: { parts: ["000000", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 2 MOST SIGN."
+  - token: "A,AM#20"
+    category: ASEL
+    encoding: { parts: ["000002", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 20 MOST SIGN."
+  - token: "A,AM#21"
+    category: ASEL
+    encoding: { parts: ["000002", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 21 MOST SIGN."
+  - token: "A,AM#22"
+    category: ASEL
+    encoding: { parts: ["000002", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 22 MOST SIGN."
+  - token: "A,AM#23"
+    category: ASEL
+    encoding: { parts: ["000002", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 23 MOST SIGN."
+  - token: "A,AM#24"
+    category: ASEL
+    encoding: { parts: ["000002", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 24 MOST SIGN."
+  - token: "A,AM#25"
+    category: ASEL
+    encoding: { parts: ["000002", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 25 MOST SIGN."
+  - token: "A,AM#26"
+    category: ASEL
+    encoding: { parts: ["000002", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 26 MOST SIGN."
+  - token: "A,AM#27"
+    category: ASEL
+    encoding: { parts: ["000002", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 27 MOST SIGN."
+  - token: "A,AM#3"
+    category: ASEL
+    encoding: { parts: ["000000", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 3 MOST SIGN."
+  - token: "A,AM#30"
+    category: ASEL
+    encoding: { parts: ["000003", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 30 MOST SIGN."
+  - token: "A,AM#31"
+    category: ASEL
+    encoding: { parts: ["000003", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 31 MOST SIGN."
+  - token: "A,AM#32"
+    category: ASEL
+    encoding: { parts: ["000003", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 32 MOST SIGN."
+  - token: "A,AM#33"
+    category: ASEL
+    encoding: { parts: ["000003", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 33 MOST SIGN."
+  - token: "A,AM#34"
+    category: ASEL
+    encoding: { parts: ["000003", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 34 MOST SIGN."
+  - token: "A,AM#35"
+    category: ASEL
+    encoding: { parts: ["000003", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 35 MOST SIGN."
+  - token: "A,AM#36"
+    category: ASEL
+    encoding: { parts: ["000003", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 36 MOST SIGN."
+  - token: "A,AM#37"
+    category: ASEL
+    encoding: { parts: ["000003", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 37 MOST SIGN."
+  - token: "A,AM#4"
+    category: ASEL
+    encoding: { parts: ["000000", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 4 MOST SIGN."
+  - token: "A,AM#5"
+    category: ASEL
+    encoding: { parts: ["000000", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 5 MOST SIGN."
+  - token: "A,AM#6"
+    category: ASEL
+    encoding: { parts: ["000000", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 6 MOST SIGN."
+  - token: "A,AM#7"
+    category: ASEL
+    encoding: { parts: ["000000", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 7 MOST SIGN."
+  - token: "A,B"
+    category: ASEL
+    encoding: { parts: ["000160", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B REGISTER"
+  - token: "A,BM#0"
+    category: ASEL
+    encoding: { parts: ["000040", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 0"
+  - token: "A,BM#1"
+    category: ASEL
+    encoding: { parts: ["000040", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 1"
+  - token: "A,BM#10"
+    category: ASEL
+    encoding: { parts: ["000041", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 10"
+  - token: "A,BM#11"
+    category: ASEL
+    encoding: { parts: ["000041", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 11"
+  - token: "A,BM#12"
+    category: ASEL
+    encoding: { parts: ["000041", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 12"
+  - token: "A,BM#13"
+    category: ASEL
+    encoding: { parts: ["000041", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 13"
+  - token: "A,BM#14"
+    category: ASEL
+    encoding: { parts: ["000041", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 14"
+  - token: "A,BM#15"
+    category: ASEL
+    encoding: { parts: ["000041", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 15"
+  - token: "A,BM#16"
+    category: ASEL
+    encoding: { parts: ["000041", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 16"
+  - token: "A,BM#17"
+    category: ASEL
+    encoding: { parts: ["000041", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 17"
+  - token: "A,BM#2"
+    category: ASEL
+    encoding: { parts: ["000040", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 2"
+  - token: "A,BM#20"
+    category: ASEL
+    encoding: { parts: ["000042", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 20"
+  - token: "A,BM#21"
+    category: ASEL
+    encoding: { parts: ["000042", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 21"
+  - token: "A,BM#22"
+    category: ASEL
+    encoding: { parts: ["000042", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 22"
+  - token: "A,BM#23"
+    category: ASEL
+    encoding: { parts: ["000042", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 23"
+  - token: "A,BM#24"
+    category: ASEL
+    encoding: { parts: ["000042", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 24"
+  - token: "A,BM#25"
+    category: ASEL
+    encoding: { parts: ["000042", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 25"
+  - token: "A,BM#26"
+    category: ASEL
+    encoding: { parts: ["000042", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 26"
+  - token: "A,BM#27"
+    category: ASEL
+    encoding: { parts: ["000042", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 27"
+  - token: "A,BM#3"
+    category: ASEL
+    encoding: { parts: ["000040", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 3"
+  - token: "A,BM#30"
+    category: ASEL
+    encoding: { parts: ["000043", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 30"
+  - token: "A,BM#31"
+    category: ASEL
+    encoding: { parts: ["000043", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 31"
+  - token: "A,BM#32"
+    category: ASEL
+    encoding: { parts: ["000043", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 32"
+  - token: "A,BM#33"
+    category: ASEL
+    encoding: { parts: ["000043", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 33"
+  - token: "A,BM#34"
+    category: ASEL
+    encoding: { parts: ["000043", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 34"
+  - token: "A,BM#35"
+    category: ASEL
+    encoding: { parts: ["000043", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 35"
+  - token: "A,BM#36"
+    category: ASEL
+    encoding: { parts: ["000043", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 36"
+  - token: "A,BM#37"
+    category: ASEL
+    encoding: { parts: ["000043", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 37"
+  - token: "A,BM#4"
+    category: ASEL
+    encoding: { parts: ["000040", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 4"
+  - token: "A,BM#5"
+    category: ASEL
+    encoding: { parts: ["000040", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 5"
+  - token: "A,BM#6"
+    category: ASEL
+    encoding: { parts: ["000040", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 6"
+  - token: "A,BM#7"
+    category: ASEL
+    encoding: { parts: ["000040", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 7"
+  - token: "A,BMR"
+    category: ASEL
+    encoding: { parts: ["000044", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DECODED BMR BIT"
+  - token: "A,DATA"
+    category: ASEL
+    encoding: { parts: ["000020", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MEMORY DATA"
+  - token: "A,L"
+    category: ASEL
+    encoding: { parts: ["000160", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "L REGISTER"
+  - token: "A,ONE"
+    category: ASEL
+    encoding: { parts: ["000000", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FLOATING 1.0"
+  - token: "A,P"
+    category: ASEL
+    encoding: { parts: ["000160", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "P REGISTER"
+  - token: "A,R"
+    category: ASEL
+    encoding: { parts: ["000160", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "R REGISTER"
+  - token: "A,SP"
+    category: ASEL
+    encoding: { parts: ["000160", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SAVED P"
+  - token: "A,THA"
+    category: ASEL
+    encoding: { parts: ["000004", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP HANDLER REGISTER"
+  - token: "A,TOS"
+    category: ASEL
+    encoding: { parts: ["000000", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TOP OF STACK"
+  - token: "A,X#0"
+    category: ASEL
+    encoding: { parts: ["000140", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "X REG 0"
+  - token: "A,X#1"
+    category: ASEL
+    encoding: { parts: ["000140", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "X REG 1"
+  - token: "A,X#2"
+    category: ASEL
+    encoding: { parts: ["000140", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "X REG 2"
+  - token: "A,X#3"
+    category: ASEL
+    encoding: { parts: ["000140", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "X REG 3"
+  - token: "A,XD,BMR"
+    category: ASEL
+    encoding: { parts: ["000072", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK REGISTER"
+  - token: "A,XD,CAR"
+    category: ASEL
+    encoding: { parts: ["000072", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "COMPUTED ADDRESS REGISTER"
+  - token: "A,XD,CONST"
+    category: ASEL
+    encoding: { parts: ["000076", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTRUCTION CONSTANT"
+  - token: "A,XD,CSBRK"
+    category: ASEL
+    encoding: { parts: ["000074", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONTROL STORE BREAK REG"
+  - token: "A,XD,CSCNT"
+    category: ASEL
+    encoding: { parts: ["000074", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONTROL STORE CONTROL REG"
+  - token: "A,XD,CSWA"
+    category: ASEL
+    encoding: { parts: ["000074", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONTR. ST. WRITE ADDR REG"
+  - token: "A,XD,DCINHLL"
+    category: ASEL
+    encoding: { parts: ["000065", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA CACHE INHIBIT LOWER L."
+  - token: "A,XD,DCINHLU"
+    category: ASEL
+    encoding: { parts: ["000065", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA CACHE INHIBIT UPPER L."
+  - token: "A,XD,DHXA"
+    category: ASEL
+    encoding: { parts: ["000065", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM HASH OR STSB INDEX"
+  - token: "A,XD,DISP"
+    category: ASEL
+    encoding: { parts: ["000076", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DISPLACEMENT REG"
+  - token: "A,XD,DLADDR"
+    category: ASEL
+    encoding: { parts: ["000065", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM LOGICAL ADDRESS"
+  - token: "A,XD,DMSTS"
+    category: ASEL
+    encoding: { parts: ["000065", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM STATUS"
+  - token: "A,XD,DRADDR"
+    category: ASEL
+    encoding: { parts: ["000065", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM REAL ADDRESS (PHYSICAL)."
+  - token: "A,XD,DRADDRL"
+    category: ASEL
+    encoding: { parts: ["000065", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA REAL ADDR LEAST SIGNIF."
+  - token: "A,XD,DRADDRM"
+    category: ASEL
+    encoding: { parts: ["000065", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA REAL ADDR MOST SIGNIF."
+  - token: "A,XD,DSCRF"
+    category: ASEL
+    encoding: { parts: ["000065", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM SCRATCH F., 16 16-BIT RG"
+  - token: "A,XD,DSTS0"
+    category: ASEL
+    encoding: { parts: ["000064", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA MEM. STATUS REG. 0"
+  - token: "A,XD,DSTS1"
+    category: ASEL
+    encoding: { parts: ["000064", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA MEM. STATUS REG. 1"
+  - token: "A,XD,DSTS2"
+    category: ASEL
+    encoding: { parts: ["000064", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA MEM. STATUS REG. 2"
+  - token: "A,XD,DUPL"
+    category: ASEL
+    encoding: { parts: ["000065", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA UPPER PAGE LIMIT"
+  - token: "A,XD,DWIPGU"
+    category: ASEL
+    encoding: { parts: ["000065", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM WIP/PGU BROADSIDE, 16 PG"
+  - token: "A,XD,DZPA"
+    category: ASEL
+    encoding: { parts: ["000065", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA ZERO POINT ADJUST REG."
+  - token: "A,XD,HL"
+    category: ASEL
+    encoding: { parts: ["000066", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "HIGHER LIMIT REGISTER"
+  - token: "A,XD,ICINHLL"
+    category: ASEL
+    encoding: { parts: ["000063", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR CACHE INHIBIT LOWER L."
+  - token: "A,XD,ICINHLU"
+    category: ASEL
+    encoding: { parts: ["000063", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR CACHE INHIBIT UPPER L."
+  - token: "A,XD,IDAT"
+    category: ASEL
+    encoding: { parts: ["000076", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTRUCTION MEMORY DATA"
+  - token: "A,XD,IHXA"
+    category: ASEL
+    encoding: { parts: ["000063", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM HASH OR STSB INDEX"
+  - token: "A,XD,ILADDR"
+    category: ASEL
+    encoding: { parts: ["000063", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM LOGICAL ADDRESS"
+  - token: "A,XD,IMSTS"
+    category: ASEL
+    encoding: { parts: ["000063", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM STATUS"
+  - token: "A,XD,INDXC#0"
+    category: ASEL
+    encoding: { parts: ["000073", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX COUNTER 0"
+  - token: "A,XD,INDXC#1"
+    category: ASEL
+    encoding: { parts: ["000073", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX COUNTER 1"
+  - token: "A,XD,INDXC#2"
+    category: ASEL
+    encoding: { parts: ["000073", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX COUNTER 2"
+  - token: "A,XD,INDXC#3"
+    category: ASEL
+    encoding: { parts: ["000073", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX COUNTER 3"
+  - token: "A,XD,IODIN"
+    category: ASEL
+    encoding: { parts: ["000074", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA-IN REG"
+  - token: "A,XD,IODOUT"
+    category: ASEL
+    encoding: { parts: ["000074", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA-OUT REG"
+  - token: "A,XD,IRADDR"
+    category: ASEL
+    encoding: { parts: ["000063", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM REAL ADDRESS (PHYSICAL)."
+  - token: "A,XD,IRADDRL"
+    category: ASEL
+    encoding: { parts: ["000063", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR REAL ADDR LEAST SIGN."
+  - token: "A,XD,IRADDRM"
+    category: ASEL
+    encoding: { parts: ["000063", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR REAL ADDR MOST SIGN."
+  - token: "A,XD,ISCRF"
+    category: ASEL
+    encoding: { parts: ["000063", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM SCRATCH F., 16 16-BIT RG"
+  - token: "A,XD,ISTS0"
+    category: ASEL
+    encoding: { parts: ["000062", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR MEM. STATUS REG. 0"
+  - token: "A,XD,ISTS1"
+    category: ASEL
+    encoding: { parts: ["000062", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR MEM. STATUS REG. 1"
+  - token: "A,XD,ISTS2"
+    category: ASEL
+    encoding: { parts: ["000062", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR MEM. STATUS REG. 2"
+  - token: "A,XD,IUPL"
+    category: ASEL
+    encoding: { parts: ["000063", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR UPPER PAGE LIMIT"
+  - token: "A,XD,IWIPGU"
+    category: ASEL
+    encoding: { parts: ["000063", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM WIP/PGU BROADSIDE, 16 PG"
+  - token: "A,XD,IZPA"
+    category: ASEL
+    encoding: { parts: ["000063", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR ZERO POINT ADJUST REG."
+  - token: "A,XD,LARG"
+    category: ASEL
+    encoding: { parts: ["000072", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LONG ARGUMENT (32 BITS)"
+  - token: "A,XD,LC"
+    category: ASEL
+    encoding: { parts: ["000076", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOOP COUNTER"
+  - token: "A,XD,LL"
+    category: ASEL
+    encoding: { parts: ["000066", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOWER LIMIT REG"
+  - token: "A,XD,MISTAT"
+    category: ASEL
+    encoding: { parts: ["000070", "160000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO STATUS REGISTER"
+  - token: "A,XD,MMOD"
+    category: ASEL
+    encoding: { parts: ["000070", "100000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MEMORY MODUS REGISTER"
+  - token: "A,XD,NBY"
+    category: ASEL
+    encoding: { parts: ["000070", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "NO OF BYTES IN LAST MEM REF."
+  - token: "A,XD,PSTAT"
+    category: ASEL
+    encoding: { parts: ["000072", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "PREFETCH STATUS"
+  - token: "A,XD,S1"
+    category: ASEL
+    encoding: { parts: ["000070", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "STATUS REG ONE"
+  - token: "A,XD,S2"
+    category: ASEL
+    encoding: { parts: ["000070", "020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "STATUS REG TWO"
+  - token: "A,XD,SARG"
+    category: ASEL
+    encoding: { parts: ["000072", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHORT ARGUMENT (16 BITS)"
+  - token: "A,XD,SHC"
+    category: ASEL
+    encoding: { parts: ["000072", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHIFT COUNT REGISTER"
+  - token: "A,XD,TE"
+    category: ASEL
+    encoding: { parts: ["000070", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOCAL TRAP ENABLE REG"
+  - token: "A,XD,TRAPINF"
+    category: ASEL
+    encoding: { parts: ["000070", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP INFORMATION"
+  - token: "A,ZRO"
+    category: ASEL
+    encoding: { parts: ["000000", "120000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FLOATING 0.0"
+  - token: "AA+AB"
+    category: AACTL
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000014", "000000", "000000", "000000"] }
+    description: "ADDR AOPR + ADDR BOPR"
+  - token: "AA,DP1"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ADDR AOPR IS DP1 REG"
+  - token: "AA,DP2"
+    category: AA
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "010000", "000000", "000000"] }
+    description: "ADDR AOPR IS DP2 REG"
+  - token: "AA,EA1"
+    category: AA
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "004000", "000000", "000000"] }
+    description: "ADDR AOPR IS EFF. ADDR 1 REG"
+  - token: "AA,EA2"
+    category: AA
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "014000", "000000", "000000"] }
+    description: "ADDR AOPR IS EFF. ADDR 2 REG"
+  - token: "AB,1/8IX"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "020000", "000000", "000000"] }
+    description: "ADDR BOPR IS XREG SCALED 1/8"
+  - token: "AB,2IX"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "040000", "000000", "000000"] }
+    description: "ADDR BOPR IS XREG SC. BY 2"
+  - token: "AB,4IX"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "100000", "000000", "000000"] }
+    description: "ADDR BOPR IS XREG SC. BY 4"
+  - token: "AB,8IX"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "140000", "000000", "000000"] }
+    description: "ADDR BOPR IS XREG SC. BY 8"
+  - token: "AB,B"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000001", "040000", "000000", "000000"] }
+    description: "ADDR BOPR IS B REGISTER"
+  - token: "AB,DPARG"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000001", "000000", "000000", "000000"] }
+    description: "ADDR BOPR IS DP"
+  - token: "AB,IX"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ADDR BOPR IS INDEX REG"
+  - token: "AB,ORAB"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "060000", "000000", "000000"] }
+    description: "ADDR BOPR IS OR-CONTROLLED"
+  - token: "AB,PC"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000001", "140000", "000000", "000000"] }
+    description: "ADDR BOPR IS P REGISTER"
+  - token: "AB,R"
+    category: AB
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000001", "100000", "000000", "000000"] }
+    description: "ADDR BOPR IS R REGISTER"
+  - token: "AD,ILC"
+    category: ASEL
+    encoding: { parts: ["000066", "140000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS INSTR LOOK AHEAD A.C"
+  - token: "AD,NPC"
+    category: ASEL
+    encoding: { parts: ["000066", "040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS NEXT PROGRAM COUNTER"
+  - token: "AD,PC"
+    category: ASEL
+    encoding: { parts: ["000070", "060000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS PROGRAM COUNTER"
+  - token: "ALTMOD"
+    category: ALTMOD
+    encoding: { parts: ["000000", "000000", "000002", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SELECT BIT 1 IN MEMORY MODUS"
+  - token: "ALU,A+1"
+    category: MULTI
+    encoding: { parts: ["017200", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INCREMENT AOPR"
+  - token: "ALU,A+A"
+    category: ALU_TRUE
+    encoding: { parts: ["014000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR + AOPR"
+  - token: "ALU,A+A+1"
+    category: MULTI
+    encoding: { parts: ["014200", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR + AOPR + 1"
+  - token: "ALU,A+B"
+    category: ALU_TRUE
+    encoding: { parts: ["011000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR + BOPR"
+  - token: "ALU,A+B+1"
+    category: MULTI
+    encoding: { parts: ["011200", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR + BOPR + 1"
+  - token: "ALU,A+B+C"
+    category: MULTI
+    encoding: { parts: ["011400", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR + BOPR + CARRY"
+  - token: "ALU,A-1"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DECREMENT AOPR"
+  - token: "ALU,A-B"
+    category: MULTI
+    encoding: { parts: ["006200", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR - BOPR"
+  - token: "ALU,A-B-1"
+    category: ALU_TRUE
+    encoding: { parts: ["006000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR - BOPR - 1"
+  - token: "ALU,A-B-1+C"
+    category: MULTI
+    encoding: { parts: ["006400", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR - BOPR - 1 + CARRY"
+  - token: "ALU,ADIR"
+    category: ALU_TRUE
+    encoding: { parts: ["037000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR DIRECT THROUGH ALU"
+  - token: "ALU,ADIRC"
+    category: ALU_TRUE
+    encoding: { parts: ["020000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR COMPLEMENTED THR. ALU"
+  - token: "ALU,AND"
+    category: ALU_TRUE
+    encoding: { parts: ["036000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR AND BOPR"
+  - token: "ALU,ANDCA"
+    category: ALU_TRUE
+    encoding: { parts: ["030000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "COMPL(AOPR) AND BOPR"
+  - token: "ALU,ANDCB"
+    category: ALU_TRUE
+    encoding: { parts: ["035000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR AND COMPL(BOPR)"
+  - token: "ALU,BDIR"
+    category: ALU_TRUE
+    encoding: { parts: ["032000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BOPR DIRECT THROUGH ALU"
+  - token: "ALU,BDIRC"
+    category: ALU_TRUE
+    encoding: { parts: ["025000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BOPR COMPLEMENTED THR. ALU"
+  - token: "ALU,FONE"
+    category: ALU_TRUE
+    encoding: { parts: ["023000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FORCED ONE"
+  - token: "ALU,FZRO"
+    category: ALU_TRUE
+    encoding: { parts: ["034000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FORCED ZRO"
+  - token: "ALU,NAND"
+    category: ALU_TRUE
+    encoding: { parts: ["021000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR NAND BOPR"
+  - token: "ALU,NOR"
+    category: ALU_TRUE
+    encoding: { parts: ["024000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR NOR BOPR"
+  - token: "ALU,OR"
+    category: ALU_TRUE
+    encoding: { parts: ["033000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR OR BOPR"
+  - token: "ALU,ORCA"
+    category: ALU_TRUE
+    encoding: { parts: ["022000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "COMPL(AOPR) OR BOPR"
+  - token: "ALU,ORCB"
+    category: ALU_TRUE
+    encoding: { parts: ["027000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR OR COMPL(BOPR)"
+  - token: "ALU,XNOR"
+    category: ALU_TRUE
+    encoding: { parts: ["026000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR EXNOR BOPR"
+  - token: "ALU,XOR"
+    category: ALU_TRUE
+    encoding: { parts: ["031000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "AOPR EXOR BOPR"
+  - token: "B,-1"
+    category: BSEL
+    encoding: { parts: ["000000", "010100", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FLOATING -1.0"
+  - token: "B,A#0"
+    category: BSEL
+    encoding: { parts: ["000000", "010000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 0"
+  - token: "B,A#1"
+    category: BSEL
+    encoding: { parts: ["000000", "010020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 1"
+  - token: "B,A#2"
+    category: BSEL
+    encoding: { parts: ["000000", "010040", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 2"
+  - token: "B,A#3"
+    category: BSEL
+    encoding: { parts: ["000000", "010060", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DOUBLE FLOAT REG 3"
+  - token: "B,AL#0"
+    category: BSEL
+    encoding: { parts: ["000000", "011000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 0 LEAST SIGN."
+  - token: "B,AL#1"
+    category: BSEL
+    encoding: { parts: ["000000", "011020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 1 LEAST SIGN."
+  - token: "B,AL#10"
+    category: BSEL
+    encoding: { parts: ["000000", "011200", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 10 LEAST SIGN."
+  - token: "B,AL#11"
+    category: BSEL
+    encoding: { parts: ["000000", "011220", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 11 LEAST SIGN."
+  - token: "B,AL#12"
+    category: BSEL
+    encoding: { parts: ["000000", "011240", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 12 LEAST SIGN."
+  - token: "B,AL#13"
+    category: BSEL
+    encoding: { parts: ["000000", "011260", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 13 LEAST SIGN."
+  - token: "B,AL#14"
+    category: BSEL
+    encoding: { parts: ["000000", "011300", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 14 LEAST SIGN."
+  - token: "B,AL#15"
+    category: BSEL
+    encoding: { parts: ["000000", "011320", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 15 LEAST SIGN."
+  - token: "B,AL#16"
+    category: BSEL
+    encoding: { parts: ["000000", "011340", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 16 LEAST SIGN."
+  - token: "B,AL#17"
+    category: BSEL
+    encoding: { parts: ["000000", "011360", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 17 LEAST SIGN."
+  - token: "B,AL#2"
+    category: BSEL
+    encoding: { parts: ["000000", "011040", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 2 LEAST SIGN."
+  - token: "B,AL#20"
+    category: BSEL
+    encoding: { parts: ["000000", "011400", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 20 LEAST SIGN."
+  - token: "B,AL#21"
+    category: BSEL
+    encoding: { parts: ["000000", "011420", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 21 LEAST SIGN."
+  - token: "B,AL#22"
+    category: BSEL
+    encoding: { parts: ["000000", "011440", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 22 LEAST SIGN."
+  - token: "B,AL#23"
+    category: BSEL
+    encoding: { parts: ["000000", "011460", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 23 LEAST SIGN."
+  - token: "B,AL#24"
+    category: BSEL
+    encoding: { parts: ["000000", "011500", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 24 LEAST SIGN."
+  - token: "B,AL#25"
+    category: BSEL
+    encoding: { parts: ["000000", "011520", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 25 LEAST SIGN."
+  - token: "B,AL#26"
+    category: BSEL
+    encoding: { parts: ["000000", "011540", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 26 LEAST SIGN."
+  - token: "B,AL#27"
+    category: BSEL
+    encoding: { parts: ["000000", "011560", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 27 LEAST SIGN."
+  - token: "B,AL#3"
+    category: BSEL
+    encoding: { parts: ["000000", "011060", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 3 LEAST SIGN."
+  - token: "B,AL#30"
+    category: BSEL
+    encoding: { parts: ["000000", "011600", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 30 LEAST SIGN."
+  - token: "B,AL#31"
+    category: BSEL
+    encoding: { parts: ["000000", "011620", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 31 LEAST SIGN."
+  - token: "B,AL#32"
+    category: BSEL
+    encoding: { parts: ["000000", "011640", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 32 LEAST SIGN."
+  - token: "B,AL#33"
+    category: BSEL
+    encoding: { parts: ["000000", "011660", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 33 LEAST SIGN."
+  - token: "B,AL#34"
+    category: BSEL
+    encoding: { parts: ["000000", "011700", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 34 LEAST SIGN."
+  - token: "B,AL#35"
+    category: BSEL
+    encoding: { parts: ["000000", "011720", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 35 LEAST SIGN."
+  - token: "B,AL#36"
+    category: BSEL
+    encoding: { parts: ["000000", "011740", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 36 LEAST SIGN."
+  - token: "B,AL#37"
+    category: BSEL
+    encoding: { parts: ["000000", "011760", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 37 LEAST SIGN."
+  - token: "B,AL#4"
+    category: BSEL
+    encoding: { parts: ["000000", "011100", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 4 LEAST SIGN."
+  - token: "B,AL#5"
+    category: BSEL
+    encoding: { parts: ["000000", "011120", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 5 LEAST SIGN."
+  - token: "B,AL#6"
+    category: BSEL
+    encoding: { parts: ["000000", "011140", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 6 LEAST SIGN."
+  - token: "B,AL#7"
+    category: BSEL
+    encoding: { parts: ["000000", "011160", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 7 LEAST SIGN."
+  - token: "B,AM#0"
+    category: BSEL
+    encoding: { parts: ["000000", "010000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 0 MOST SIGN."
+  - token: "B,AM#1"
+    category: BSEL
+    encoding: { parts: ["000000", "010020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 1 MOST SIGN."
+  - token: "B,AM#10"
+    category: BSEL
+    encoding: { parts: ["000000", "010200", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 10 MOST SIGN."
+  - token: "B,AM#11"
+    category: BSEL
+    encoding: { parts: ["000000", "010220", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 11 MOST SIGN."
+  - token: "B,AM#12"
+    category: BSEL
+    encoding: { parts: ["000000", "010240", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 12 MOST SIGN."
+  - token: "B,AM#13"
+    category: BSEL
+    encoding: { parts: ["000000", "010260", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 13 MOST SIGN."
+  - token: "B,AM#14"
+    category: BSEL
+    encoding: { parts: ["000000", "010300", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 14 MOST SIGN."
+  - token: "B,AM#15"
+    category: BSEL
+    encoding: { parts: ["000000", "010320", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 15 MOST SIGN."
+  - token: "B,AM#16"
+    category: BSEL
+    encoding: { parts: ["000000", "010340", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 16 MOST SIGN."
+  - token: "B,AM#17"
+    category: BSEL
+    encoding: { parts: ["000000", "010360", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 17 MOST SIGN."
+  - token: "B,AM#2"
+    category: BSEL
+    encoding: { parts: ["000000", "010040", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 2 MOST SIGN."
+  - token: "B,AM#20"
+    category: BSEL
+    encoding: { parts: ["000000", "010400", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 20 MOST SIGN."
+  - token: "B,AM#21"
+    category: BSEL
+    encoding: { parts: ["000000", "010420", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 21 MOST SIGN."
+  - token: "B,AM#22"
+    category: BSEL
+    encoding: { parts: ["000000", "010440", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 22 MOST SIGN."
+  - token: "B,AM#23"
+    category: BSEL
+    encoding: { parts: ["000000", "010460", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 23 MOST SIGN."
+  - token: "B,AM#24"
+    category: BSEL
+    encoding: { parts: ["000000", "010500", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 24 MOST SIGN."
+  - token: "B,AM#25"
+    category: BSEL
+    encoding: { parts: ["000000", "010520", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 25 MOST SIGN."
+  - token: "B,AM#26"
+    category: BSEL
+    encoding: { parts: ["000000", "010540", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 26 MOST SIGN."
+  - token: "B,AM#27"
+    category: BSEL
+    encoding: { parts: ["000000", "010560", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 27 MOST SIGN."
+  - token: "B,AM#3"
+    category: BSEL
+    encoding: { parts: ["000000", "010060", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 3 MOST SIGN."
+  - token: "B,AM#30"
+    category: BSEL
+    encoding: { parts: ["000000", "010600", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 30 MOST SIGN."
+  - token: "B,AM#31"
+    category: BSEL
+    encoding: { parts: ["000000", "010620", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 31 MOST SIGN."
+  - token: "B,AM#32"
+    category: BSEL
+    encoding: { parts: ["000000", "010640", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 32 MOST SIGN."
+  - token: "B,AM#33"
+    category: BSEL
+    encoding: { parts: ["000000", "010660", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 33 MOST SIGN."
+  - token: "B,AM#34"
+    category: BSEL
+    encoding: { parts: ["000000", "010700", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 34 MOST SIGN."
+  - token: "B,AM#35"
+    category: BSEL
+    encoding: { parts: ["000000", "010720", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 35 MOST SIGN."
+  - token: "B,AM#36"
+    category: BSEL
+    encoding: { parts: ["000000", "010740", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 36 MOST SIGN."
+  - token: "B,AM#37"
+    category: BSEL
+    encoding: { parts: ["000000", "010760", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 37 MOST SIGN."
+  - token: "B,AM#4"
+    category: BSEL
+    encoding: { parts: ["000000", "010100", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 4 MOST SIGN."
+  - token: "B,AM#5"
+    category: BSEL
+    encoding: { parts: ["000000", "010120", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 5 MOST SIGN."
+  - token: "B,AM#6"
+    category: BSEL
+    encoding: { parts: ["000000", "010140", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 6 MOST SIGN."
+  - token: "B,AM#7"
+    category: BSEL
+    encoding: { parts: ["000000", "010160", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A-REG 7 MOST SIGN."
+  - token: "B,BM#0"
+    category: BSEL
+    encoding: { parts: ["000000", "004000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 0"
+  - token: "B,BM#1"
+    category: BSEL
+    encoding: { parts: ["000000", "004020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 1"
+  - token: "B,BM#10"
+    category: BSEL
+    encoding: { parts: ["000000", "004200", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 10"
+  - token: "B,BM#11"
+    category: BSEL
+    encoding: { parts: ["000000", "004220", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 11"
+  - token: "B,BM#12"
+    category: BSEL
+    encoding: { parts: ["000000", "004240", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 12"
+  - token: "B,BM#13"
+    category: BSEL
+    encoding: { parts: ["000000", "004260", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 13"
+  - token: "B,BM#14"
+    category: BSEL
+    encoding: { parts: ["000000", "004300", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 14"
+  - token: "B,BM#15"
+    category: BSEL
+    encoding: { parts: ["000000", "004320", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 15"
+  - token: "B,BM#16"
+    category: BSEL
+    encoding: { parts: ["000000", "004340", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 16"
+  - token: "B,BM#17"
+    category: BSEL
+    encoding: { parts: ["000000", "004360", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 17"
+  - token: "B,BM#2"
+    category: BSEL
+    encoding: { parts: ["000000", "004040", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 2"
+  - token: "B,BM#20"
+    category: BSEL
+    encoding: { parts: ["000000", "004400", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 20"
+  - token: "B,BM#21"
+    category: BSEL
+    encoding: { parts: ["000000", "004420", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 21"
+  - token: "B,BM#22"
+    category: BSEL
+    encoding: { parts: ["000000", "004440", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 22"
+  - token: "B,BM#23"
+    category: BSEL
+    encoding: { parts: ["000000", "004460", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 23"
+  - token: "B,BM#24"
+    category: BSEL
+    encoding: { parts: ["000000", "004500", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 24"
+  - token: "B,BM#25"
+    category: BSEL
+    encoding: { parts: ["000000", "004520", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 25"
+  - token: "B,BM#26"
+    category: BSEL
+    encoding: { parts: ["000000", "004540", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 26"
+  - token: "B,BM#27"
+    category: BSEL
+    encoding: { parts: ["000000", "004560", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 27"
+  - token: "B,BM#3"
+    category: BSEL
+    encoding: { parts: ["000000", "004060", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 3"
+  - token: "B,BM#30"
+    category: BSEL
+    encoding: { parts: ["000000", "004600", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 30"
+  - token: "B,BM#31"
+    category: BSEL
+    encoding: { parts: ["000000", "004620", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 31"
+  - token: "B,BM#32"
+    category: BSEL
+    encoding: { parts: ["000000", "004640", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 32"
+  - token: "B,BM#33"
+    category: BSEL
+    encoding: { parts: ["000000", "004660", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 33"
+  - token: "B,BM#34"
+    category: BSEL
+    encoding: { parts: ["000000", "004700", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 34"
+  - token: "B,BM#35"
+    category: BSEL
+    encoding: { parts: ["000000", "004720", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 35"
+  - token: "B,BM#36"
+    category: BSEL
+    encoding: { parts: ["000000", "004740", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 36"
+  - token: "B,BM#37"
+    category: BSEL
+    encoding: { parts: ["000000", "004760", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 37"
+  - token: "B,BM#4"
+    category: BSEL
+    encoding: { parts: ["000000", "004100", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 4"
+  - token: "B,BM#5"
+    category: BSEL
+    encoding: { parts: ["000000", "004120", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 5"
+  - token: "B,BM#6"
+    category: BSEL
+    encoding: { parts: ["000000", "004140", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 6"
+  - token: "B,BM#7"
+    category: BSEL
+    encoding: { parts: ["000000", "004160", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK BIT 7"
+  - token: "B,BMR"
+    category: BSEL
+    encoding: { parts: ["000000", "005000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DECODED BMR BIT"
+  - token: "B,DATA"
+    category: BSEL
+    encoding: { parts: ["000000", "002000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MEMORY DATA"
+  - token: "B,DATA2"
+    category: BSEL
+    encoding: { parts: ["000000", "002020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "EXTRA MEMORY DATA REGISTER"
+  - token: "B,EA1"
+    category: BSEL
+    encoding: { parts: ["000000", "006000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "EFFECTIVE ADDR REG 1"
+  - token: "B,EA2"
+    category: BSEL
+    encoding: { parts: ["000000", "006020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "EFFECTIVE ADDR REG 2"
+  - token: "B,ONE"
+    category: BSEL
+    encoding: { parts: ["000000", "010140", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FLOATING 1.0"
+  - token: "B,THA"
+    category: BSEL
+    encoding: { parts: ["000000", "011160", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP HANDLER EG"
+  - token: "B,TOS"
+    category: BSEL
+    encoding: { parts: ["000000", "010160", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TOP OF STACK"
+  - token: "B,X#0"
+    category: BSEL
+    encoding: { parts: ["000000", "012000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REG 0"
+  - token: "B,X#1"
+    category: BSEL
+    encoding: { parts: ["000000", "012020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REG 1"
+  - token: "B,X#2"
+    category: BSEL
+    encoding: { parts: ["000000", "012040", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REG 2"
+  - token: "B,X#3"
+    category: BSEL
+    encoding: { parts: ["000000", "012060", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REG 3"
+  - token: "B,XRESL"
+    category: MULTI
+    encoding: { parts: ["000000", "016100", "000000", "000000", "000000", "000000", "000040", "000000", "000000"] }
+    description: "EXT. RESULT LEAST SIGN."
+  - token: "B,XRESM"
+    category: MULTI
+    encoding: { parts: ["000000", "016000", "000000", "000000", "000000", "000000", "000040", "000000", "000000"] }
+    description: "EXT. RESULT MOST SIGN."
+  - token: "B,ZRO"
+    category: BSEL
+    encoding: { parts: ["000000", "010120", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "FLOATING 0.0"
+  - token: "BCD"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BCD TYPE"
+  - token: "BYTH"
+    category: MULTI
+    encoding: { parts: ["000000", "000100", "000000", "000000", "000000", "000000", "001000", "000000", "000000"] }
+    description: "BYTE TO HALFW. SIGN EXT."
+  - token: "BYTW"
+    category: BSEL
+    encoding: { parts: ["000000", "000200", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BYTE TO WORD SIGN EXTENSION."
+  - token: "C,ALU"
+    category: CALU
+    encoding: { parts: ["000000", "000000", "000000", "002000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONDITIONAL ALU"
+  - token: "C,MEM"
+    category: CMEM
+    encoding: { parts: ["000000", "000000", "000000", "001000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONDITIONAL MEMORY REFERENCE"
+  - token: "C,SEQ"
+    category: CSEQ
+    encoding: { parts: ["000000", "000000", "000000", "004000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONDITIONAL SEQUENCE"
+  - token: "C,SEQD"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "004000", "002000", "004000", "000000", "000000", "000000"] }
+    description: "DELAYED COND. SEQUENCE"
+  - token: "COND,CNZ"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000220", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CARRY AND NOT ZERO"
+  - token: "COND,CONOP"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000260", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONSTANT OPERAND"
+  - token: "COND,CRY"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000060", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CARRY"
+  - token: "COND,DATOP"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000160", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA OPERAND"
+  - token: "COND,ENTER"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000020", "000000", "000000", "000000", "000000", "000000"] }
+    description: "NEXT MACRO INSTR IS ENTER"
+  - token: "COND,ICRDY"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000640", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTRUCTION MEMORY READY"
+  - token: "COND,K"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000140", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TEST COND. IS K (FLAG)"
+  - token: "COND,LCZ"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000760", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOOP COUNTER ZERO"
+  - token: "COND,MBO"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000600", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO BCD OVERFLOW"
+  - token: "COND,MBS"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000620", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO BCD SIGN"
+  - token: "COND,MCNZ"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000460", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO CARRY AND NOT M. ZERO"
+  - token: "COND,MCRY"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000320", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO CARRY"
+  - token: "COND,MDZ"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000660", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DIVIDE BY ZRO"
+  - token: "COND,MFO"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000540", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO FLOAT OVERFLOW"
+  - token: "COND,MFS"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000520", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO FLOATING SIGN"
+  - token: "COND,MFU"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000560", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO FLOAT UNDERFLOW"
+  - token: "COND,MFUFO"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000240", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO FLOAT UNDER/OVERFLOW"
+  - token: "COND,MOVFL"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000360", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO OVERFLOW"
+  - token: "COND,MSEXO"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000400", "000000", "000000", "000000", "000000", "000000"] }
+    description: "M. SIGN EXOR M. OVERFLOW"
+  - token: "COND,MSGN"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000340", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO SIGN"
+  - token: "COND,MSORZ"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000440", "000000", "000000", "000000", "000000", "000000"] }
+    description: "M. SIGN OR M. ZERO"
+  - token: "COND,MZRO"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000300", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MICRO ZERO"
+  - token: "COND,OVFL"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000120", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OVERFLOW"
+  - token: "COND,PARITY"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000700", "000000", "000000", "000000", "000000", "000000"] }
+    description: "PARITY OF ALU OUTPUT"
+  - token: "COND,PDONE"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000500", "000000", "000000", "000000", "000000", "000000"] }
+    description: "PART DONE"
+  - token: "COND,SAVC1"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000720", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SAVED CONDITION 1"
+  - token: "COND,SAVC2"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000740", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SAVED CONDITION 2"
+  - token: "COND,SGN"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000100", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SIGN"
+  - token: "COND,SORZ"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000200", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SIGN OR ZERO"
+  - token: "COND,TRAP"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000420", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TEST CONDITION IS TRAP"
+  - token: "COND,ZRO"
+    category: COND
+    encoding: { parts: ["000000", "000000", "000000", "000040", "000000", "000000", "000000", "000000", "000000"] }
+    description: "ZERO"
+  - token: "CRY,MISTAT"
+    category: CARRY
+    encoding: { parts: ["000600", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CARRY FROM MICRO STATUS"
+  - token: "CRY,ONE"
+    category: CARRY
+    encoding: { parts: ["000200", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CARRY IS FORCED ONE"
+  - token: "CRY,STAT"
+    category: CARRY
+    encoding: { parts: ["000400", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CARRY FROM STATUS"
+  - token: "CRY,ZRO"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CARRY IS FORCED ZERO"
+  - token: "CSAVE"
+    category: CSAVE
+    encoding: { parts: ["000000", "000000", "000000", "010000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONDITION SAVE (PUSH)"
+  - token: "D,AD#0"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 0 DOUBLE"
+  - token: "D,AD#1"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "002000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 1 DOUBLE"
+  - token: "D,AD#10"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "020000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 10 DOUBLE"
+  - token: "D,AD#11"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "022000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 11 DOUBLE"
+  - token: "D,AD#12"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "024000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 12 DOUBLE"
+  - token: "D,AD#13"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "026000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 13 DOUBLE"
+  - token: "D,AD#14"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "030000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 14 DOUBLE"
+  - token: "D,AD#15"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "032000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 15 DOUBLE"
+  - token: "D,AD#16"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "034000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 16 DOUBLE"
+  - token: "D,AD#17"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "036000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 17 DOUBLE"
+  - token: "D,AD#2"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "004000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 2 DOUBLE"
+  - token: "D,AD#20"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "040000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 20 DOUBLE"
+  - token: "D,AD#21"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "042000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 21 DOUBLE"
+  - token: "D,AD#22"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "044000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 22 DOUBLE"
+  - token: "D,AD#23"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "046000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 23 DOUBLE"
+  - token: "D,AD#24"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "050000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 24 DOUBLE"
+  - token: "D,AD#25"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "052000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 25 DOUBLE"
+  - token: "D,AD#26"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "054000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 26 DOUBLE"
+  - token: "D,AD#27"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "056000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 27 DOUBLE"
+  - token: "D,AD#3"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "006000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 3 DOUBLE"
+  - token: "D,AD#30"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "060000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 30 DOUBLE"
+  - token: "D,AD#31"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "062000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 31 DOUBLE"
+  - token: "D,AD#32"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "064000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 32 DOUBLE"
+  - token: "D,AD#33"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "066000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 33 DOUBLE"
+  - token: "D,AD#34"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "070000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 34 DOUBLE"
+  - token: "D,AD#35"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "072000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 35 DOUBLE"
+  - token: "D,AD#36"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "074000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 36 DOUBLE"
+  - token: "D,AD#37"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "076000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 37 DOUBLE"
+  - token: "D,AD#4"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "010000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 4 DOUBLE"
+  - token: "D,AD#5"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "012000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 5 DOUBLE"
+  - token: "D,AD#6"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "014000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 6 DOUBLE"
+  - token: "D,AD#7"
+    category: DSEL
+    encoding: { parts: ["000000", "000012", "016000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DEST IS A-REG 7 DOUBLE"
+  - token: "D,AL#0"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A0 LEAST"
+  - token: "D,AL#1"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "002000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A1 LEAST"
+  - token: "D,AL#10"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "020000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A10 LEAST"
+  - token: "D,AL#11"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "022000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A11 LEAST"
+  - token: "D,AL#12"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "024000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A12 LEAST"
+  - token: "D,AL#13"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "026000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A13 LEAST"
+  - token: "D,AL#14"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "030000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A14 LEAST"
+  - token: "D,AL#15"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "032000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A15 LEAST"
+  - token: "D,AL#16"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "034000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A16 LEAST"
+  - token: "D,AL#17"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "036000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A17 LEAST"
+  - token: "D,AL#2"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "004000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A2 LEAST"
+  - token: "D,AL#20"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "040000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A20 LEAST"
+  - token: "D,AL#21"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "042000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A21 LEAST"
+  - token: "D,AL#22"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "044000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A22 LEAST"
+  - token: "D,AL#23"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "046000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A23 LEAST"
+  - token: "D,AL#24"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "050000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A24 LEAST"
+  - token: "D,AL#25"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "052000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A25 LEAST"
+  - token: "D,AL#26"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "054000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A26 LEAST"
+  - token: "D,AL#27"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "056000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A27 LEAST"
+  - token: "D,AL#3"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "006000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A3 LEAST"
+  - token: "D,AL#30"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "060000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A30 LEAST"
+  - token: "D,AL#31"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "062000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A31 LEAST"
+  - token: "D,AL#32"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "064000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A32 LEAST"
+  - token: "D,AL#33"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "066000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A33 LEAST"
+  - token: "D,AL#34"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "070000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A34 LEAST"
+  - token: "D,AL#35"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "072000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A35 LEAST"
+  - token: "D,AL#36"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "074000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A36 LEAST"
+  - token: "D,AL#37"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "076000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A37 LEAST"
+  - token: "D,AL#4"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "010000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A4 LEAST"
+  - token: "D,AL#5"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "012000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A5 LEAST"
+  - token: "D,AL#6"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "014000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A6 LEAST"
+  - token: "D,AL#7"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "016000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A7 LEAST"
+  - token: "D,AM#0"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A0 MOST"
+  - token: "D,AM#1"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "002000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A1 MOST"
+  - token: "D,AM#10"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "020000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A10 MOST"
+  - token: "D,AM#11"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "022000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A11 MOST"
+  - token: "D,AM#12"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "024000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A12 MOST"
+  - token: "D,AM#13"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "026000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A13 MOST"
+  - token: "D,AM#14"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "030000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A14 MOST"
+  - token: "D,AM#15"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "032000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A15 MOST"
+  - token: "D,AM#16"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "034000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A16 MOST"
+  - token: "D,AM#17"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "036000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A17 MOST"
+  - token: "D,AM#2"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "004000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A2 MOST"
+  - token: "D,AM#20"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "040000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A20 MOST"
+  - token: "D,AM#21"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "042000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A21 MOST"
+  - token: "D,AM#22"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "044000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A22 MOST"
+  - token: "D,AM#23"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "046000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A23 MOST"
+  - token: "D,AM#24"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "050000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A24 MOST"
+  - token: "D,AM#25"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "052000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A25 MOST"
+  - token: "D,AM#26"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "054000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A26 MOST"
+  - token: "D,AM#27"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "056000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A27 MOST"
+  - token: "D,AM#3"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "006000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A3 MOST"
+  - token: "D,AM#30"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "060000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A30 MOST"
+  - token: "D,AM#31"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "062000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A31 MOST"
+  - token: "D,AM#32"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "064000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A32 MOST"
+  - token: "D,AM#33"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "066000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A33 MOST"
+  - token: "D,AM#34"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "070000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A34 MOST"
+  - token: "D,AM#35"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "072000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A35 MOST"
+  - token: "D,AM#36"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "074000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A36 MOST"
+  - token: "D,AM#37"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "076000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A37 MOST"
+  - token: "D,AM#4"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "010000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A4 MOST"
+  - token: "D,AM#5"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "012000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A5 MOST"
+  - token: "D,AM#6"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "014000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A6 MOST"
+  - token: "D,AM#7"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "016000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "A7 MOST"
+  - token: "D,B"
+    category: DSEL
+    encoding: { parts: ["000000", "000004", "006000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "B REGISTER"
+  - token: "D,BMR"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "050000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "BIT MASK REGISTER"
+  - token: "D,CAR"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "042000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "COMPUTED ADDRESS REGISTER"
+  - token: "D,CONST"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "144000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONSTANT REGISTER"
+  - token: "D,CSBRK"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "104000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONTROL STORE BREAK REGISTER"
+  - token: "D,CSCNT"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "110000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONTROL STORE CONTROL REG."
+  - token: "D,CSWA"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "102000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "CONT. ST. WRITE ADDRESS REG."
+  - token: "D,DADOM"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "124000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM ALT. DOMAIN REGISTER"
+  - token: "D,DASEG"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "130000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM ALT. SEGM."
+  - token: "D,DATAIN"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "020000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA-IN HOLD REG. ON SLICE"
+  - token: "D,DATAIN2"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "022000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "EXTRA DATA-IN HOLD REG ON SL"
+  - token: "D,DCINHLL"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "102000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA CACHE INHIBIT LOWER LIM"
+  - token: "D,DCINHLU"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "100000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA CACHE INHIBIT UPPER LIM"
+  - token: "D,DCLCACH"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "112000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA CLEAR CACHE"
+  - token: "D,DCON0"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "110000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA MEM. CONTROL REG. 0"
+  - token: "D,DCON1"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "106000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA MEM. CONTROL REG. 1"
+  - token: "D,DCSEG"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "126000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM CURR. SEGMENT"
+  - token: "D,DDOMR"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "122000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM DOMAIN REG"
+  - token: "D,DMCNTR"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "100000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM CONTROL"
+  - token: "D,DP"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "114000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DISPLACEMENT REG"
+  - token: "D,DPROCC"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "120000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM PROCESS CONTR. REG"
+  - token: "D,DSCFA"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "116000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM SCR. FILE REGISTER ADDR."
+  - token: "D,DSCRF"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "114000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM SCR. FILE (16 16-BIT RG)"
+  - token: "D,DSTSB"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "136000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM SEQ. TRANSL. SPEED-UP BF"
+  - token: "D,DTSB"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "132000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM TRANSL. SPEED-UP BUF PAG"
+  - token: "D,DUPL"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "114000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA UPPER PAGE LIMIT"
+  - token: "D,DWIPGU"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "134000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DMM WIP/PGU BROADSIDE (16 P)"
+  - token: "D,DZPA"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "116000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA ZERO POINT ADJUST REG.."
+  - token: "D,HL"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "142000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "HIGHER LIMIT REG"
+  - token: "D,IADOM"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "064000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM ALT. DOMAIN REGISTER"
+  - token: "D,IASEG"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "070000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM ALT. SEGM."
+  - token: "D,ICCLR"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "044000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX COUNTER CLEAR"
+  - token: "D,ICINHLL"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "042000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR CACHE INHIBIT LOWER L."
+  - token: "D,ICINHLU"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "040000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR CACHE INHIBIT UPPER L."
+  - token: "D,ICLCACH"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "052000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR CLEAR CACHE"
+  - token: "D,ICON0"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "050000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR MEM. CONTROL REG. 0"
+  - token: "D,ICON1"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "046000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR MEM. CONTROL REG. 1"
+  - token: "D,ICSEG"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "066000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM CURR. SEGMENT"
+  - token: "D,IDAT"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "142000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTRUCTION MEMORY DATA"
+  - token: "D,IDOMR"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "062000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM DOMAIN REG"
+  - token: "D,IMCNTR"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "040000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM CONTROL"
+  - token: "D,IODOUT"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "100000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATA-OUT"
+  - token: "D,IPROCC"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "060000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM PROCESS CONTR. REG"
+  - token: "D,ISCFA"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "056000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM SCR. FILE REGISTER ADDR."
+  - token: "D,ISCRF"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "054000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM SCR. FILE (16 16-BIT RG)"
+  - token: "D,ISTSB"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "076000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM SEQ. TRANSL. SPEED-UP BF"
+  - token: "D,ITSB"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "072000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM TRANSL. SPEED-UP BUF PAG"
+  - token: "D,IUPL"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "054000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR. UPPER PAGE LIMIT"
+  - token: "D,IWIPGU"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "074000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IMM WIP/PGU BROADSIDE (16 P)"
+  - token: "D,IZPA"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "056000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INSTR. ZERO POINT ADJUST REG"
+  - token: "D,L"
+    category: DSEL
+    encoding: { parts: ["000000", "000004", "002000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "L REGISTER"
+  - token: "D,LC"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "140000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOOP COUNTER"
+  - token: "D,LL"
+    category: DSEL
+    encoding: { parts: ["000000", "000014", "140000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOWER LIMIT REG"
+  - token: "D,MMOD"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "012000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MEMORY MODUS REGISTER"
+  - token: "D,R"
+    category: DSEL
+    encoding: { parts: ["000000", "000004", "004000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "R REGISTER"
+  - token: "D,S1"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "STATUS REG 1"
+  - token: "D,S2"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "002000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "STATUS REG 2"
+  - token: "D,SETLIM"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "010000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SET LIMIT CONDS FOR HL-LL"
+  - token: "D,SHC"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "040000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHIFT COUNT REGISTER"
+  - token: "D,TAG"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "106000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TAG REGISTER"
+  - token: "D,TE"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "004000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "LOCAL TRAP ENABLE REG"
+  - token: "D,THA"
+    category: DSEL
+    encoding: { parts: ["000000", "000010", "016000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP HANDLER REG"
+  - token: "D,TOS"
+    category: DSEL
+    encoding: { parts: ["000000", "000006", "016000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TOP OF STACK"
+  - token: "D,TRAPCLR"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "016000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP SYSTEM CLEAR"
+  - token: "D,TRAPONOFF"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "006000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "TRAP SYSTEM ON/OFF"
+  - token: "D,TSBIND"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "014000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SET AND RESET TSB INDICATOR."
+  - token: "D,X#0"
+    category: DSEL
+    encoding: { parts: ["000000", "000002", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX 0 REG"
+  - token: "D,X#1"
+    category: DSEL
+    encoding: { parts: ["000000", "000002", "002000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX 1 REG"
+  - token: "D,X#2"
+    category: DSEL
+    encoding: { parts: ["000000", "000002", "004000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX 2 REG"
+  - token: "D,X#3"
+    category: DSEL
+    encoding: { parts: ["000000", "000002", "006000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX 3 REG"
+  - token: "D,XST1"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "024000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "S1, BITS 17-19,21-24,30-31"
+  - token: "DOUBLE"
+    category: EXUNIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000400", "000000", "000000"] }
+    description: "DOUBLE FLOATING"
+  - token: "EA1INH"
+    category: ARG
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "040000", "000000"] }
+    description: "EFF. ADDR. 1 REG CLOCK INH.."
+  - token: "EA2INH"
+    category: ARG
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "100000", "000000"] }
+    description: "EFF. ADDR. 2 REG CLOCK INH.."
+  - token: "EX,APIMUL"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002037", "000000", "000000"] }
+    description: "LAST FL. DIV. STEP SA*SP(IN)"
+  - token: "EX,APIMULA"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002036", "000000", "000000"] }
+    description: "THIRD FL DIV STEP SA*SP(INV)"
+  - token: "EX,APMULA"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002034", "000000", "000000"] }
+    description: "SA*SP TO SA"
+  - token: "EX,ARMULA"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002026", "000000", "000000"] }
+    description: "FRST FL DIV STEP A*1/B TO SA"
+  - token: "EX,ASUM"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002022", "000000", "000000"] }
+    description: "FL ADD SA+B TO CPU"
+  - token: "EX,ASUMA"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002023", "000000", "000000"] }
+    description: "FL ADD SA+B TO SA"
+  - token: "EX,BRMULP"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002033", "000000", "000000"] }
+    description: "SEC FL DIV STEP B*1/B TO SP."
+  - token: "EX,COMPARE"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002025", "000000", "000000"] }
+    description: "COMPARE A AND B"
+  - token: "EX,CTF"
+    category: EXACT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002000", "000000", "000000"] }
+    description: "CONVERT TO FLOATING"
+  - token: "EX,CTI"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002005", "000000", "000000"] }
+    description: "CONVERT TO INTEGER TRUNCATED"
+  - token: "EX,CTIR"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002004", "000000", "000000"] }
+    description: "CNVRT TO INTEGER WITH ROUND."
+  - token: "EX,DIFF"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002024", "000000", "000000"] }
+    description: "FL SUBT. A-B TO CPU"
+  - token: "EX,DTOFR"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002017", "000000", "000000"] }
+    description: "CNVRT DBL FL TO SGL, ROUNDED"
+  - token: "EX,INT"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002007", "000000", "000000"] }
+    description: "INTEGER PART TRUNCATED"
+  - token: "EX,INTR"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002006", "000000", "000000"] }
+    description: "INTEGER PART ROUNDED"
+  - token: "EX,MUL"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002030", "000000", "000000"] }
+    description: "MULTIPLY A*B TO CPU"
+  - token: "EX,MULA"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002032", "000000", "000000"] }
+    description: "MULT AND SAVE A*B TO SA"
+  - token: "EX,PPIMULP"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002035", "000000", "000000"] }
+    description: "4. FL DIV STEP SP*SP(INV)"
+  - token: "EX,SHA"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002010", "000000", "000000"] }
+    description: "SHIFT ARITHMETIC"
+  - token: "EX,SHL"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002012", "000000", "000000"] }
+    description: "SHIFT LOGICAL"
+  - token: "EX,SHR"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002013", "000000", "000000"] }
+    description: "SHIFT ROTATIONAL"
+  - token: "EX,SUM"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002021", "000000", "000000"] }
+    description: "FL ADD A+B TO CPU"
+  - token: "EX,TORMULA"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002027", "000000", "000000"] }
+    description: "A * 1/A TO SA"
+  - token: "EX,UCTF"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002001", "000000", "000000"] }
+    description: "UNSIGNED CNVRT TO FLOATING"
+  - token: "EX,UMUL"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "002031", "000000", "000000"] }
+    description: "UNSIGN MULT A*B TO CPU"
+  - token: "F,A+1"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000417", "000000", "000000"] }
+    description: "INCREMENT AOPR IF FALSE"
+  - token: "F,A+A"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000014", "000000", "000000"] }
+    description: "AOPR + AOPR IF FALSE"
+  - token: "F,A+A+1"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000414", "000000", "000000"] }
+    description: "AOPR + AOPR +1 IF FALSE"
+  - token: "F,A+B"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000011", "000000", "000000"] }
+    description: "AOPR + BOPR IF FALSE"
+  - token: "F,A+B+1"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000411", "000000", "000000"] }
+    description: "AOPR + BOPR + 1 IF FALSE"
+  - token: "F,A+B+C"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "001011", "000000", "000000"] }
+    description: "AOPR + BOPR + CARRY IF FALSE"
+  - token: "F,A-1"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DECREMENT AOPR IF FALSE"
+  - token: "F,A-B"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000406", "000000", "000000"] }
+    description: "AOPR - BOPR IF FALSE"
+  - token: "F,A-B-1"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000006", "000000", "000000"] }
+    description: "AOPR - BOPR - 1 IF FALSE"
+  - token: "F,A-B-1+C"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "001006", "000000", "000000"] }
+    description: "AOPR - BOPR - 1 + CRY IF FLS"
+  - token: "F,ADIR"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000037", "000000", "000000"] }
+    description: "AOPR DIRECT IF FALSE"
+  - token: "F,ADIRC"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000020", "000000", "000000"] }
+    description: "AOPR COMPLEMENTED IF FALSE"
+  - token: "F,AND"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000036", "000000", "000000"] }
+    description: "AOPR AND BOPR IF FALSE"
+  - token: "F,ANDCA"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000030", "000000", "000000"] }
+    description: "COMPL(AOPR) AND BOPR IF FLS."
+  - token: "F,ANDCB"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000035", "000000", "000000"] }
+    description: "AOPR AND COMPL(BOPR) IF FLS."
+  - token: "F,BDIR"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000032", "000000", "000000"] }
+    description: "BOPR DIRECT IF FALSE"
+  - token: "F,BDIRC"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000025", "000000", "000000"] }
+    description: "BOPR COMPLEMENTED IF FALSE"
+  - token: "F,FONE"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000023", "000000", "000000"] }
+    description: "FORCED ONE IF FALSE"
+  - token: "F,FZRO"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000034", "000000", "000000"] }
+    description: "FORCED ZERO IF FALSE"
+  - token: "F,JMP"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001434", "000000", "000000", "000000", "000000"] }
+    description: "JUMP ABSOLUTE IF FALSE"
+  - token: "F,JMPCAR"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001234", "000000", "000000", "000000", "000000"] }
+    description: "JUMP CAR IF FALSE"
+  - token: "F,JMPMAP"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001034", "000000", "000000", "000000", "000000"] }
+    description: "JUMP MAP IF FALSE"
+  - token: "F,JMPNS"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001404", "000000", "000000", "000000", "000000"] }
+    description: "JUMP NOT PUSH STACK IF FALSE"
+  - token: "F,JMPREL"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001670", "000000", "000000", "000000", "000000"] }
+    description: "JUMP RELATIVE IF FALSE"
+  - token: "F,JMPSTK"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001734", "000000", "000000", "000000", "000000"] }
+    description: "JUMP STACK IF FALSE"
+  - token: "F,JMPWA"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000634", "000000", "000000", "000000", "000000"] }
+    description: "JUMP WA IF FALSE"
+  - token: "F,JSR"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001404", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBROUTINE IF FALSE."
+  - token: "F,JSRCAR"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001204", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR. IN CAR IF FALS"
+  - token: "F,JSRMAP"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001004", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR. IN MAP IF FALS"
+  - token: "F,JSRREL"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001640", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR. REL IF FALSE ."
+  - token: "F,JSRSTK"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001704", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR. IN STACK IF FL"
+  - token: "F,JSRWA"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000604", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR. IN WA IF FALSE"
+  - token: "F,LOAD"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000010", "000000", "000000", "000000", "000000"] }
+    description: "LOAD STACK IF FALSE"
+  - token: "F,NAND"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000021", "000000", "000000"] }
+    description: "AOPR NAND BOPR IF FALSE"
+  - token: "F,NEXT"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001674", "000000", "000000", "000000", "000000"] }
+    description: "NEXT MICRO INSTR. IF FALSE ."
+  - token: "F,NEXTNS"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001644", "000000", "000000", "000000", "000000"] }
+    description: "NEXT WITH SEP ST CTRL IF FLS"
+  - token: "F,NOPOPRET"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001734", "000000", "000000", "000000", "000000"] }
+    description: "RETURN WITHOUT POP IF FALSE."
+  - token: "F,NOR"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000024", "000000", "000000"] }
+    description: "AOPR NOR BOPR IF FALSE"
+  - token: "F,OR"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000033", "000000", "000000"] }
+    description: "AOPR OR BOPR IF FALSE"
+  - token: "F,ORCA"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000022", "000000", "000000"] }
+    description: "C(AOPR) OR BOPR IF FALSE"
+  - token: "F,ORCB"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000027", "000000", "000000"] }
+    description: "AOPR OR C(BOPR) IF FALSE"
+  - token: "F,POP"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000020", "000000", "000000", "000000", "000000"] }
+    description: "POP STACK IF FALSE"
+  - token: "F,POPRET"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001724", "000000", "000000", "000000", "000000"] }
+    description: "RETURN FROM SUBR. IF FALSE ."
+  - token: "F,PUSH"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "PUSH STACK IF FALSE"
+  - token: "F,REP"
+    category: SEQ_FALSE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "001774", "000000", "000000", "000000", "000000"] }
+    description: "REPEAT CURR. INSTR. IF FALSE"
+  - token: "F,XNOR"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000026", "000000", "000000"] }
+    description: "AOPR EXNOR BOPR IF FALSE"
+  - token: "F,XOR"
+    category: EXFUNC
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000031", "000000", "000000"] }
+    description: "AOPR OR BOPR IF FALSE"
+  - token: "FAST"
+    category: TIM
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "002000", "000000", "000000", "000000"] }
+    description: "FAST CYCLE"
+  - token: "HBRET"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000004", "070000", "000000", "000000", "000000", "000000"] }
+    description: "RETURN TO HARDW. BRANCH REG."
+  - token: "HWTW"
+    category: BSEL
+    encoding: { parts: ["000000", "000300", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "HALFW. TO WORD SIGN EXT."
+  - token: "IADJ"
+    category: IADJ
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000020", "000000", "000000", "000000"] }
+    description: "INDEX ADJUST (INCR IND C.)"
+  - token: "IFMEM"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IF MEMORY, THEN ..."
+  - token: "IFT"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "IF CONDITION TRUE, THEN..."
+  - token: "IX0"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REGISTER 0"
+  - token: "IX1"
+    category: BSEL
+    encoding: { parts: ["000000", "000020", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REGISTER 1"
+  - token: "IX2"
+    category: BSEL
+    encoding: { parts: ["000000", "000040", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REGISTER 2"
+  - token: "IX3"
+    category: BSEL
+    encoding: { parts: ["000000", "000060", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "INDEX REGISTER 3"
+  - token: "JMP"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000014", "070000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP ABSOLUTE"
+  - token: "JMPCAR"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000012", "070000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO COMPUTED ADDR. REG"
+  - token: "JMPMAP"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000010", "070000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO MAP ADDRESS"
+  - token: "JMPNS"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000014", "010000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP WITH SEP STACK CONTROL."
+  - token: "JMPREL"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000016", "160000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP REL TO COMP ADDR REG"
+  - token: "JMPSTK"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000017", "070000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO STACK ADDRESS"
+  - token: "JMPWA"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000006", "070000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO ADDRESS IN WA"
+  - token: "JSR"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000014", "010000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBROUTINE ABSOLUTE."
+  - token: "JSRCAR"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000012", "010000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR IN COMP ADDR R."
+  - token: "JSRMAP"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000010", "010000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR IN MAP ADDRESS."
+  - token: "JSRREL"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000016", "100000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR REL TO COMP ADR"
+  - token: "JSRSTK"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000017", "010000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR IN STACK"
+  - token: "JSRWA"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000006", "010000", "000000", "000000", "000000", "000000"] }
+    description: "JUMP TO SUBR IN WA"
+  - token: "K,1IFZ"
+    category: STCTL
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000003", "000000", "000000", "000000", "000000"] }
+    description: "SET K IF ZERO ALU"
+  - token: "K,ONE"
+    category: STCTL
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000001", "000000", "000000", "000000", "000000"] }
+    description: "SET K"
+  - token: "K,ZRO"
+    category: STCTL
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000002", "000000", "000000", "000000", "000000"] }
+    description: "CLEAR K"
+  - token: "LCDECR"
+    category: LCDECR
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000040", "000000", "000000", "000000"] }
+    description: "LOOP COUNTER DECREMENT"
+  - token: "LOAD"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "020000", "000000", "000000", "000000", "000000"] }
+    description: "LOAD STACK"
+  - token: "MEM,MV1"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000005", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MOVE 1 WORD IN DATA MEMORY ."
+  - token: "MEM,MV2"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000005", "020000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MOVE 2 WORDS IN DATA MEMORY."
+  - token: "MEM,MV3"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000005", "040000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MOVE 3 WORDS IN DATA MEMORY."
+  - token: "MEM,MV4"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000005", "060000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MOVE 4 WORDS IN DATA MEMORY."
+  - token: "MEM,RD"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000104", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "READ MEMORY WITH ORED TYPE ."
+  - token: "MEM,RD1"
+    category: MEMRQ
+    encoding: { parts: ["000000", "000000", "000004", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "READ 1 BYTE FROM DATA MEMORY"
+  - token: "MEM,RD2"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000004", "020000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "READ 2 BYTES FROM DATAMEMORY"
+  - token: "MEM,RD3"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000004", "040000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "READ 3 BYTES FROM DATAMEMORY"
+  - token: "MEM,RD4"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000004", "060000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "READ 4 BYTES FROM DATAMEMORY"
+  - token: "MEM,WR"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000104", "100000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE MEMORY WITH ORED TYPE."
+  - token: "MEM,WR1"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000004", "100000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE 1 BYTE TO DATA MEMORY."
+  - token: "MEM,WR2"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000004", "120000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE 2 BYTES TO DATA MEMORY"
+  - token: "MEM,WR3"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000004", "140000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE 3 BYTES TO DATA MEMORY"
+  - token: "MEM,WR4"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000004", "160000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "WRITE 4 BYTES TO DATA MEMORY"
+  - token: "MV,DINTOD"
+    category: MVBUS
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000300", "000000", "000000"] }
+    description: "DATA-IN TO D"
+  - token: "MV,DTODP"
+    category: MVBUS
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000200", "000000", "000000"] }
+    description: "ADDR SAVE FR MEM TO DP1-DP2."
+  - token: "MV,DTOXBL"
+    category: MVBUS
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000100", "000000", "000000"] }
+    description: "MEM DBUS TO FL BBUS LEAST SG"
+  - token: "MV,DTOXBM"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "MEM DBUS TO FL BBUS MOST SIG"
+  - token: "NADL"
+    category: CMEM
+    encoding: { parts: ["000000", "000000", "000000", "001000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "NOT ADDR LATCH."
+  - token: "NEXT"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000016", "170000", "000000", "000000", "000000", "000000"] }
+    description: "NEXT MICRO INSTRUCTION"
+  - token: "NEXTNS"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000016", "110000", "000000", "000000", "000000", "000000"] }
+    description: "NEXT WITH SEP STACK CONTROL."
+  - token: "NOPOPRET"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000017", "070000", "000000", "000000", "000000", "000000"] }
+    description: "RETURN WITHOUT POP"
+  - token: "NPCSEL"
+    category: DSEL
+    encoding: { parts: ["000000", "000000", "010000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SELECT NPC TO L REGISTER"
+  - token: "NSEXCONV"
+    category: BSEL
+    encoding: { parts: ["000000", "000200", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "NO SIGN EXT. WITH B,XRESL"
+  - token: "ORA"
+    category: ORA
+    encoding: { parts: ["000000", "000000", "001000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR AOPR ACC. TO INSTRUCTION."
+  - token: "ORB"
+    category: ORB
+    encoding: { parts: ["000000", "000000", "000400", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR BOPR ACC. TO INSTRUCTION."
+  - token: "ORD"
+    category: ORD
+    encoding: { parts: ["000000", "000000", "000200", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR DEST ACC. TO INSTRUCTION."
+  - token: "ORT"
+    category: ORT
+    encoding: { parts: ["000000", "000000", "000040", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "OR DATATYPE ACC. TO INSTR. ."
+  - token: "PASSAA"
+    category: AACTL
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000010", "000000", "000000", "000000"] }
+    description: "PASS ADDR AOPR THR ADDR ARIT"
+  - token: "PASSAB"
+    category: AACTL
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000016", "000000", "000000", "000000"] }
+    description: "PASS ADDR BOPR THR ADDR ARIT"
+  - token: "POP"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000000", "040000", "000000", "000000", "000000", "000000"] }
+    description: "POP STACK"
+  - token: "POPRET"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000017", "050000", "000000", "000000", "000000", "000000"] }
+    description: "RETURN FROM SUBROUTINE"
+  - token: "PRF,ACONT"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "100000", "000000", "000000", "000000"] }
+    description: "ADDR ARITHMETIC CONTINUE"
+  - token: "PRF,CEOPF"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "120000", "000000", "000000", "000000"] }
+    description: "END-OF-OP IF FALSE"
+  - token: "PRF,CEOPT"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "020000", "000000", "000000", "000000"] }
+    description: "END-OF-OP IF TRUE"
+  - token: "PRF,CLEAR"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "110000", "000000", "000000", "000000"] }
+    description: "PREFETCH CLEAR"
+  - token: "PRF,EOP"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "010000", "000000", "000000", "000000"] }
+    description: "END-OF-OPERATION"
+  - token: "PRF,FADC"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "040000", "000000", "000000", "000000"] }
+    description: "FETCH ADDR CODE"
+  - token: "PRF,FARG"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "050000", "000000", "000000", "000000"] }
+    description: "FETCH ARGUMENT"
+  - token: "PRF,FOPC"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "030000", "000000", "000000", "000000"] }
+    description: "FETCH OPCODE"
+  - token: "PRF,FOPR"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "150000", "000000", "000000", "000000"] }
+    description: "FETCH OPERAND"
+  - token: "PRF,ISAMP"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "170000", "000000", "000000", "000000"] }
+    description: "INTERRUPT SAMPLE"
+  - token: "PRF,PCONT"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "070000", "000000", "000000", "000000"] }
+    description: "PREFETCH CONTINUE"
+  - token: "PRF,START"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "060000", "000000", "000000", "000000"] }
+    description: "START"
+  - token: "PRF,WFIN"
+    category: PRF
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "160000", "000000", "000000", "000000"] }
+    description: "WAIT FOR PREFETCH FINISHED"
+  - token: "PUSH"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "PUSH (SEQUENCER) STACK"
+  - token: "REP"
+    category: SEQ_TRUE
+    encoding: { parts: ["000000", "000000", "000000", "000017", "170000", "000000", "000000", "000000", "000000"] }
+    description: "REPEAT CURRENT MICRO INSTR.."
+  - token: "SCRB"
+    category: ASEL
+    encoding: { parts: ["000100", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "USE BLOCK B AS A-OPERAND"
+  - token: "SET"
+    category: SET
+    encoding: { parts: ["000000", "000000", "000000", "000000", "004000", "000000", "000000", "000000", "000000"] }
+    description: "SET CONDITION SELECT"
+  - token: "SHARG"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHIFT COUNTER ARGUMENT"
+  - token: "SHCFR"
+    category: ASEL
+    encoding: { parts: ["000010", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SHIFT COUNT FROM SH COUNT RG"
+  - token: "SINGLE"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SINGLE FLOATING"
+  - token: "SLOW1"
+    category: TIM
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "004000", "000000", "000000", "000000"] }
+    description: "SLOW CYCLE"
+  - token: "SLOW2"
+    category: TIM
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "006000", "000000", "000000", "000000"] }
+    description: "FIRST HALF CYCLE IS SLOW"
+  - token: "SPAREBIT"
+    category: SPAREBIT
+    encoding: { parts: ["040000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "SPARE BIT"
+  - token: "ST,SAVA"
+    category: STSAVA
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000100", "000000", "000000", "000000"] }
+    description: "SAVE ALU STATUS"
+  - token: "ST,SAVAC"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000001", "000100", "000000", "000000", "000000"] }
+    description: "SAVE COMPARE STATUS"
+  - token: "ST,SAVB"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000003", "000100", "000000", "000000", "000000"] }
+    description: "SAVE BCD STATUS"
+  - token: "ST,SAVF"
+    category: MULTI
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000002", "000100", "000000", "000000", "000000"] }
+    description: "SAVE FLOATING STATUS"
+  - token: "TYP,BY"
+    category: TYP
+    encoding: { parts: ["000000", "000000", "000030", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATATYPE IS BYTE"
+  - token: "TYP,F"
+    category: TYP
+    encoding: { parts: ["000000", "000000", "000010", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATATYPE IS FLOATING"
+  - token: "TYP,HW"
+    category: TYP
+    encoding: { parts: ["000000", "000000", "000020", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATATYPE IS HALFWORD"
+  - token: "TYP,W"
+    category: ZERO
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "DATATYPE IS WORD"
+  - token: "UNLOCK"
+    category: DSEL
+    encoding: { parts: ["000000", "000015", "132000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "UNLOCK INTERFACE TO N100"
+  - token: "W,EXT"
+    category: WAIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000600", "000000", "000000", "000000"] }
+    description: "WAIT FOR EXT. ARITHM. UNIT ."
+  - token: "W,IO"
+    category: WAIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000400", "000000", "000000", "000000"] }
+    description: "WAIT FOR INPUT/OUTPUT"
+  - token: "W,IOEM"
+    category: WAIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001600", "000000", "000000", "000000"] }
+    description: "WAIT FOR IO/EXT/MEM"
+  - token: "W,IOEPM"
+    category: WAIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001200", "000000", "000000", "000000"] }
+    description: "WAIT FOR IO/EXT/PMEM"
+  - token: "W,MEM"
+    category: WAIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001400", "000000", "000000", "000000"] }
+    description: "WAIT FOR MEMORY"
+  - token: "W,PMEM"
+    category: WAIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "001000", "000000", "000000", "000000"] }
+    description: "WAIT FOR PREVIOUS MEM CYCLE."
+  - token: "W,XD"
+    category: WAIT
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000200", "000000", "000000", "000000"] }
+    description: "WAIT FOR XD-BUS"
+  - token: "XDMOV"
+    category: DSEL
+    encoding: { parts: ["000000", "000002", "000000", "000000", "000000", "000000", "000000", "000000", "000000"] }
+    description: "XD-BUS MOVE (NO ALU TRANSF)."
+  - token: "XRES"
+    category: XRES
+    encoding: { parts: ["000000", "000000", "000000", "000000", "000000", "000000", "000040", "000000", "000000"] }
+    description: "ENABLE EXT RESULT INTO CPU ."

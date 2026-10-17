@@ -1,0 +1,216 @@
+# ND-5000 Microinstruction Word Field Definitions
+# Generated from ND110Compile/ND110Compile/ND5000Fields.cs
+# DO NOT EDIT MANUALLY - regenerate via tools/generate_fields_yaml.py
+# Bit positions are numbered LSB-first (bit 0 is the least significant bit).
+
+model: ND-5000
+word_size_bits: 128
+byte_count: 16
+byte_order: big-endian
+part_count: 8
+control_store_words: 16384
+binary_format: be16x8
+
+partition:
+  - name: ALU_TRUE
+    high_bit: 127
+    low_bit: 122
+    description: "ALU function, true path (4-bit op + 2-bit carry)"
+  - name: ALU_FALSE
+    high_bit: 121
+    low_bit: 116
+    description: "ALU function, false path (4-bit op + 2-bit carry)"
+  - name: EXUC
+    high_bit: 115
+    low_bit: 115
+    description: "execute unconditional"
+  - name: COND_ALU
+    high_bit: 114
+    low_bit: 114
+    description: "enable conditional ALU operation"
+  - name: Q_REG
+    high_bit: 113
+    low_bit: 111
+    description: "Q register operation"
+  - name: AAP_CTRL
+    high_bit: 110
+    low_bit: 103
+    description: "AAP control (3-bit selector + 5-bit op)"
+  - name: TIMING
+    high_bit: 102
+    low_bit: 101
+    description: "cycle time (JSON field is named TIMING, not CYCLE)"
+  - name: DATATYPE
+    high_bit: 100
+    low_bit: 98
+    description: "data type"
+  - name: OR_ENABLE
+    high_bit: 97
+    low_bit: 97
+    description: "OR control enable (gates ORCON)"
+  - name: A_OP
+    high_bit: 96
+    low_bit: 89
+    description: "A operand select (3-bit group + 5-bit register)"
+  - name: B_OP
+    high_bit: 88
+    low_bit: 84
+    description: "B operand select"
+  - name: DEST
+    high_bit: 83
+    low_bit: 76
+    description: "destination select (default 24 = D,NOOP)"
+  - name: STATUS
+    high_bit: 75
+    low_bit: 72
+    description: "status operation"
+  - name: IXC_INCR
+    high_bit: 71
+    low_bit: 71
+    description: "index counter increment (IXADJ)"
+  - name: LC_DECR
+    high_bit: 70
+    low_bit: 70
+    description: "loop counter decrement (LCDECR)"
+  - name: COND_SEQ
+    high_bit: 69
+    low_bit: 69
+    description: "enable conditional sequence"
+  - name: SEQ_TRUE
+    high_bit: 68
+    low_bit: 65
+    description: "sequencer, true path (2-bit jump + 2-bit stack)"
+  - name: SEQ_FALSE
+    high_bit: 64
+    low_bit: 61
+    description: "sequencer, false path (2-bit jump + 2-bit stack)"
+  - name: INVSEQ
+    high_bit: 60
+    low_bit: 60
+    description: "invert test condition"
+  - name: CSAVE
+    high_bit: 59
+    low_bit: 59
+    description: "push test condition to stack"
+  - name: TESTOBJ
+    high_bit: 58
+    low_bit: 53
+    description: "test object (condition select)"
+  - name: ABR
+    high_bit: 52
+    low_bit: 51
+    description: "alternative branch address calculation"
+  - name: TBC
+    high_bit: 50
+    low_bit: 48
+    description: "instruction cache write control (default 7 = TBC,NOOP)"
+  - name: GET
+    high_bit: 47
+    low_bit: 44
+    description: "instruction/operand fetch"
+  - name: STOP
+    high_bit: 43
+    low_bit: 43
+    description: "stop microprogram"
+  - name: AAPSYNC
+    high_bit: 42
+    low_bit: 42
+    description: "wait for AAP ready"
+  - name: MEM_BIT3
+    high_bit: 41
+    low_bit: 41
+    description: "memory op code bit 3 (see class remarks)"
+  - name: AD_ARTI
+    high_bit: 40
+    low_bit: 40
+    description: "address arithmetic (extracted but never emitted by the JS)"
+  - name: EA_SAVE
+    high_bit: 39
+    low_bit: 38
+    description: "effective address save (lives in the MEMORY group of the JSON)"
+  - name: MEMOT
+    high_bit: 37
+    low_bit: 37
+    description: "memory request if data operand (C,MEMOT)"
+  - name: RESERVED_36
+    high_bit: 36
+    low_bit: 36
+    description: "reserved - not in the JS FIELDS table"
+  - name: ADACT
+    high_bit: 35
+    low_bit: 35
+    description: "address arithmetic activate"
+  - name: MEM_BITS20
+    high_bit: 34
+    low_bit: 32
+    description: "memory op code bits 2-0 (see class remarks)"
+  - name: ABS_ADDR
+    high_bit: 31
+    low_bit: 16
+    description: "sequencer jump target address"
+  - name: AA
+    high_bit: 15
+    low_bit: 13
+    description: "address A operand select"
+  - name: AB
+    high_bit: 12
+    low_bit: 9
+    description: "address B operand select"
+  - name: SCAL
+    high_bit: 8
+    low_bit: 6
+    description: "index scaling"
+  - name: ORCON
+    high_bit: 5
+    low_bit: 0
+    description: "OR control (only meaningful when OR_ENABLE set)"
+
+subfields:
+  - name: ALU_OP
+    high_bit: 127
+    low_bit: 124
+    description: "ALU_TRUE op       - JS decodeAlu: (v >> 2) & 0xF"
+  - name: ALU_CRY
+    high_bit: 123
+    low_bit: 122
+    description: "ALU_TRUE carry    - JS decodeAlu: v & 3"
+  - name: ALUF_OP
+    high_bit: 121
+    low_bit: 118
+    description: "ALU_FALSE op"
+  - name: ALUF_CRY
+    high_bit: 117
+    low_bit: 116
+    description: "ALU_FALSE carry"
+  - name: SEQT_TYPE
+    high_bit: 68
+    low_bit: 67
+    description: "SEQ_TRUE jump     - JS decodeSeq: (v >> 2) & 3"
+  - name: SEQT_STACK
+    high_bit: 66
+    low_bit: 65
+    description: "SEQ_TRUE stack    - JS decodeSeq: v & 3"
+  - name: SEQF_TYPE
+    high_bit: 64
+    low_bit: 63
+    description: "SEQ_FALSE jump"
+  - name: SEQF_STACK
+    high_bit: 62
+    low_bit: 61
+    description: "SEQ_FALSE stack"
+  - name: ORCON_N
+    high_bit: 5
+    low_bit: 5
+    description: "OR control: next"
+  - name: ORCON_E
+    high_bit: 4
+    low_bit: 4
+    description: "OR control: enable"
+  - name: ORCON_A
+    high_bit: 3
+    low_bit: 2
+    description: "OR control: address"
+  - name: ORCON_D
+    high_bit: 1
+    low_bit: 0
+    description: "OR control: data"
