@@ -3,6 +3,34 @@
  */
 
 export * from "./types.js";
+export * from "./word.js";
+export * from "./binary-formats.js";
+export * from "./nd100-proms.js";
+export { detectModel } from "./detect-model.js";
+export type { DetectResult, ModelScore, TokenNameSets } from "./detect-model.js";
+export type { WideToken, WideField, WidePack } from "./wide-defs.js";
+export {
+  buildWidePack,
+  loadWideDefinitions,
+  loadWideDefinitionsFromJSON,
+} from "./wide-defs.js";
+export {
+  assembleWide,
+  preprocessGeneric,
+  parseOctalGeneric,
+  parseOctalNd10,
+  stripCommentGeneric,
+} from "./assembler-wide.js";
+export type {
+  WideAssembleOptions,
+  WideAssemblyResult,
+  WideDiagnostic,
+  WideInstruction,
+  WideLabel,
+} from "./assembler-wide.js";
+export { disassembleWide, lookupFieldToken } from "./disassembler-wide.js";
+export { formatProgramWide, parseLabeBytes } from "./formatter-wide.js";
+export type { LabelMap, WideFormatOptions } from "./formatter-wide.js";
 export {
   extractField,
   decodeFields,
@@ -22,6 +50,7 @@ export {
   parseOctal,
   encodingToBigInt,
   parseTokensYaml,
+  parseVariantOverridesYaml,
   parseFieldsYaml,
   buildDefinitionPack,
 } from "./yaml-loader.js";
@@ -43,6 +72,7 @@ export {
   translateFromTokens,
   parseNumericLiteral,
   binaryToCodeBytes,
+  recordsToCodeBytes,
 } from "./assembler.js";
 export {
   combineRoms,

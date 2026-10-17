@@ -62,6 +62,12 @@ export interface AssemblyDiagnostic {
 export interface AssemblyResult {
   /** Address -> 64-bit microinstruction value (in the target model's storage form). */
   binary: Map<number, bigint>;
+  /**
+   * Every assembled instruction in source order, also when an address was
+   * written twice (the C# compiler writes one record per instruction; the
+   * `binary` map keeps only the last value per address).
+   */
+  records: Array<{ address: number; value: bigint }>;
   sourceMap: SourceMap;
   diagnostics: AssemblyDiagnostic[];
 }
@@ -130,7 +136,8 @@ export function preprocess(source: string): SourceMap {
   const lines = source.replace(/\r/g, "").split("\n");
   for (let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
     const lineNo = lineIdx + 1;
-    let line = lines[lineIdx]!;
+    // The C# compiler trims the line first.
+    let line = lines[lineIdx]!.trim();
 
     // Normalise comma spacing - "A , D" and "A, D" both become "A,D".
     line = line.replace(/ ,/g, ",").replace(/, /g, ",");
@@ -169,11 +176,14 @@ export function preprocess(source: string): SourceMap {
     if (pending.trim() === "") pendingLine = lineNo;
     pending += " " + line;
 
-    // Instruction terminator.
-    const semiIdx = pending.indexOf(";");
-    if (semiIdx >= 0) {
-      const body = pending.slice(0, semiIdx);
-      const args = body
+    // Instruction terminator. Same rule as Compiler.Preprosess in C#: the
+    // instruction ends at the first LINE that has a ';' (not as its very
+    // first character); every item of that line is part of the instruction,
+    // also the items after the ';' (3-line format: "COND,LC=0;   T,NEXT").
+    if (line.indexOf(";") > 0) {
+      const args = pending
+        .split(";")
+        .join("")
         .split(/\s+/)
         .map((s) => s.trim())
         .filter((s) => s.length > 0);
@@ -183,7 +193,7 @@ export function preprocess(source: string): SourceMap {
         args,
       });
       address = (address + 1) & 0xFFFF;
-      pending = pending.slice(semiIdx + 1);
+      pending = "";
       pendingLine = lineNo;
     }
   }
@@ -331,6 +341,7 @@ export function assembleSource(
   const sourceMap = preprocess(source);
   const diagnostics: AssemblyDiagnostic[] = [];
   const binary = new Map<number, bigint>();
+  const records: Array<{ address: number; value: bigint }> = [];
 
   for (const instr of sourceMap.instructions) {
     let value = translateInstruction(instr, pack, sourceMap.labels, diagnostics);
@@ -347,9 +358,10 @@ export function assembleSource(
       });
     }
     binary.set(instr.address, value);
+    records.push({ address: instr.address, value });
   }
 
-  return { binary, sourceMap, diagnostics };
+  return { binary, records, sourceMap, diagnostics };
 }
 
 // ---------------------------------------------------------------------------
@@ -372,6 +384,28 @@ export function binaryToCodeBytes(binary: Map<number, bigint>): Uint8Array {
     let v = binary.get(addr)!;
     for (let j = 0; j < 8; j++) {
       out[pos++] = Number(v & 0xFFn);
+      v >>= 8n;
+    }
+  }
+  return out;
+}
+
+/**
+ * Serialise records in the given order to .CODE format, exactly as the C#
+ * compiler writes them (one record per instruction, source order, duplicate
+ * addresses included).
+ */
+export function recordsToCodeBytes(
+  records: ReadonlyArray<{ address: number; value: bigint }>,
+): Uint8Array {
+  const out = new Uint8Array(records.length * 10);
+  let pos = 0;
+  for (const { address, value } of records) {
+    out[pos++] = address & 0xff;
+    out[pos++] = (address >> 8) & 0xff;
+    let v = value;
+    for (let j = 0; j < 8; j++) {
+      out[pos++] = Number(v & 0xffn);
       v >>= 8n;
     }
   }

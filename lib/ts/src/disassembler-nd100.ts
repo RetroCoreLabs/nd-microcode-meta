@@ -12,10 +12,11 @@
  *   2. Bits 25/26/27 are three active-low branch-mode select lines
  *      (VECT0 / SLWCS0 / MAPJ0) that combine with MIS to pick the
  *      source of the lower 4 bits of the next-microaddress. The
- *      assembler stores the active-high mnemonic values (VECT asserted
- *      = bit 25 set pre-inversion), and the ROM flips bits 22-27 on
- *      write. Consumers of this file work in CANONICAL form (post-XOR),
- *      so "VECT asserted" means bit 25 set here.
+ *      assembler stores the active-high mnemonic values, so "VECT
+ *      asserted" means bit 25 set here. The words are used as they come
+ *      from the PROMs, with no XOR (see reference/roms/ND100/README.md,
+ *      "Stored form"; whether an XOR belongs in front of this function is
+ *      not settled, the round trip is lossless either way).
  *
  *   3. IDBS is a 4-bit field at bits 37-40 with a separate SEXT modifier
  *      at bit 41 (vs ND-110's 5-bit IDBS at 37-41). The GPR-with-SEXT
@@ -88,11 +89,9 @@ const SEXT_BIT = 1n << 41n;
 /**
  * Disassemble a single ND-100 microinstruction word.
  *
- * The `raw` BigInt should be in canonical (post-XOR, active-high) form.
- * If you loaded the .CODE file with `parseCodeBytes(bytes, { nd110XorFlip: true })`
- * you are already in canonical form. If you loaded without the flip,
- * XOR with `ND110_XOR_MASK` (0x0FC00000) first - ND-100 uses the same
- * bit-inversion convention as ND-110.
+ * The `raw` BigInt is the 64-bit word as combined from the PROM chips (see
+ * nd100-proms.ts), in the form the ND-100 token table describes. No XOR is
+ * applied by this function.
  */
 export function disassembleWord(
   raw: bigint,
@@ -264,6 +263,14 @@ export function disassembleWord(
       const tJmp = pack.definitions.tokensByName.get("T,JMP");
       if (tJmp) tSeqTok = tJmp;
     }
+  }
+
+  // A vectored jump token (T,JMP0-3 and the like) does not cover bits 31:30,
+  // the T_SEQ field. Emit T,NEXT / T,RETURN as well, otherwise those bits
+  // are lost: 1201 of the 2048 words of the 3033S PROMs have them
+  // (1052 with bit 31, 149 with bit 30, all with VECT set).
+  if (tSeqTok && Number((raw >> 30n) & 3n) !== 0) {
+    tryEmit("T_SEQ", 2);
   }
 
   // MAPJ standalone (bit 27). Emitted as T,MAPJ token.

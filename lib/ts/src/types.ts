@@ -5,8 +5,78 @@
  * are the public surface of the library.
  */
 
-/** Supported microcode model. */
-export type Model = "nd100" | "nd110" | "nd120";
+/**
+ * Supported ND-1x0 microcode model (64-bit word handled by the original
+ * assembler/disassembler code). "nd120-dly" is the ND-120 table with the
+ * three register-select tokens B,P / B,B / B,X without the DLY1 bit (the
+ * C# ND120Tokens.AdjustTokensForVersionL() values); see
+ * defs/tokens/nd120-tokens.yaml `variant_overrides`.
+ */
+export type Model = "nd100" | "nd110" | "nd120" | "nd120-dly";
+
+/** Wide-word models handled by the *-wide modules (NORD-10, ND-500, ND-5000). */
+export type WideModel = "nd10" | "nd500" | "nd5000";
+
+/** Every model name the library knows (canonical spelling). */
+export type AnyModel = Model | WideModel;
+
+/** All canonical model names, in display order. */
+export const ALL_MODELS: readonly AnyModel[] = [
+  "nd10",
+  "nd100",
+  "nd110",
+  "nd120",
+  "nd120-dly",
+  "nd500",
+  "nd5000",
+];
+
+const MODEL_ALIASES: Readonly<Record<string, AnyModel>> = {
+  nd10: "nd10",
+  nord10: "nd10",
+  "nord-10": "nd10",
+  "nd-10": "nd10",
+  nd100: "nd100",
+  "nd-100": "nd100",
+  nd110: "nd110",
+  "nd-110": "nd110",
+  nd120: "nd120",
+  "nd-120": "nd120",
+  "nd120-dly": "nd120-dly",
+  "nd-120-dly": "nd120-dly",
+  nd120l: "nd120-dly",
+  "nd120-l": "nd120-dly",
+  "nd-120-l": "nd120-dly",
+  nd500: "nd500",
+  "nd-500": "nd500",
+  nd5000: "nd5000",
+  "nd-5000": "nd5000",
+};
+
+/**
+ * Turn the text of a model name (directive, setting, command line) into the
+ * canonical model name. Case does not matter. Returns undefined for text
+ * that is not a known name. Every place that reads a model name uses this.
+ */
+export function normaliseModelName(text: string | undefined): AnyModel | undefined {
+  if (text === undefined) return undefined;
+  return MODEL_ALIASES[text.trim().toLowerCase()];
+}
+
+/** True for the models the 64-bit assembler/disassembler code handles. */
+export function isNd1x0Model(model: AnyModel): model is Model {
+  return (
+    model === "nd100" ||
+    model === "nd110" ||
+    model === "nd120" ||
+    model === "nd120-dly"
+  );
+}
+
+/** True for NORD-10, ND-500 and ND-5000. */
+export function isWideModel(model: AnyModel): model is WideModel {
+  return model === "nd10" || model === "nd500" || model === "nd5000";
+}
 
 /** Token category - maps directly to the `category` field in token YAML. */
 export type TokenCategory =

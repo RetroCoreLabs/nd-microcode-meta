@@ -72,10 +72,18 @@ interface RawToken {
   models?: string[];
 }
 
+/** One replacement entry of a `variant_overrides` block. */
+interface RawVariantOverride {
+  token: string;
+  encoding: RawTokenEncoding;
+  description?: string;
+}
+
 interface RawTokensDocument {
   model: string;
   token_count?: number;
   tokens: RawToken[];
+  variant_overrides?: Record<string, RawVariantOverride[]>;
 }
 
 interface RawFieldDef {
@@ -212,6 +220,53 @@ export function parseTokensYaml(text: string, sourceLabel = "<yaml>"): Token[] {
 }
 
 /**
+ * Replace tokens with the entries of a `variant_overrides` block. Each
+ * override keeps every key of the base token (category, display_line,
+ * provides, models, ...) and replaces the encoding and, when given, the
+ * description. An override for a token that is not in the table is an error.
+ */
+function applyVariantOverrides(
+  tokens: Token[],
+  overrides: RawVariantOverride[] | undefined,
+  variant: string,
+): Token[] {
+  if (!overrides || overrides.length === 0) {
+    throw new Error(`No variant_overrides for "${variant}" in the tokens file`);
+  }
+  const byName = new Map(overrides.map((o) => [o.token, o]));
+  const out = tokens.map((t) => {
+    const o = byName.get(t.name);
+    if (!o) return t;
+    byName.delete(t.name);
+    const enc = o.encoding;
+    return {
+      ...t,
+      description: o.description ?? t.description,
+      encodingOctal: [enc.w4, enc.w3, enc.w2, enc.w1] as const,
+      encodingValue: encodingToBigInt(enc.w4, enc.w3, enc.w2, enc.w1),
+    };
+  });
+  if (byName.size > 0) {
+    throw new Error(
+      `variant_overrides "${variant}" names unknown tokens: ${[...byName.keys()].join(", ")}`,
+    );
+  }
+  return out;
+}
+
+/**
+ * Read the `variant_overrides` entries for one variant from tokens YAML text.
+ * Browser-safe - does not touch the filesystem.
+ */
+export function parseVariantOverridesYaml(
+  text: string,
+  variant: string,
+): RawVariantOverride[] | undefined {
+  const doc = yamlLoad(text) as RawTokensDocument;
+  return doc?.variant_overrides?.[variant];
+}
+
+/**
  * Parse YAML fields text into a name->FieldDef map.
  * Browser-safe - does not touch the filesystem.
  */
@@ -263,9 +318,15 @@ export function buildDefinitionPack(
   };
 }
 
-function loadTokensFile(path: string): Token[] {
+function loadTokensFile(path: string, variant?: string): Token[] {
   const text = readFileSync(path, "utf8");
-  return parseTokensYaml(text, path);
+  const tokens = parseTokensYaml(text, path);
+  if (variant === undefined) return tokens;
+  return applyVariantOverrides(
+    tokens,
+    parseVariantOverridesYaml(text, variant),
+    variant,
+  );
 }
 
 function loadFieldsFile(path: string): Map<string, FieldDef> {
@@ -290,18 +351,23 @@ export function loadDefinitions(
   //   ND-100: dedicated nd100-tokens.yaml (296 tokens, authoritative list).
   //   ND-110: dedicated nd110-tokens.yaml (356 tokens).
   //   ND-120: dedicated nd120-tokens.yaml (= ND-110 + ND-120-only extras).
+  const isNd120 = model === "nd120" || model === "nd120-dly";
   const tokensPath =
     model === "nd100"
       ? join(root, "tokens", "nd100-tokens.yaml")
-      : model === "nd120"
+      : isNd120
       ? join(root, "tokens", "nd120-tokens.yaml")
       : join(root, "tokens", "nd110-tokens.yaml");
-  const tokens = loadTokensFile(tokensPath);
+  // nd120-dly = nd120 with the variant_overrides block applied.
+  const tokens = loadTokensFile(
+    tokensPath,
+    model === "nd120-dly" ? "nd120-dly" : undefined,
+  );
 
   // Fields: ND-110 is the base. ND-100 and ND-120 overlay their own
   // deltas (differing bit widths, field positions, renames).
   const fields = loadFieldsFile(join(root, "fields", "nd110-fields.yaml"));
-  if (model === "nd120") {
+  if (isNd120) {
     const nd120Fields = loadFieldsFile(
       join(root, "fields", "nd120-fields.yaml"),
     );
@@ -340,13 +406,24 @@ export function loadDefinitionsFromJSON(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   generatedData: Record<string, any>,
 ): DefinitionPack {
-  const data = generatedData[model];
+  // nd120-dly has no data of its own: nd120 data plus its variant_overrides.
+  const dataKey = model === "nd120-dly" ? "nd120" : model;
+  const data = generatedData[dataKey];
   if (!data) throw new Error(`No generated definitions for model "${model}"`);
 
-  const tokens = (data.tokens.tokens ?? []).map((raw: RawToken) => toToken(raw));
+  let tokens: Token[] = (data.tokens.tokens ?? []).map((raw: RawToken) =>
+    toToken(raw),
+  );
+  if (model === "nd120-dly") {
+    tokens = applyVariantOverrides(
+      tokens,
+      data.tokens.variant_overrides?.["nd120-dly"],
+      "nd120-dly",
+    );
+  }
   const baseFields = parseFieldsFromJSON(generatedData["nd110"].fields);
 
-  if (model === "nd120" || model === "nd100") {
+  if (dataKey === "nd120" || dataKey === "nd100") {
     const overrides = parseFieldsFromJSON(data.fields);
     for (const [name, def] of overrides) baseFields.set(name, def);
   }
