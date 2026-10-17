@@ -83,6 +83,11 @@ TypeScript library is tested against.
   `ND-120-DELILAH-K.CODE` / `ND-120-DELILAH-L.CODE`. The L file is compiled
   with the version L fixup (variant nd120-dly).
 
+Note: the SHA-1 values are those of the files as copied. Git may change the line
+ends of text files (`.uc`, `.LABE`, `.SYMBOLS.TXT`) between CRLF and LF at checkout,
+which changes their SHA-1; the binary images (`.DATA`, `.CODE`, `.hex`) are never
+changed. The tests do not depend on the line ends.
+
 | File | Bytes | SHA-1 |
 |------|-------|-------|
 | `reference/nd120/ND-120-DELILAH-K.CODE` | 48860 | `440232ff2b836546fe8e00464d48098fa714f4fe` |
