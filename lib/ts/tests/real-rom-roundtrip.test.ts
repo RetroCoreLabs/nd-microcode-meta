@@ -34,8 +34,8 @@ function roundtrip(highPath: string, lowPath: string) {
 describe("real-ROM round-trip (authoritative)", () => {
   it("ND-110 3095 card: 37949L (high) + 37948L (low)", () => {
     const r = roundtrip(
-      "external/meta/reference/roms/ND110/37949L.bin",
-      "external/meta/reference/roms/ND110/37948L.bin",
+      "reference/roms/ND110/37949L.bin",
+      "reference/roms/ND110/37948L.bin",
     );
     console.log(
       `ND-110 3095: 2 x ${r.byteCount} bytes, ${r.instrCount} microinstructions`,
@@ -44,13 +44,25 @@ describe("real-ROM round-trip (authoritative)", () => {
     expect(r.lowMatches).toBe(true);
   });
 
-  it("ND-120 AM27256 pair: 45133L (high) + 45132L (low)", () => {
+  it("ND-120 4MB pair: 45133L (high) + 45132L (low)", () => {
     const r = roundtrip(
-      "external/meta/reference/roms/ND120/AM27256_45133L.bin",
-      "external/meta/reference/roms/ND120/AM27256_45132L.bin",
+      "reference/roms/ND120/4MB/45133L.27c256.b26.bin",
+      "reference/roms/ND120/4MB/45132L.27c256.b23.bin",
     );
     console.log(
       `ND-120 AM27256: 2 x ${r.byteCount} bytes, ${r.instrCount} microinstructions`,
+    );
+    expect(r.highMatches).toBe(true);
+    expect(r.lowMatches).toBe(true);
+  });
+
+  it("ND-120 6MB pair: 45133L (high) + 45132L (low)", () => {
+    const r = roundtrip(
+      "reference/roms/ND120/6MB/45133L.27c256.b26.bin",
+      "reference/roms/ND120/6MB/45132L.27c256.b23.bin",
+    );
+    console.log(
+      `ND-120 6MB: 2 x ${r.byteCount} bytes, ${r.instrCount} microinstructions`,
     );
     expect(r.highMatches).toBe(true);
     expect(r.lowMatches).toBe(true);

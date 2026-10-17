@@ -39,11 +39,11 @@ describe("RASK round-trip: binary -> disasm -> asm -> binary", () => {
   it("produces identical canonical microcode (ignoring timing bits)", () => {
     const pack = compileDisassemblerPack(loadDefinitions("nd110"));
     const records = parseCodeFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
       { nd110XorFlip: true },
     );
     const symbols = parseSymbolsFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.SYMBOLS.TXT"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.SYMBOLS.TXT"),
     );
 
     // 1. Disassemble everything.
@@ -109,11 +109,11 @@ describe("RASK round-trip: binary -> disasm -> asm -> binary", () => {
   it("reports bit-exact match statistics (including timing bits)", () => {
     const pack = compileDisassemblerPack(loadDefinitions("nd110"));
     const records = parseCodeFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
       { nd110XorFlip: true },
     );
     const symbols = parseSymbolsFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.SYMBOLS.TXT"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.SYMBOLS.TXT"),
     );
     const instrs = disassembleMap(records, pack, symbols);
     const source = formatProgram(instrs);

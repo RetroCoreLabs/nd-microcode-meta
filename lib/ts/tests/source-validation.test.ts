@@ -30,7 +30,7 @@ describe("RASK source -> binary validation", () => {
   it("assembles ND-110-RASK.uc to the reference ND-110-RASK.CODE", () => {
     const pack = loadDefinitions("nd110");
     const source = readFileSync(
-      resolve(REPO_ROOT, "external/meta/reference/ND-110-RASK.uc"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.uc"),
       "utf8",
     );
 
@@ -55,7 +55,7 @@ describe("RASK source -> binary validation", () => {
 
     // Load the reference .CODE file (in ROM storage form, so no XOR flip).
     const reference = parseCodeFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
       { nd110XorFlip: false },
     );
 

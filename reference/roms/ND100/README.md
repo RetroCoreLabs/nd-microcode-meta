@@ -52,26 +52,46 @@ the part of the base microcode that was updated in the extended version.
 
 ## Bit ordering
 
-Physical bottom slot (`d5` / `c5`) holds the **LOW nibble (bits 0-3)**
-of the microword; physical top (`d16` / `c16`) holds the **HIGH nibble
-(bits 44-47)**. This convention matches typical TTL schematic numbering
-where the lowest-numbered chip maps to the lowest-weight bit.
+The chip at the highest-numbered column (`d20` / `c20`) holds the LOW
+nibble (bits 0-3) of the microword; the chip at the lowest-numbered
+column (`d5` / `c5`) holds the HIGH nibble (bits 60-63). The sixteen
+chips `d5`..`d20` together give a 64-bit word. This is the order of
+`tools/nd100-combine.py` and of `lib/ts/src/nd100-proms.ts`:
 
-Since each PROM is only 4 bits, the full bit assignment is:
+    chip    output bits
+    d20     3..0      (low nibble)
+    d19     7..4
+    d18     11..8
+    d17     15..12
+    d16     19..16
+    d15     23..20
+    d14     27..24
+    d13     31..28
+    d12     35..32
+    d11     39..36
+    d10     43..40
+    d9      47..44
+    d8      51..48
+    d7      55..52
+    d6      59..56
+    d5      63..60    (high nibble)
 
-    chip    position     output bits
-    d5      bottom       3..0      (low nibble of microword)
-    d6                   7..4
-    d7                   11..8
-    d8                   15..12
-    d9                   19..16
-    d10                  23..20
-    d11                  27..24
-    d12                  31..28
-    d13                  35..32
-    d14                  39..36
-    d15                  43..40
-    d16     top          47..44    (high nibble of microword)
+An earlier version of this section said that `d5` is the low nibble and
+that only 12 chips (`d5`..`d16`) form a 48-bit word. That contradicted the
+tool and the 16-chip layout that the tests use.
+`tests/nd100-3033s-roundtrip.test.ts` combines the 16 chips this way and
+gets 2048 of 2048 words back from disassemble + assemble. A lossless round
+trip does not by itself prove the bit order is the one on the board; the
+tool's header says it was checked 100 percent against an independent
+stitch of the same PROMs on 2026-04-17, which was not repeated here.
+
+## Stored form (XOR)
+
+The words are used as they come from the chips, with no XOR of bits 22-27
+(see `docs/nd100-prom-layout.md`, section 7). The round trip is 2048/2048
+with no XOR and also with XOR `0x01800000`, `0x0F800000` and `0x0FC00000`
+(checked 2026-10-17), so the test cannot tell which form is the true
+reading of the hardware. Open question, not settled.
 
 ## Combining the PROMs
 

@@ -20,11 +20,11 @@ const REPO_ROOT = resolve(__dirname, "../../..");
 describe("ND-110 ROM vs RASK.CODE analysis", () => {
   it("tabulates differences by address range", () => {
     const rom = combineRomFiles(
-      resolve(REPO_ROOT, "external/meta/reference/roms/ND110/37949L.bin"),
-      resolve(REPO_ROOT, "external/meta/reference/roms/ND110/37948L.bin"),
+      resolve(REPO_ROOT, "reference/roms/ND110/37949L.bin"),
+      resolve(REPO_ROOT, "reference/roms/ND110/37948L.bin"),
     );
     const codeBytes = readFileSync(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
     );
     const reference = parseCodeBytes(codeBytes);
 

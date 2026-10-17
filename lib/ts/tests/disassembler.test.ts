@@ -39,11 +39,11 @@ describe("end-to-end: ND-110 RASK", () => {
   it("loads and disassembles the full RASK microcode", () => {
     const pack = compileDisassemblerPack(loadDefinitions("nd110"));
     const records = parseCodeFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
       { nd110XorFlip: true },
     );
     const symbols = parseSymbolsFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.SYMBOLS.TXT"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.SYMBOLS.TXT"),
     );
 
     expect(records.size).toBeGreaterThan(4000);
@@ -65,11 +65,11 @@ describe("end-to-end: ND-110 RASK", () => {
   it("formats the first few instructions as multi-line", () => {
     const pack = compileDisassemblerPack(loadDefinitions("nd110"));
     const records = parseCodeFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
       { nd110XorFlip: true },
     );
     const symbols = parseSymbolsFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.SYMBOLS.TXT"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.SYMBOLS.TXT"),
     );
 
     const instrs = disassembleMap(records, pack, symbols).slice(0, 20);
@@ -83,7 +83,7 @@ describe("end-to-end: ND-110 RASK", () => {
   it("formatInstruction produces up to 3 lines", () => {
     const pack = compileDisassemblerPack(loadDefinitions("nd110"));
     const records = parseCodeFile(
-      resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+      resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
       { nd110XorFlip: true },
     );
 

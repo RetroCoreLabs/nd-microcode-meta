@@ -21,11 +21,11 @@ const REPO_ROOT = resolve(__dirname, "../../..");
 function loadRASK() {
   const pack = compileDisassemblerPack(loadDefinitions("nd110"));
   const records = parseCodeFile(
-    resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE"),
+    resolve(REPO_ROOT, "reference/ND-110-RASK.CODE"),
     { nd110XorFlip: true },
   );
   const symbols = parseSymbolsFile(
-    resolve(REPO_ROOT, "microcode/ND-110-RASK.SYMBOLS.TXT"),
+    resolve(REPO_ROOT, "reference/ND-110-RASK.SYMBOLS.TXT"),
   );
   return { pack, records, symbols };
 }

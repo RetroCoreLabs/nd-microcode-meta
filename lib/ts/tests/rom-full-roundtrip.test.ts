@@ -151,8 +151,8 @@ function fullRoundtrip(
 describe("full EPROM round-trip (authoritative end-to-end)", () => {
   it("ND-110 factory ROM: 37949L (high) + 37948L (low)", () => {
     const combined = combineRoms(
-      readRom("external/meta/reference/roms/ND110/37949L.bin"),
-      readRom("external/meta/reference/roms/ND110/37948L.bin"),
+      readRom("reference/roms/ND110/37949L.bin"),
+      readRom("reference/roms/ND110/37948L.bin"),
     );
     const form = detectForm(combined);
     const version = readMicrocodeVersion(combined);
@@ -163,8 +163,8 @@ describe("full EPROM round-trip (authoritative end-to-end)", () => {
     expect(form.form).toBe("nd110");
 
     const r = fullRoundtrip(
-      "external/meta/reference/roms/ND110/37949L.bin",
-      "external/meta/reference/roms/ND110/37948L.bin",
+      "reference/roms/ND110/37949L.bin",
+      "reference/roms/ND110/37948L.bin",
       "nd110",
     );
     console.log(
@@ -194,8 +194,8 @@ describe("full EPROM round-trip (authoritative end-to-end)", () => {
 
   it("ND-120 EPROM: AM27256_45133L (high) + AM27256_45132L (low)", () => {
     const combined = combineRoms(
-      readRom("external/meta/reference/roms/ND120/AM27256_45133L.bin"),
-      readRom("external/meta/reference/roms/ND120/AM27256_45132L.bin"),
+      readRom("reference/roms/ND120/4MB/45133L.27c256.b26.bin"),
+      readRom("reference/roms/ND120/4MB/45132L.27c256.b23.bin"),
     );
     const form = detectForm(combined);
     const version = readMicrocodeVersion(combined);
@@ -206,8 +206,8 @@ describe("full EPROM round-trip (authoritative end-to-end)", () => {
     expect(form.form).toBe("nd120");
 
     const r = fullRoundtrip(
-      "external/meta/reference/roms/ND120/AM27256_45133L.bin",
-      "external/meta/reference/roms/ND120/AM27256_45132L.bin",
+      "reference/roms/ND120/4MB/45133L.27c256.b26.bin",
+      "reference/roms/ND120/4MB/45132L.27c256.b23.bin",
       "nd120",
     );
     console.log(

@@ -21,8 +21,8 @@ function readRom(relPath: string): Uint8Array {
 describe("detectChipOrder on real ROMs", () => {
   it("identifies 37949L as high and 37948L as low (ND-110 3095)", () => {
     // Pass them in both orders and the detector should pick the correct one.
-    const a = readRom("external/meta/reference/roms/ND110/37949L.bin"); // actually high
-    const b = readRom("external/meta/reference/roms/ND110/37948L.bin"); // actually low
+    const a = readRom("reference/roms/ND110/37949L.bin"); // actually high
+    const b = readRom("reference/roms/ND110/37948L.bin"); // actually low
     const r1 = detectChipOrder(a, b);
     expect(r1.high).toBe("a");
     expect(r1.confidence).toBeGreaterThan(0);
@@ -33,8 +33,8 @@ describe("detectChipOrder on real ROMs", () => {
   });
 
   it("identifies 45133L as high and 45132L as low (ND-120 AM27256)", () => {
-    const high = readRom("external/meta/reference/roms/ND120/AM27256_45133L.bin");
-    const low = readRom("external/meta/reference/roms/ND120/AM27256_45132L.bin");
+    const high = readRom("reference/roms/ND120/4MB/45133L.27c256.b26.bin");
+    const low = readRom("reference/roms/ND120/4MB/45132L.27c256.b23.bin");
     const r1 = detectChipOrder(high, low);
     expect(r1.high).toBe("a");
     const r2 = detectChipOrder(low, high);
@@ -49,8 +49,8 @@ describe("detectChipOrder on real ROMs", () => {
 
 describe("readMicrocodeVersion", () => {
   it("reads version L (octal 14 / decimal 12) from ND-110 3095 ROM", () => {
-    const high = readRom("external/meta/reference/roms/ND110/37949L.bin");
-    const low = readRom("external/meta/reference/roms/ND110/37948L.bin");
+    const high = readRom("reference/roms/ND110/37949L.bin");
+    const low = readRom("reference/roms/ND110/37948L.bin");
     const microcode = combineRoms(high, low);
     const version = readMicrocodeVersion(microcode);
     expect(version).toBeDefined();
@@ -63,7 +63,7 @@ describe("readMicrocodeVersion", () => {
     // Load RASK.CODE via parseCodeBytes (we're testing readMicrocodeVersion
     // on any microcode map, not just ROM-derived ones).
     const codeBytes = new Uint8Array(
-      readFileSync(resolve(REPO_ROOT, "microcode/ND-110-RASK.CODE")),
+      readFileSync(resolve(REPO_ROOT, "reference/ND-110-RASK.CODE")),
     );
     const microcode = new Map<number, bigint>();
     for (let i = 0; i + 9 < codeBytes.length; i += 10) {
@@ -100,8 +100,8 @@ describe("readMicrocodeVersion", () => {
 
 describe("detectForm", () => {
   it("identifies 37948/37949 as ND-110 (token form)", () => {
-    const high = readRom("external/meta/reference/roms/ND110/37949L.bin");
-    const low = readRom("external/meta/reference/roms/ND110/37948L.bin");
+    const high = readRom("reference/roms/ND110/37949L.bin");
+    const low = readRom("reference/roms/ND110/37948L.bin");
     const mc = combineRoms(high, low);
     const r = detectForm(mc);
     expect(r.form).toBe("nd110");
@@ -110,8 +110,8 @@ describe("detectForm", () => {
   });
 
   it("identifies 45132/45133 as ND-120 (canonical form)", () => {
-    const high = readRom("external/meta/reference/roms/ND120/AM27256_45133L.bin");
-    const low = readRom("external/meta/reference/roms/ND120/AM27256_45132L.bin");
+    const high = readRom("reference/roms/ND120/4MB/45133L.27c256.b26.bin");
+    const low = readRom("reference/roms/ND120/4MB/45132L.27c256.b23.bin");
     const mc = combineRoms(high, low);
     const r = detectForm(mc);
     expect(r.form).toBe("nd120");
