@@ -2,6 +2,7 @@
 
 Data, a library and reference files for the microcode of six Norsk Data
 machines: NORD-10, ND-100, ND-110, ND-120, ND-500 and ND-5000.
+Source, issues and releases: <https://github.com/RetroCoreLabs/nd-microcode-meta>.
 
 ## What is in the repository
 

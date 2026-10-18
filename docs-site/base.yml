@@ -95,3 +95,9 @@ validation:
   links:
     not_found: warn
     anchors: warn
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/RetroCoreLabs/nd-microcode-meta
+      name: Source, issues and releases on GitHub
