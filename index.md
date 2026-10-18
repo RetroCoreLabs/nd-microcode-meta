@@ -5,14 +5,17 @@ machines: NORD-10, ND-100, ND-110, ND-120, ND-500 and ND-5000.
 
 ## What is in the repository
 
-| Part | Where | Pages |
-|------|-------|-------|
-| **Token and field definitions** in YAML: every mnemonic with its bits, and the bit fields of the microinstruction word | `defs/tokens`, `defs/fields` | [YAML format](docs/yaml-format.md), [Variants](docs/variants/index.md) |
-| **Runtime data flow, registers, conditions and assembly format** in YAML | `defs/runtime`, `defs/common`, `defs/format` | [Definitions](docs/definitions/data-flow.md) |
-| **A TypeScript library** (`@nd100uc/microcode`): assemble, disassemble, read and write the image formats, guess the variant of a source file | `lib/ts` | [Using the library](docs/library.md), [Library API](docs/api/index.md) |
-| **Reference files**: ROM dumps from real cards, and the output of the C# compiler that the library is checked against | `reference` | [Reference material](reference/README.md) |
-| **Python tools** that make the YAML from the C# files, check it, and combine ND-100 PROM images | `tools` | [Tools](docs/tools.md) |
-| **Hardware notes** | `docs` | [Special bits](docs/special-bits.md), [ND-100 PROM layout](docs/nd100-prom-layout.md) |
+- **Token and field definitions** in YAML: every mnemonic with its bits, and the bit fields of the microinstruction word.
+  In `defs/tokens` and `defs/fields`. Pages: [YAML format](docs/yaml-format.md), [Variants](docs/variants/index.md).
+- **Runtime data flow, registers, conditions and assembly format** in YAML.
+  In `defs/runtime`, `defs/common` and `defs/format`. Page: [Definitions](docs/definitions/data-flow.md).
+- **A TypeScript library** (`@nd100uc/microcode`): assemble, disassemble, read and write the image formats, guess the variant of a source file.
+  In `lib/ts`. Pages: [Using the library](docs/library.md), [Library API](docs/api/index.md).
+- **Reference files**: ROM dumps from real cards, and the output of the C# compiler that the library is checked against.
+  In `reference`. Page: [Reference material](reference/README.md).
+- **Python tools** that make the YAML from the C# files, check it, and combine ND-100 PROM images.
+  In `tools`. Page: [Tools](docs/tools.md).
+- **Hardware notes** in `docs`. Pages: [Special bits](docs/special-bits.md), [ND-100 PROM layout](docs/nd100-prom-layout.md).
 
 ## The variants
 
