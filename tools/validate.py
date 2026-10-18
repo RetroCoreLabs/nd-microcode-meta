@@ -147,6 +147,9 @@ def check_nd120_deltas(nd110_tokens, nd120_tokens):
     }
     expected_nd110_only = {
         "COMM,SLOW1", "COMM,SLOW2",
+        # In use (T_SEQ = 3, w2 140000); present in the ND-110 YAML, not in
+        # the C# ND110Tokens.cs / ND120Tokens.cs and not in the ND-120 YAML.
+        "T,REPEAT",
         # The following are actually in ND-110 but absent in ND-120
         # (ND-120 replaced or renamed them):
         "COMM,IREAD2", "COMM,LBCONT", "COMM,LDDOMI", "COMM,LDPS",
