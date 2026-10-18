@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="ND Microcode Meta">
+  <title>ND Microcode Meta</title>
+  <g fill="#0D47A1">
+    <rect x="38" y="6" width="6" height="18" rx="2"/><rect x="61" y="6" width="6" height="18" rx="2"/><rect x="84" y="6" width="6" height="18" rx="2"/>
+    <rect x="38" y="104" width="6" height="18" rx="2"/><rect x="61" y="104" width="6" height="18" rx="2"/><rect x="84" y="104" width="6" height="18" rx="2"/>
+    <rect x="6" y="38" width="18" height="6" rx="2"/><rect x="6" y="61" width="18" height="6" rx="2"/><rect x="6" y="84" width="18" height="6" rx="2"/>
+    <rect x="104" y="38" width="18" height="6" rx="2"/><rect x="104" y="61" width="18" height="6" rx="2"/><rect x="104" y="84" width="18" height="6" rx="2"/>
+  </g>
+  <rect x="22" y="22" width="84" height="84" rx="12" fill="#E3F2FD" stroke="#0D47A1" stroke-width="6"/>
+  <g fill="none" stroke="#0D47A1" stroke-width="9" stroke-linecap="round">
+    <path d="M42 46 H86"/><path d="M42 64 H74"/><path d="M42 82 H86"/>
+  </g>
+</svg>
