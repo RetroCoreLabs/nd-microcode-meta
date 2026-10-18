@@ -1,0 +1,95 @@
+# Base settings of the documentation site. docs-site/mkdocs.yml (made by
+# tools/gen_docs.py) inherits this file and adds the navigation.
+#
+# Tool choice (docs standard, section 1): the repository had no site generator. Its documentation
+# is guides plus reference tables made from YAML/JSON and TypeScript source, and DocFX reads C# only,
+# so the site is MkDocs + Material. One site generator in this repository.
+#
+# Layout (shape A): the repository root is the docs folder, so index.md,
+# CHANGELOG.md, docs/ and the README files in reference/ are pages and nothing
+# is copied. MkDocs does not accept the folder that holds mkdocs.yml as
+# docs_dir, hence docs-site/. Always build with -d <folder outside the checkout>:
+#   mkdocs build --strict -f docs-site/mkdocs.yml -d "$SITE_OUT"
+# where SITE_OUT is any folder outside the checkout.
+site_name: nd-microcode-meta
+site_description: Definitions, library and reference files for NORD-10, ND-100, ND-110, ND-120, ND-500 and ND-5000 microcode
+site_url: https://retrocorelabs.github.io/nd-microcode-meta/
+repo_url: https://github.com/RetroCoreLabs/nd-microcode-meta
+repo_name: RetroCoreLabs/nd-microcode-meta
+edit_uri: ""
+
+docs_dir: ..
+# Pages: index.md, CHANGELOG.md, docs/*.md and the README.md files under
+# reference/. Everything else (YAML, source, tests, binaries, the PDF, the
+# README of the repository) stays out; a link to such a file goes to GitHub
+# (docs-site/hooks.py).
+exclude_docs: |
+  .*
+  /*
+  !/index.md
+  !/CHANGELOG.md
+  !/docs/
+  !/reference/
+  /docs/*.pdf
+  /reference/*
+  !/reference/README.md
+  !/reference/roms/
+  /reference/roms/*
+  !/reference/roms/ND100/
+  /reference/roms/ND100/*
+  !/reference/roms/ND100/README.md
+
+hooks:
+  - hooks.py
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.indexes
+    - navigation.path
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - toc.follow
+    - content.code.copy
+
+plugins:
+  - search
+
+markdown_extensions:
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - tables
+  - attr_list
+  - md_in_html
+  - admonition
+  - footnotes
+  - def_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - mdx_truly_sane_lists:
+      nested_indent: 2
+
+validation:
+  links:
+    not_found: warn
+    anchors: warn

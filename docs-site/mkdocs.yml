@@ -1,0 +1,46 @@
+# Made by tools/gen_docs.py. Do not edit; change docs-site/base.yml or the script.
+# Navigation of the documentation site.
+INHERIT: base.yml
+
+nav:
+- Home: index.md
+- YAML format: docs/yaml-format.md
+- Using the library: docs/library.md
+- Variants:
+  - Overview: docs/variants/index.md
+  - NORD-10: docs/variants/nd10.md
+  - ND-100: docs/variants/nd100.md
+  - ND-110: docs/variants/nd110.md
+  - ND-120: docs/variants/nd120.md
+  - ND-120 (version L): docs/variants/nd120-dly.md
+  - ND-500: docs/variants/nd500.md
+  - ND-5000: docs/variants/nd5000.md
+- Definitions:
+  - Data flow: docs/definitions/data-flow.md
+  - Registers and conditions: docs/definitions/registers-and-conditions.md
+  - Assembly format: docs/definitions/assembly-format.md
+- Library API:
+  - Overview: docs/api/index.md
+  - types.ts: docs/api/types.md
+  - word.ts: docs/api/word.md
+  - binary-formats.ts: docs/api/binary-formats.md
+  - nd100-proms.ts: docs/api/nd100-proms.md
+  - detect-model.ts: docs/api/detect-model.md
+  - wide-defs.ts: docs/api/wide-defs.md
+  - assembler-wide.ts: docs/api/assembler-wide.md
+  - disassembler-wide.ts: docs/api/disassembler-wide.md
+  - formatter-wide.ts: docs/api/formatter-wide.md
+  - bitfield.ts: docs/api/bitfield.md
+  - yaml-loader.ts: docs/api/yaml-loader.md
+  - disassembler.ts: docs/api/disassembler.md
+  - formatter.ts: docs/api/formatter.md
+  - assembler.ts: docs/api/assembler.md
+  - rom-combiner.ts: docs/api/rom-combiner.md
+- Tools: docs/tools.md
+- Hardware and reference:
+  - Special / Undocumented Bits in the ND-110/120 Microinstruction Word: docs/special-bits.md
+  - ND-100 microcode PROM layout: docs/nd100-prom-layout.md
+  - Integrating nd-microcode-meta into consumer repos: docs/integration-plan.md
+  - Reference material: reference/README.md
+  - ND-100 PROMs: reference/roms/ND100/README.md
+- Changelog: CHANGELOG.md

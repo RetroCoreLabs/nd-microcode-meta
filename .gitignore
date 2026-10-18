@@ -19,3 +19,6 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
+
+# Documentation site: virtual environment
+docs-site/.venv/
