@@ -19,6 +19,7 @@ repo_name: RetroCoreLabs/nd-microcode-meta
 edit_uri: ""
 
 docs_dir: ..
+# The theme's own files (assets/) go through this list too, so they are let through.
 # Pages: index.md, CHANGELOG.md, docs/*.md and the README.md files under
 # reference/. Everything else (YAML, source, tests, binaries, the PDF, the
 # README of the repository) stays out; a link to such a file goes to GitHub
@@ -26,6 +27,7 @@ docs_dir: ..
 exclude_docs: |
   .*
   /*
+  !/assets/
   !/index.md
   !/CHANGELOG.md
   !/docs/
