@@ -1,6 +1,11 @@
 # @nd100uc/microcode
 
-TypeScript library for disassembling (and, in later phases, assembling) ND-100, ND-110, and ND-120 microcode.
+TypeScript library for assembling and disassembling NORD-10, ND-100, ND-110,
+ND-120 (also version L, `nd120-dly`), ND-500 and ND-5000 microcode. It also
+reads and writes the image formats and guesses the variant of a source file.
+
+Documentation: <https://retrocorelabs.github.io/nd-microcode-meta/> (page
+"Using the library", and the list of every exported name under "Library API").
 
 ## Usage
 
@@ -35,14 +40,25 @@ console.log(source);
 
 ## Architecture
 
-| File                 | Purpose                                                   |
-|----------------------|-----------------------------------------------------------|
-| `src/types.ts`       | Type definitions (Model, Token, DecodedFields, ...)       |
-| `src/yaml-loader.ts` | Load YAML defs from `defs/` into a DefinitionPack         |
-| `src/bitfield.ts`    | Bitfield extraction + .CODE/.SYMBOLS parsers              |
-| `src/disassembler.ts`| Decode raw 64-bit word into categorised tokens            |
-| `src/formatter.ts`   | Format tokens into the 3-line assembly layout             |
-| `src/index.ts`       | Public API surface                                         |
+All files are in `src/`.
+
+| File                      | Purpose                                                        |
+|---------------------------|----------------------------------------------------------------|
+| `types.ts`                | Types, `ALL_MODELS`, `normaliseModelName`                      |
+| `word.ts`                 | Helpers for microcode words of any width (bigint)              |
+| `yaml-loader.ts`          | Load the YAML in `defs/` (or the JSON copy) into a DefinitionPack |
+| `generated-defs.json`     | JSON copy of the definitions, made by `scripts/generate-defs.mjs` |
+| `bitfield.ts`             | Field extraction, `.CODE` and `.SYMBOLS.TXT` readers           |
+| `assembler.ts`            | Assembler for ND-100, ND-110, ND-120                           |
+| `disassembler.ts`         | Disassembler entry point; picks the ND-100 or ND-110 code      |
+| `disassembler-nd100.ts`, `disassembler-nd110.ts` | The two disassemblers behind it          |
+| `formatter.ts`            | The 3-line source layout                                       |
+| `wide-defs.ts`, `assembler-wide.ts`, `disassembler-wide.ts`, `formatter-wide.ts` | NORD-10, ND-500, ND-5000 |
+| `binary-formats.ts`       | Readers and writers for the image formats                      |
+| `nd100-proms.ts`          | Combine the ND-100 PROM files into 64-bit words                |
+| `rom-combiner.ts`         | Combine and split the two EPROM chips of an ND-110 or ND-120   |
+| `detect-model.ts`         | Guess the variant of a source file from its words              |
+| `index.ts`                | Public API                                                     |
 
 ## Key design decisions
 
@@ -52,8 +68,9 @@ console.log(source);
   timing/delay hints that different tokens set for hardware timing. They
   are excluded from token-identity matching so that shared bits do not
   cause one category to "consume" bits from another.
-- **ND-110 XOR flip**: ND-110 .CODE files store bits 22-27 inverted relative
-  to the canonical assembled form. The loader applies the XOR optionally.
+- **XOR flip**: ND-110 .CODE files store bits 22-27 inverted relative
+  to the canonical assembled form (`nd110XorFlip`). For the ND-100 the option
+  `nd100XorFlip` flips bits 23-24 only. Both are off by default.
 - **Most-specific-first matching**: Within each category, tokens are sorted
   by logical-popcount descending so composite tokens (e.g. COMM+MIS
   sub-selectors) are matched before simpler versions.
@@ -65,9 +82,9 @@ npm test           # one-shot
 npm run test:watch # watch mode
 ```
 
-Tests validate against the real `microcode/ND-110-RASK.CODE` and known
-addresses (MASTER CLEAR at 0, PANEL INTERRUPT at 0o16, VERSN at 0o20,
-PVPF at 0o27, etc.).
+The tests are in `tests/`. They include round trips (binary to source and
+back) of the ND-110 RASK image, the ND-120 DELILAH images, the ND-100 PROM
+files and the wide-word images in `../../reference/`.
 
 ## Building
 
@@ -75,3 +92,6 @@ PVPF at 0o27, etc.).
 npm run build      # produces dist/
 npm run validate   # type-check only
 ```
+
+After a change to a YAML file in `../../defs/`, make the JSON copy again:
+`node scripts/generate-defs.mjs` (or `make generate` in `../..`).

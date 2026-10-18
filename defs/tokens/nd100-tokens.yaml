@@ -26,7 +26,7 @@ model: ND-100
 word_size_bits: 48
 byte_count: 6
 byte_order: little-endian
-token_count: 296
+token_count: 299
 
 tokens:
 

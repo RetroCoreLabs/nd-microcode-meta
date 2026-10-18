@@ -5,7 +5,7 @@
 # Tokens are OR'd together to produce the final microinstruction word.
 
 model: ND-110
-token_count: 356
+token_count: 357
 
 tokens:
   - token: "A,Z"
