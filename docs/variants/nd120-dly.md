@@ -10,4 +10,4 @@
 | `B,B` | `004003` (w2, bits 31-16) | `000003` (w2, bits 31-16) | B-OP. IS 3. USED TO ADDR. THE B-REGISTER (L: no DLY1) |
 | `B,X` | `004007` (w2, bits 31-16) | `000007` (w2, bits 31-16) | B-OP. IS 7. USED TO ADDR. THE X-REGISTER (L: no DLY1) |
 
-Every mnemonic is listed on the [extension site](https://retrocorelabs.github.io/vs-extension-nd110-uc/docs/variants/nd120-dly/).
+Every mnemonic is listed on the [extension site](https://retrocorelabs.github.io/nd-microcode/docs/variants/nd120-dly/).

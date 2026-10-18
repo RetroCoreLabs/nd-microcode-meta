@@ -122,7 +122,7 @@ deliberately. Breaking schema changes bump the major version.
 
 | Consumer | Repo | How it references this |
 |----------|------|------------------------|
-| VS Code extension `nd-microcode` | `vs-extension-nd110-uc` | Git submodule at `external/meta/`; builds the TS library in `lib/ts` and reads `defs/` |
+| VS Code extension `nd-microcode` | `nd-microcode` | Git submodule at `external/meta/`; builds the TS library in `lib/ts` and reads `defs/` |
 | C# assembler (reference) | `ND110Compile` | Git submodule; a generator produces `ND110Tokens.cs` / `ND120Tokens.cs` from `defs/tokens/*.yaml` |
 | C# CPU emulator (reference) | `ND110Compile/ND110CPU` | Reads this repo's `defs/runtime/data-flow.yaml` as documentation; emulator logic is hand-written |
 | C# ROM combiner | `ND110MicroCode` | No direct dependency; compared against this repo's `reference/roms/` for validation |

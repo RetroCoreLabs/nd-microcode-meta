@@ -31,7 +31,7 @@ machines: NORD-10, ND-100, ND-110, ND-120, ND-500 and ND-5000.
 
 ## Who uses it
 
-- The [VS Code extension](https://retrocorelabs.github.io/vs-extension-nd110-uc/) for `.uc` files. It has this repository as a git submodule (`external/meta`) and bundles the library.
+- The [VS Code extension](https://retrocorelabs.github.io/nd-microcode/) for `.uc` files. It has this repository as a git submodule (`external/meta`) and bundles the library.
 - The C# compiler `ND110Compile`. The tools in `tools/` read its token and field files (`ND10Tokens.cs`, `ND500Tokens.cs` and so on) and write the YAML here.
 
 The library tests assemble the sources in `reference/` and compare the result
