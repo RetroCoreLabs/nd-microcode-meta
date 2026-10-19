@@ -38,15 +38,18 @@
 #                   (Manual p.19-20, lines 496-505; p.24, lines 655-663.)
 #   - bit 50:       EN_EXT instead of XRF (same function, new name).
 
-# Bits 22-27 are stored INVERTED in the ROM (per manual line 760).
-# This matches the ND-110 XOR_MASK (0x0FC00000). Disassemblers and
-# assemblers must apply the XOR round-trip exactly as they do for
-# the ND-110 token-form .CODE files.
+# Bits 22-27 are stored INVERTED in the ROM. ND-06.018.01, "Writing the
+# Microprogram" (page 27): "It is important to be aware that bits 22 - 27 are
+# inverted after the word is assembled." The word description calls each of
+# the bits 22 to 27 active low. This matches the ND-110 XOR_MASK
+# (0x0FC00000; ND-06.031.1 chapter 4). Disassemblers and assemblers must
+# apply the XOR round-trip exactly as they do for the ND-110 .CODE files.
+# The ND-120 does not invert these bits (images are in canonical form).
 rom_bit_inversion:
   mask: 0x0FC00000
   bits: [27, 22]
-  reference: "ND-06.018.01 p.27 line 760"
-  applies_to: [nd100, nd110]    # ND-120 behaves the same
+  reference: "ND-06.018.01 p.27 (Writing the Microprogram); ND-06.031.1 chapter 4"
+  applies_to: [nd100, nd110]
 
 model: ND-100
 word_size_bits: 48

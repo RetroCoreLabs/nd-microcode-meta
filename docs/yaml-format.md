@@ -139,9 +139,10 @@ highest bit first. `subfields` are fields that lie inside the partition
 ### ROM storage form
 
 `nd100-fields.yaml` has `rom_bit_inversion` and `nd120-fields.yaml` has
-`rom_bit_flip`. They describe bits that are stored inverted in the ROM chips
-compared with the form the assembler makes. The values are printed on the
-page of the variant.
+`rom_bit_flip`. `rom_bit_inversion` says that the ND-100 PROMs store bits 22-27
+inverted (mask `0x0FC00000`, same as the ND-110); `rom_bit_flip` says that the
+ND-120 images do not (mask `0x00000000`). Both name the manual text. The values
+are printed on the page of the variant.
 
 ## Where the files come from
 

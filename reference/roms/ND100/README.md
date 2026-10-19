@@ -87,11 +87,54 @@ stitch of the same PROMs on 2026-04-17, which was not repeated here.
 
 ## Stored form (XOR)
 
-The words are used as they come from the chips, with no XOR of bits 22-27
-(see `docs/nd100-prom-layout.md`, section 7). The round trip is 2048/2048
-with no XOR and also with XOR `0x01800000`, `0x0F800000` and `0x0FC00000`
-(checked 2026-10-17), so the test cannot tell which form is the true
-reading of the hardware. Open question, not settled.
+The PROMs hold bits 22-27 of the microword **inverted**. The canonical
+(active high) word used by the token tables is
+
+```
+canonical = chip_word XOR 0x0FC00000        (same mask as the ND-110)
+```
+
+`tools/nd100-combine.py` writes the words as they come from the chips, so
+its `.CODE` files are in PROM form. Readers flip them (library: `ND100_XOR_MASK`,
+`parseCodeBytes(bytes, { nd100XorFlip: true })`); an assembler that writes PROM
+form flips back (`assembleSource` with model `nd100` does this).
+
+### Source (manuals)
+
+- ND-06.018.01 EN, "NORD-100 Microprogramming Description", chapter "Writing
+  the Microprogram", "Assembly Language Considerations": "It is important to
+  be aware that bits 22 - 27 are inverted after the word is assembled."
+- The same manual, microinstruction word description, calls each of these
+  bits active low: bit 22 (loop counter: increments or decrements), bit 23
+  (enable test), bit 24 (set test condition), bit 25 (vectorized jump), bit 26
+  (start loading the WCS) and bit 27 (map jump).
+- For the ND-110 the same statement is made in ND-06.031.1 EN, "ND-110 and
+  ND-120 Microprogrammer's Guide", chapter 4: "Note that for ND-110 only,
+  bits 22-27 of the microinstruction word are inverted after the word is
+  assembled." Chapter 3 lists bits 21-25 of the ND-110 word as "logic sense
+  inverted" against the ND-100. The ND-120 stores the canonical form.
+- The text of both manuals is in the NDInsight reference manuals
+  (`ND-06.031.1 EN ND-110 and ND-120 Microprogrammer's Guide.md`); the
+  ND-100 manual is ND-06.018.01 (OCR text, not part of this repository).
+
+### Evidence from the chips (3033S, 2048 words)
+
+The round trip (disassemble, assemble, compare) is 2048/2048 whatever mask is
+used, so it proves nothing about the mask. Counting tokens does:
+
+| Mask applied to the chip words | `LCOUNT` (bit 22) | `CONDENABL` | `T,MAPJ` | `SLWCS` |
+|--------------------------------|------------------:|------------:|---------:|--------:|
+| none                           | 1975 | 1662 | 1990 | 2007 |
+| `0x0F800000` (bits 23-27)      | 1975 |  386 |   58 |   41 |
+| `0x0FC00000` (bits 22-27)      |   73 |  386 |   58 |   41 |
+
+Only the full mask gives a loop counter that is used in a few words, as the
+manual describes. Address 0 then reads `T,NEXT T,HOLD COND,FETCH F,NEXT
+F,HOLD`.
+
+History: earlier versions of this repository used `0x01800000` (bits 23-24),
+then `0x0F800000` (bits 23-27, "bit 22 is active high"). Both came from bit
+statistics and disagree with the manual.
 
 ## Combining the PROMs
 

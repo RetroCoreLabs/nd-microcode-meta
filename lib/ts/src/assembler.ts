@@ -15,11 +15,12 @@
  *   names (resolved to the low 12 bits + bit 20) or numeric literals
  *   (OR'd into the low 16 bits).
  *
- * For ND-110, the final value is XOR'd with 0x0FC00000 to convert from
- * canonical assembled form into ROM storage form (bits 22-27 flipped).
+ * For ND-110 and ND-100, the final value is XOR'd with 0x0FC00000 to
+ * convert from canonical assembled form into ROM storage form (bits 22-27
+ * flipped). The ND-120 stores the canonical form.
  */
 
-import { ND110_XOR_MASK } from "./bitfield.js";
+import { ND100_XOR_MASK, ND110_XOR_MASK } from "./bitfield.js";
 import type { DefinitionPack, Model, Token } from "./types.js";
 
 // ---------------------------------------------------------------------------
@@ -329,8 +330,9 @@ export interface AssembleOptions {
 /**
  * Assemble a .uc source string into a binary map.
  *
- * For ND-110, the binary values are already in ROM storage form (with
- * bits 22-27 flipped relative to canonical).
+ * For ND-110 and ND-100, the binary values are already in ROM storage form
+ * (with bits 22-27 flipped relative to canonical). For ND-120 they are the
+ * canonical form.
  */
 export function assembleSource(
   source: string,
@@ -345,9 +347,13 @@ export function assembleSource(
 
   for (const instr of sourceMap.instructions) {
     let value = translateInstruction(instr, pack, sourceMap.labels, diagnostics);
-    // ND-110 uses XOR to convert canonical -> ROM storage form.
+    // ND-110 and ND-100 store bits 22-27 inverted (ND-06.031.1 chapter 4,
+    // ND-06.018.01 "Writing the Microprogram"): XOR converts canonical ->
+    // ROM storage form. The ND-120 stores the canonical form.
     if (model === "nd110") {
       value ^= ND110_XOR_MASK;
+    } else if (model === "nd100") {
+      value ^= ND100_XOR_MASK;
     }
     if (binary.has(instr.address)) {
       diagnostics.push({

@@ -69,8 +69,10 @@ All files are in `src/`.
   are excluded from token-identity matching so that shared bits do not
   cause one category to "consume" bits from another.
 - **XOR flip**: ND-110 .CODE files store bits 22-27 inverted relative
-  to the canonical assembled form (`nd110XorFlip`). For the ND-100 the option
-  `nd100XorFlip` flips bits 23-24 only. Both are off by default.
+  to the canonical assembled form (`nd110XorFlip`). The ND-100 PROMs do the same
+  (`nd100XorFlip`, same mask `0x0FC00000`; ND-06.018.01). The ND-120 images are
+  canonical. Both options are off by default; `assembleSource` writes the
+  storage form for `nd110` and `nd100`.
 - **Most-specific-first matching**: Within each category, tokens are sorted
   by logical-popcount descending so composite tokens (e.g. COMM+MIS
   sub-selectors) are matched before simpler versions.

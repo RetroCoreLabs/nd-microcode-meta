@@ -14,12 +14,14 @@
  * emitted a vectored jump token (T,JMP0-3 and the like). Fixed in
  * src/disassembler-nd100.ts.
  *
- * Open question (not decided by this test): which bits of the PROM words are
- * stored inverted. The round trip is 2048/2048 with the words as they come
- * from the chips and also with XOR 0x01800000, 0x0F800000 or 0x0FC00000
- * applied first (checked 2026-10-17); a lossless disassembler does not tell
- * which form is the right reading of the hardware. This test uses the words
- * as they come from the chips, like the .CODE files of nd100-combine.py.
+ * Stored form: the PROM words hold bits 22-27 inverted (ND-06.018.01
+ * "NORD-100 Microprogramming Description", Writing the Microprogram: "bits
+ * 22 - 27 are inverted after the word is assembled"). The test flips the
+ * PROM words with ND100_XOR_MASK (0x0FC00000) before it disassembles, and
+ * the assembler flips back, so the comparison is made in PROM form. The
+ * flip is not a free choice: the round trip alone passes with any mask, but
+ * with this mask the LCOUNT token (bit 22) appears in 73 of the 2048 words
+ * of the 3033S, with a mask that leaves bit 22 alone it appears in 1975.
  */
 
 import { describe, it, expect } from "vitest";
@@ -29,6 +31,7 @@ import {
   assembleSource,
   compileDisassemblerPack,
   disassembleWord,
+  ND100_XOR_MASK,
   formatInstruction,
   loadDefinitions,
   loadNd100Proms,
@@ -47,7 +50,8 @@ function roundTrip(words: Map<number, bigint>): {
   const dpack = compileDisassemblerPack(pack);
   let src = "";
   for (const [addr, raw] of [...words.entries()].sort((a, b) => a[0] - b[0])) {
-    const fi = formatInstruction(disassembleWord(raw, addr, dpack));
+    // PROM form -> canonical form (bits 22-27 inverted in the PROM).
+    const fi = formatInstruction(disassembleWord(raw ^ ND100_XOR_MASK, addr, dpack));
     src += `${addr.toString(8).padStart(6, "0")}/ ${fi.lines.join("\n    ")}\n`;
   }
   const result = assembleSource(src, pack, { model: "nd100" });
@@ -71,11 +75,20 @@ describe("ND-100 PROM round trip", () => {
     expect(words.size).toBe(2048);
   });
 
-  it("3033S: address 0 is a vectored jump", () => {
+  it("3033S: address 0 fetches the next macro instruction", () => {
     const words = loadNd100Proms(resolve(ROMS, "3033S"), "3033S");
     const dpack = compileDisassemblerPack(loadDefinitions("nd100"));
-    const tokens = disassembleWord(words.get(0)!, 0, dpack).tokens.map((t) => t.text);
-    expect(tokens).toContain("T,JMP0-3");
+    const tokens = disassembleWord(words.get(0)! ^ ND100_XOR_MASK, 0, dpack).tokens.map((t) => t.text);
+    expect(tokens).toContain("COND,FETCH");
+    expect(tokens).toContain("T,NEXT");
+    expect(tokens).not.toContain("T,JMP0-3");
+  });
+
+  it("3033S: LCOUNT (bit 22) is rare once bits 22-27 are flipped", () => {
+    const words = loadNd100Proms(resolve(ROMS, "3033S"), "3033S");
+    let withLcount = 0;
+    for (const raw of words.values()) if (((raw ^ ND100_XOR_MASK) >> 22n) & 1n) withLcount++;
+    expect(withLcount).toBeLessThan(words.size * 0.1);
   });
 
   it("3033S: 2048 of 2048 words disassemble and reassemble bit for bit", () => {

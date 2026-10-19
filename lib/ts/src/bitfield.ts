@@ -71,29 +71,46 @@ export function decodeFields(raw: bigint, address: number): DecodedFields {
  * XOR mask for the ND-110 "storage vs canonical" bit flip.
  *
  * ND-110 .CODE files and ROM images store bits 22-27 inverted relative
- * to the canonical form used by the assembler tokens. When reading an
- * ND-110 file, apply this XOR to obtain the canonical microword. When
- * writing to ND-110 format, apply the same XOR to flip back.
+ * to the canonical (active high) form used by the assembler tokens. When
+ * reading an ND-110 file, apply this XOR to obtain the canonical
+ * microword. When writing to ND-110 format, apply the same XOR to flip
+ * back.
  *
- * These bits encode: LOOP (22), CONDENABL (23), SCOND (24), VECT (25),
- * and timing/delay bits (26, 27).
+ * These bits are LOOP (22), ECOND / CONDENABL (23), SCOND (24), VECT (25)
+ * and the two delay bits (26, 27).
  *
- * Source: ND110MicroCode/Program.cs:
+ * Sources:
+ *   - ND-06.031.1 EN "ND-110 and ND-120 Microprogrammer's Guide",
+ *     chapter 4 "Writing Microprogram": "Note that for ND-110 only, bits
+ *     22-27 of the microinstruction word are inverted after the word is
+ *     assembled." Chapter 3 lists bits 22-25 of the ND-110 as "logic
+ *     sense inverted" against the ND-100.
+ *   - ND110Compile Compiler.cs and NDMicroCpu ControlStore.cs:
  *     uc = uc ^ 0x000000000FC00000; // Invert bit 22-27
+ *   - The ND-120 does not do this: its images hold the bits active high.
  */
 export const ND110_XOR_MASK = 0x0FC00000n;
 
 /**
- * ND-100 XOR mask: bits 23-27 are inverted between ROM storage and
- * canonical form.
+ * ND-100 XOR mask: bits 22-27 are stored inverted in the PROMs, relative
+ * to the canonical (active high) form used by the assembler tokens. It is
+ * the same mask as the ND-110.
  *
- * - Bits 23-24 (CONDENABL, SCOND): polarity inversion, same as ND-110.
- * - Bits 25-27 (VECT0, SLWCS0, MAPJ0): active-low hardware signals
- *   stored as 1 = inactive in ROM. XOR converts to active-high
- *   canonical form so token matching works (tokens encode active-high).
- * - Bit 22 (LCOUNT) is NOT included — it's active-high in the ROM.
+ * Source: ND-06.018.01 EN "NORD-100 Microprogramming Description",
+ * chapter "Writing the Microprogram", "Assembly Language Considerations":
+ * "It is important to be aware that bits 22 - 27 are inverted after the
+ * word is assembled." The description of the microinstruction word calls
+ * each of the six bits active low: bit 22 (loop counter), bit 23 (enable
+ * test), bit 24 (set test condition), bit 25 (vectorized jump), bit 26
+ * (load WCS) and bit 27 (map jump).
+ *
+ * Earlier versions of this file used 0x0F800000 (bits 23-27, "bit 22 is
+ * active high") and a tool comment gave 0x01800000 (bits 23-24). Both were
+ * guesses from bit statistics and disagree with the manual. With the full
+ * mask the LCOUNT token appears in 73 of the 2048 words of the 3033S PROM
+ * set; with 0x0F800000 it appears in 1975 of them.
  */
-export const ND100_XOR_MASK = 0x0F800000n;
+export const ND100_XOR_MASK = 0x0FC00000n;
 
 /** Options for parsing .CODE files. */
 export interface ParseCodeOptions {
@@ -104,8 +121,9 @@ export interface ParseCodeOptions {
   nd110XorFlip?: boolean;
 
   /**
-   * Apply the ND-100 XOR bit-flip (bits 23-24 only: SCOND + CONDENABL
-   * polarity). Default: false.
+   * Apply the ND-100 XOR bit-flip (bits 22-27, ND100_XOR_MASK) to convert
+   * PROM form into the canonical form used by the assembler tokens.
+   * Default: false.
    */
   nd100XorFlip?: boolean;
 }

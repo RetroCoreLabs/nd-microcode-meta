@@ -11,12 +11,14 @@
  *
  *   2. Bits 25/26/27 are three active-low branch-mode select lines
  *      (VECT0 / SLWCS0 / MAPJ0) that combine with MIS to pick the
- *      source of the lower 4 bits of the next-microaddress. The
- *      assembler stores the active-high mnemonic values, so "VECT
- *      asserted" means bit 25 set here. The words are used as they come
- *      from the PROMs, with no XOR (see reference/roms/ND100/README.md,
- *      "Stored form"; whether an XOR belongs in front of this function is
- *      not settled, the round trip is lossless either way).
+ *      source of the lower 4 bits of the next-microaddress. This function
+ *      takes the CANONICAL (active high) word, where "VECT asserted"
+ *      means bit 25 set. The PROMs hold bits 22-27 inverted (ND-06.018.01,
+ *      "Writing the Microprogram": "bits 22 - 27 are inverted after the
+ *      word is assembled"), so words read from the PROMs or from an ND-100
+ *      .CODE file must first be XOR'ed with ND100_XOR_MASK (0x0FC00000),
+ *      for example with parseCodeBytes(bytes, { nd100XorFlip: true }). See
+ *      reference/roms/ND100/README.md, "Stored form (XOR)".
  *
  *   3. IDBS is a 4-bit field at bits 37-40 with a separate SEXT modifier
  *      at bit 41 (vs ND-110's 5-bit IDBS at 37-41). The GPR-with-SEXT

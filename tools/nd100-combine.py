@@ -147,14 +147,17 @@ LAYOUTS = {
 
 PROM_DEPTH = 2048  # 82S185 addresses
 
-# ND-100 XOR mask: bits 23-24 (SCOND + CONDENABL) are stored inverted
-# in the ROM relative to canonical form. Bits 25-27 (VECT0, SLWCS0,
-# MAPJ0) are genuinely active-low hardware signals and must NOT be
-# flipped. This was determined empirically: bit 24 is set in 87.3% of
-# raw ROM words but only 12.7% after XOR, matching the ND-110's
-# canonical SCOND distribution. Full 0x0FC00000 XOR destroys T,JMP0-3,
-# MAPJ, SLWCS, and LCOUNT tokens.
-ND100_XOR_MASK = 0x01800000
+# ND-100 XOR mask: bits 22-27 are stored inverted in the PROMs, relative to
+# the canonical (active high) form of the assembler tokens. Same mask as the
+# ND-110. Source: ND-06.018.01 EN "NORD-100 Microprogramming Description",
+# "Writing the Microprogram": "bits 22 - 27 are inverted after the word is
+# assembled"; the word description calls bits 22 to 27 active low.
+# This tool does not apply the mask: the .CODE files it writes hold the words
+# as they come from the chips (PROM form), like the ND-110 .CODE files.
+# Readers flip them with this mask (parseCodeBytes with nd100XorFlip).
+# Earlier versions of this comment gave 0x01800000 (bits 23-24) from bit
+# statistics; that disagrees with the manual.
+ND100_XOR_MASK = 0x0FC00000
 
 def load_chip(directory: Path, partno: str, pos: str) -> bytes:
     """Find the chip file by part-number + position suffix."""

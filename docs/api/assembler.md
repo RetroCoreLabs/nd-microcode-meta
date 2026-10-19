@@ -21,8 +21,9 @@ Pass 2 (translate): for each instruction, OR the encoding of every
   names (resolved to the low 12 bits + bit 20) or numeric literals
   (OR'd into the low 16 bits).
 
-For ND-110, the final value is XOR'd with 0x0FC00000 to convert from
-canonical assembled form into ROM storage form (bits 22-27 flipped).
+For ND-110 and ND-100, the final value is XOR'd with 0x0FC00000 to
+convert from canonical assembled form into ROM storage form (bits 22-27
+flipped). The ND-120 stores the canonical form.
 ```
 
 ## Exports
@@ -58,7 +59,7 @@ export interface LabelDef {
 }
 ```
 
-[Source line 30](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L30)
+[Source line 31](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L31)
 
 ## ParsedInstruction
 
@@ -75,7 +76,7 @@ export interface ParsedInstruction {
 }
 ```
 
-[Source line 38](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L38)
+[Source line 39](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L39)
 
 ## SourceMap
 
@@ -92,7 +93,7 @@ export interface SourceMap {
 }
 ```
 
-[Source line 46](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L46)
+[Source line 47](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L47)
 
 ## AssemblyDiagnostic
 
@@ -109,7 +110,7 @@ export interface AssemblyDiagnostic {
 }
 ```
 
-[Source line 54](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L54)
+[Source line 55](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L55)
 
 ## AssemblyResult
 
@@ -132,7 +133,7 @@ export interface AssemblyResult {
 }
 ```
 
-[Source line 62](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L62)
+[Source line 63](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L63)
 
 ## parseNumericLiteral
 
@@ -152,7 +153,7 @@ Returns NaN if the string is not a valid numeric literal.
 export function parseNumericLiteral(s: string): number
 ```
 
-[Source line 90](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L90)
+[Source line 91](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L91)
 
 ## preprocess
 
@@ -170,7 +171,7 @@ Preprocess .uc source text.
 export function preprocess(source: string): SourceMap
 ```
 
-[Source line 127](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L127)
+[Source line 128](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L128)
 
 ## translateInstruction
 
@@ -211,7 +212,7 @@ export function translateInstruction(
 ): bigint
 ```
 
-[Source line 255](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L255)
+[Source line 256](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L256)
 
 ## AssembleOptions
 
@@ -226,15 +227,16 @@ export interface AssembleOptions {
 }
 ```
 
-[Source line 324](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L324)
+[Source line 325](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L325)
 
 ## assembleSource
 
 ```text
 Assemble a .uc source string into a binary map.
 
-For ND-110, the binary values are already in ROM storage form (with
-bits 22-27 flipped relative to canonical).
+For ND-110 and ND-100, the binary values are already in ROM storage form
+(with bits 22-27 flipped relative to canonical). For ND-120 they are the
+canonical form.
 ```
 
 ```typescript
@@ -244,7 +246,7 @@ export function assembleSource(
   options: AssembleOptions = {},
 ```
 
-[Source line 335](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L335)
+[Source line 337](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L337)
 
 ## binaryToCodeBytes
 
@@ -259,7 +261,7 @@ Records are emitted in ascending address order.
 export function binaryToCodeBytes(binary: Map<number, bigint>): Uint8Array
 ```
 
-[Source line 377](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L377)
+[Source line 383](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L383)
 
 ## recordsToCodeBytes
 
@@ -275,7 +277,7 @@ export function recordsToCodeBytes(
 ): Uint8Array
 ```
 
-[Source line 398](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L398)
+[Source line 404](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L404)
 
 ## translateFromTokens
 
@@ -288,4 +290,4 @@ lookup, no numeric parsing). Used by the round-trip tests.
 export function translateFromTokens(tokens: Token[]): bigint
 ```
 
-[Source line 423](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L423)
+[Source line 429](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L429)

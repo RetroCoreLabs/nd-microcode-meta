@@ -59,11 +59,14 @@ contributes the lower byte.
 
 - **ND-110 ROMs** store microcode in **token form** — bits 22-27 are
   XOR'd with `0x0FC00000` relative to the canonical (assembled) form.
+- **ND-100 PROMs** store bits 22-27 inverted too (`0x0FC00000`), see
+  `roms/ND100/README.md`.
 - **ND-120 ROMs** store microcode in **canonical form** directly.
 
 The XOR is applied at compile time by the reference C# assembler for
-ND-110. Consumers reading raw ROM bytes must handle this difference.
-See `../docs/special-bits.md`.
+ND-110 (ND-06.031.1 chapter 4: "for ND-110 only, bits 22-27 ... are inverted
+after the word is assembled"). Consumers reading raw ROM bytes must handle
+this difference. See `../docs/special-bits.md`.
 
 ## Images and sources for NORD-10, ND-500, ND-5000 and ND-120 DELILAH
 

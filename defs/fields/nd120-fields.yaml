@@ -32,16 +32,18 @@ fields:
   # treated as the ND-110 delay bits and ignored for logical comparisons.
 
 # ROM encoding difference:
-# ND-120 EPROM images store bits 22-27 inverted relative to the canonical
-# assembled form. The ROM combiner applies XOR 0x0FC00000 (bits 22-27) to
-# convert between the two representations.
+# The ND-120 does NOT invert bits 22-27: its EPROM images hold the canonical
+# (active high) assembled word. ND-06.031.1 chapter 4 says "for ND-110 only,
+# bits 22-27 of the microinstruction word are inverted after the word is
+# assembled". The ND-110 and the ND-100 do invert them (mask 0x0FC00000, see
+# docs/special-bits.md and nd100-fields.yaml). Checked on the images: the raw
+# ND-120 chips combine to words where bits 22-27 are mostly 0.
 rom_bit_flip:
   applies_to: ND-120
-  description: "ND-120 EPROM images have bits 22-27 inverted vs the assembled form"
-  mask: "0x0FC00000"       # Bits 22..27 set
-  operation: xor
+  description: "ND-120 EPROM images are in canonical form: bits 22-27 are not inverted"
+  mask: "0x00000000"       # nothing to flip
+  operation: none
   purpose: |
-    When reading raw EPROM contents (e.g. from 45132L.bin + 45133L.bin),
-    XOR with this mask to obtain the canonical assembled form used by the
-    assembler and disassembler. When writing ROMs, apply the same XOR in
-    reverse.
+    No XOR is needed when reading or writing ND-120 EPROM contents (for
+    example 45132L.bin + 45133L.bin). The ND-110 and ND-100 need
+    XOR 0x0FC00000.

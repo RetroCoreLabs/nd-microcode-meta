@@ -261,10 +261,14 @@ merged back into the single 64-bit `microcode.CODE` per bank, since
 the chips are electrically read in parallel with the data PROMs and
 their nibbles sit at bits 48-63 of the single microword.
 
-The ND-100 PROMs are stored **canonical** - no `XOR 0x0FC00000`
-(bits 22-27 inversion) is applied at either combine time or load
-time. That transformation is specific to the ND-110 token-form
-EPROMs and must not be applied to ND-100 images at any stage.
+The ND-100 PROMs hold bits 22-27 **inverted**, the same as the ND-110
+EPROMs. `tools/nd100-combine.py` does not change the words: the `.CODE`
+files it writes are in PROM form. A reader that wants the canonical
+(active high) word applies `XOR 0x0FC00000` after loading, and an
+assembler that writes PROM form applies the same XOR at the end
+(`ND100_XOR_MASK` in `lib/ts/src/bitfield.ts`, option `nd100XorFlip` of
+`parseCodeBytes`). See `../reference/roms/ND100/README.md`, "Stored form
+(XOR)", for the manual text and the evidence.
 
 ---
 
@@ -303,7 +307,7 @@ extended instruction set.
 | Addressable microaddrs    | 2048 (base); 2048 + 2048 banks (CX)        | 8192 (13-bit addr with bit-20 extension) |
 | Sequencer                 | Bits 48-63 of the 64-bit microword (row D `d17`-`d20`) | Encoded inside the microword as well |
 | Decode PLA                | Separate PROMs (`b18`-`b20`)               | Integrated (no dedicated decode ROM on the CPU card) |
-| ROM XOR flip              | None - stored canonical                    | ND-110 applies `XOR 0x0FC00000` to bits 22-27 |
+| Bits 22-27 in the chips   | Inverted: flip with `XOR 0x0FC00000`       | ND-110: inverted, same flip. ND-120: not inverted (canonical) |
 | PCB-column -> bit order   | Inverse (d20 = low nibble, d5 = high nibble) | N/A (single EPROM per half)           |
 
 The ND-100 architecture is **more decomposed**: data, sequencing, and

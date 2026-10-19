@@ -33,7 +33,7 @@ The official guide hand-waves this as "delay bits" without explaining which toke
 
 ---
 
-## 2. The ND-110 bit-22-27 ROM inversion
+## 2. The ND-110 and ND-100 bit-22-27 ROM inversion
 
 The ND-110 EPROMs store bits 22-27 **inverted** relative to the canonical assembled form:
 
@@ -45,6 +45,11 @@ ROM_value = CANONICAL_value XOR 0x000000000FC00000
 - **ROM storage form** = what is physically burned into the 37948L / 37949L EPROMs.
 
 Both the ND-110 reference assembler (`ND110Compile`) and the ROM-combiner tool (`ND110MicroCode/Program.cs`) apply this XOR at the boundary. The ND-120 does NOT apply this flip - its ROMs store the canonical form directly.
+
+Manual references:
+
+- ND-06.031.1 EN, "ND-110 and ND-120 Microprogrammer's Guide", chapter 4, "Writing Microprogram": "Note that for ND-110 only, bits 22-27 of the microinstruction word are inverted after the word is assembled." and, in the mnemonic list introduction, "the microcode assembler for ND-110 inverts bits 22-27."
+- ND-06.018.01 EN, "NORD-100 Microprogramming Description", chapter "Writing the Microprogram": "It is important to be aware that bits 22 - 27 are inverted after the word is assembled." The ND-100 PROMs therefore have the same mask (`ND100_XOR_MASK = 0x0FC00000`); see `../reference/roms/ND100/README.md`.
 
 ### Practical consequence
 
