@@ -7,7 +7,7 @@ One page per variant. The data is read from the YAML files in `defs/tokens` and 
 | Variant | Name | word_size_bits | Tokens |
 | --- | --- | ---: | ---: |
 | [NORD-10](nd10.md) | `nd10` | 32 | 197 |
-| [ND-100](nd100.md) | `nd100` | 48 | 299 |
+| [ND-100](nd100.md) | `nd100` | 48 | 300 |
 | [ND-110](nd110.md) | `nd110` |  | 357 |
 | [ND-120](nd120.md) | `nd120` |  | 358 |
 | [ND-120 (version L)](nd120-dly.md) | `nd120-dly` |  | 358 |

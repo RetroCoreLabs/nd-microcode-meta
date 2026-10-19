@@ -31,7 +31,7 @@ that pull in `nd-microcode-meta` as a git submodule.
 defs/
 ├── tokens/
 │   ├── nd10-tokens.yaml        197 tokens (NORD-10, 32-bit word, `parts` encoding)
-│   ├── nd100-tokens.yaml       299 tokens (ND-100, 48-bit word)
+│   ├── nd100-tokens.yaml       300 tokens (ND-100, 48-bit word)
 │   ├── nd110-tokens.yaml       357 tokens
 │   ├── nd120-tokens.yaml       358 tokens (12 ND-120-only are marked) + `variant_overrides` for nd120-dly
 │   ├── nd500-tokens.yaml       721 tokens (ND-500, 144-bit word, 9 parts)

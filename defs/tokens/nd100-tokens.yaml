@@ -26,7 +26,7 @@ model: ND-100
 word_size_bits: 48
 byte_count: 6
 byte_order: little-endian
-token_count: 299
+token_count: 300
 
 tokens:
 
@@ -147,7 +147,10 @@ tokens:
     encoding: { w4: "000020", w3: "000000", w2: "000000", w1: "000000" }
     description: "A-OP. IS MACRO-IR BITS 3-6 (loaded by last T,MAPJ)"
     models: [nd100]
-  - token: "A,SHCE"
+  # Name: the printed microcode listing (ND100-MICROCODE.pdf, 35 uses) and the sibling B,SRCE
+  # say SRCE. Earlier versions of this table had the OCR misreading "SHCE" (the dot matrix R of
+  # ND-06.018.01 Appendix A page A-2 looks like an H).
+  - token: "A,SRCE"
     category: A_REG
     display_line: 1
     encoding: { w4: "000024", w3: "000000", w2: "000000", w1: "000000" }
@@ -1357,7 +1360,17 @@ tokens:
     category: SPECIAL
     display_line: 1
     encoding: { w4: "000004", w3: "000000", w2: "000000", w1: "000000" }
-    description: "Standalone XRF / Enable Extended Register File (bit 50). Normally bit 50 is embedded in composite A_REG tokens such as A,SHCE; this token exists for microwords where bit 50 is asserted but no composite A-operand token matches."
+    description: "Standalone XRF / Enable Extended Register File (bit 50). Normally bit 50 is embedded in composite A_REG tokens such as A,SRCE; this token exists for microwords where bit 50 is asserted but no composite A-operand token matches."
+    models: [nd100]
+
+  # The printed ND-100 microcode listing (CX option, PROM 085XX; ND100-MICROCODE.pdf) spells bit 50
+  # XRF, 145 times, for example "IDBS,ALU XRF COMM,EWRF T,NEXT". It is not in ND-06.018.01 Appendix A.
+  # Same bit as EN_EXT; the disassembler keeps writing EN_EXT (the first name in this file).
+  - token: "XRF"
+    category: SPECIAL
+    display_line: 2
+    encoding: { w4: "000004", w3: "000000", w2: "000000", w1: "000000" }
+    description: "Enable the extended register file (bit 50). The name used in the printed ND-100 microcode listing; the same bit as EN_EXT."
     models: [nd100]
 
   # ==================================================================

@@ -2,8 +2,10 @@
 /**
  * Recover an ND-100 micro code source (.uc) from the PROM chip dumps.
  *
- * There is no original Norsk Data source for the ND-100 micro code. This tool reads the
- * 82S185 chips of reference/roms/ND100/<variant>, combines them into 64-bit words, flips
+ * This tool makes the plain decoding of the PROM chips. (The printed Norsk Data listing, with
+ * the original labels and comments, was typed back from the scan into the .uc files of the
+ * NDMicroAsm repository, microcode/ND-100/*.uc; this tool makes the files in its DISASSEMBLY
+ * folder, which have no original names.) It reads the 82S185 chips of reference/roms/ND100/<variant>, combines them into 64-bit words, flips
  * bits 22-27 back to the canonical (active high) form (ND-06.018.01, "Writing the
  * Microprogram": "bits 22 - 27 are inverted after the word is assembled"), disassembles
  * every word with the ND-100 disassembler of lib/ts and writes the text. The text
@@ -63,9 +65,10 @@ const body = lib.formatProgram(instrs, { model: "nd100" });
 
 const head = [
   "%#MODEL nd100",
-  `% ND-100 ${variant} micro code, recovered from the PROM chips in reference/roms/ND100/${variant}.`,
-  "% This is NOT the original Norsk Data source: there is none. It is the disassembly of the",
-  "% factory PROMs by tools/nd100-prom-to-uc.mjs, in the mnemonics of ND-06.018.01.",
+  `% ND-100 ${variant} micro code, decoded from the PROM chips in reference/roms/ND100/${variant}.`,
+  "% This is the plain disassembly of the factory PROMs by tools/nd100-prom-to-uc.mjs, in the",
+  "% mnemonics of ND-06.018.01, with no original names or comments. The source with the names",
+  "% and comments of the printed Norsk Data listing is ND-100-<variant>.uc in the folder above.",
   `% Words: ${canonical.size}. Assembled with nd100-asm the words come back bit for bit.`,
   symbols.size ? "% Labels are the macro instruction entry points from the decode PLA (L<octal address>)." : "%",
   "%",

@@ -28,6 +28,12 @@ This repository uses [Semantic Versioning](https://semver.org/):
 
 ### Changed
 
+- **ND-100 token names, from the printed Norsk Data listing** - `A,SHCE` is now `A,SRCE` (the listing
+  prints SRCE 35 times and the sibling `B,SRCE` exists; SHCE was a misreading of the dot matrix print
+  of ND-06.018.01 Appendix A page A-2). New token `XRF` (bit 50, the name the listing uses 145 times,
+  same bit as `EN_EXT`). 300 tokens. `tools/nd100-prom-to-uc.mjs` now says its output is the plain
+  chip decoding; the source with the original names and comments is in the NDMicroAsm repository
+  (`microcode/ND-100/*.uc`).
 - `lib/ts/scripts/generate-defs.mjs` also writes NORD-10, ND-500 and
   ND-5000 into `lib/ts/src/generated-defs.json`.
 - Library tests read their files from `reference/` (paths were wrong);
