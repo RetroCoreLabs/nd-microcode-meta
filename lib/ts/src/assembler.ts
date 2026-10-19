@@ -258,6 +258,12 @@ export function translateInstruction(
   pack: DefinitionPack,
   labels: Map<string, number>,
   diagnostics: AssemblyDiagnostic[],
+  /**
+   * ND-110/ND-120: a branch address has 13 bits, the 13th goes to bit 20.
+   * ND-100: false. The branch address has 12 bits and bit 20 is the timing
+   * bit TC0, so a label or a number never touches bit 20.
+   */
+  wideBranch = true,
 ): bigint {
   // Pre-scan to determine jump-context vs data-context for numerics.
   let isJumpContext = false;
@@ -288,12 +294,15 @@ export function translateInstruction(
     if (labels.has(arg)) {
       const addr = labels.get(arg)!;
       value |= BigInt(addr & 0xFFF);
-      value |= BigInt((addr >> 12) & 0x1) << 20n;
+      if (wideBranch) value |= BigInt((addr >> 12) & 0x1) << 20n;
       continue;
     }
     const numeric = parseNumericLiteral(arg);
     if (!Number.isNaN(numeric)) {
-      if (splitNumerics && numeric >= 0 && numeric <= 0x1FFF) {
+      if (splitNumerics && !wideBranch && numeric >= 0 && numeric <= 0xFFF) {
+        // ND-100: 12-bit branch target, bits 11:0 only.
+        value |= BigInt(numeric & 0xFFF);
+      } else if (splitNumerics && wideBranch && numeric >= 0 && numeric <= 0x1FFF) {
         // Treat as 13-bit branch target: split bit 12 to bit 20.
         value |= BigInt(numeric & 0xFFF);
         value |= BigInt((numeric >> 12) & 0x1) << 20n;
@@ -346,7 +355,7 @@ export function assembleSource(
   const records: Array<{ address: number; value: bigint }> = [];
 
   for (const instr of sourceMap.instructions) {
-    let value = translateInstruction(instr, pack, sourceMap.labels, diagnostics);
+    let value = translateInstruction(instr, pack, sourceMap.labels, diagnostics, model !== "nd100");
     // ND-110 and ND-100 store bits 22-27 inverted (ND-06.031.1 chapter 4,
     // ND-06.018.01 "Writing the Microprogram"): XOR converts canonical ->
     // ROM storage form. The ND-120 stores the canonical form.

@@ -118,3 +118,13 @@ describe("ND-100 PROM round trip", () => {
     expect(r.exact).toBe(r.total);
   });
 });
+
+describe("ND-100 assembler branch address", () => {
+  it("a label with bit 11 set keeps the 12-bit address and leaves bit 20 (TC0) alone", () => {
+    const pack = loadDefinitions("nd100");
+    const r = assembleSource("0/ T,JMP TARGET;\n4005/\nTARGET:\nT,NEXT;\n", pack, { model: "nd100" });
+    const word = r.binary.get(0)! ^ ND100_XOR_MASK;
+    expect(word & 0xfffn).toBe(0x805n);
+    expect((word >> 20n) & 1n).toBe(0n);
+  });
+});

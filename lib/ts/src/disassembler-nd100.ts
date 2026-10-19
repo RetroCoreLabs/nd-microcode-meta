@@ -372,7 +372,10 @@ export function disassembleWord(
       // Branch base = bits[11:2] with low 2 replaced by LC at runtime.
       const branchBase = fields.csbit11_0 & ~0x3;
       if (branchBase !== 0) {
-        const label = symbols?.get(branchBase) ?? symbols?.get(branchBase & 0x7FF);
+        // Exact address only: a label of another address would assemble to
+        // another branch target (the 3033E-CX extension bank at 0o4000 and up
+        // has its own words at addresses whose low 11 bits equal base words).
+        const label = symbols?.get(branchBase);
         tokens.push({
           text: label ?? toOctal(branchBase),
           field: "BRANCH",
@@ -476,15 +479,12 @@ function emitNd100BranchTarget(
   symbols?: SymbolTable,
 ): void {
   const addr = fields.csbit11_0; // 12-bit target, ignore bit 20
-  // ND-100 ROM is aliased across both halves of the 12-bit uaddr space:
-  // the physical PROM provides 2K microinstructions at addresses 0x000-
-  // 0x7FF, mirrored at 0x800-0xFFF (bit 11 of the uaddr is ignored by
-  // the ROM decoder). WCS SRAM at 0o4000-0o4377 may override the upper
-  // alias when loaded. For label resolution from a static symbol file
-  // (which only covers the ROM, not dynamically-loaded WCS), fall back
-  // to the aliased lower-half address when the full 12-bit target has
-  // no direct label.
-  const label = symbols?.get(addr) ?? symbols?.get(addr & 0x7FF);
+  // Exact address only. An earlier version fell back to the label of
+  // addr & 0x7FF (the ROM is 2K words), but the 3033E-CX has its own words in
+  // the extension bank at 0o4000 and up, and a jump to 0o4057 is not a jump to
+  // 0o57: the label of the base word assembled to a different branch target
+  // (41 words of the 3033E-CX differed).
+  const label = symbols?.get(addr);
   out.push({
     text: label ?? toOctal(addr),
     field: "BRANCH",

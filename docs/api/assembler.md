@@ -209,7 +209,12 @@ export function translateInstruction(
   pack: DefinitionPack,
   labels: Map<string, number>,
   diagnostics: AssemblyDiagnostic[],
-): bigint
+  /**
+   * ND-110/ND-120: a branch address has 13 bits, the 13th goes to bit 20.
+   * ND-100: false. The branch address has 12 bits and bit 20 is the timing
+   * bit TC0, so a label or a number never touches bit 20.
+   */
+  wideBranch = true,
 ```
 
 [Source line 256](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L256)
@@ -227,7 +232,7 @@ export interface AssembleOptions {
 }
 ```
 
-[Source line 325](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L325)
+[Source line 334](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L334)
 
 ## assembleSource
 
@@ -246,7 +251,7 @@ export function assembleSource(
   options: AssembleOptions = {},
 ```
 
-[Source line 337](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L337)
+[Source line 346](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L346)
 
 ## binaryToCodeBytes
 
@@ -261,7 +266,7 @@ Records are emitted in ascending address order.
 export function binaryToCodeBytes(binary: Map<number, bigint>): Uint8Array
 ```
 
-[Source line 383](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L383)
+[Source line 392](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L392)
 
 ## recordsToCodeBytes
 
@@ -277,7 +282,7 @@ export function recordsToCodeBytes(
 ): Uint8Array
 ```
 
-[Source line 404](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L404)
+[Source line 413](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L413)
 
 ## translateFromTokens
 
@@ -290,4 +295,4 @@ lookup, no numeric parsing). Used by the round-trip tests.
 export function translateFromTokens(tokens: Token[]): bigint
 ```
 
-[Source line 429](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L429)
+[Source line 438](https://github.com/RetroCoreLabs/nd-microcode-meta/blob/main/lib/ts/src/assembler.ts#L438)

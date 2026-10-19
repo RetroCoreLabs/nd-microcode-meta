@@ -48,8 +48,8 @@ Both the ND-110 reference assembler (`ND110Compile`) and the ROM-combiner tool (
 
 Manual references:
 
-- ND-06.031.1 EN, "ND-110 and ND-120 Microprogrammer's Guide", chapter 4, "Writing Microprogram": "Note that for ND-110 only, bits 22-27 of the microinstruction word are inverted after the word is assembled." and, in the mnemonic list introduction, "the microcode assembler for ND-110 inverts bits 22-27."
-- ND-06.018.01 EN, "NORD-100 Microprogramming Description", chapter "Writing the Microprogram": "It is important to be aware that bits 22 - 27 are inverted after the word is assembled." The ND-100 PROMs therefore have the same mask (`ND100_XOR_MASK = 0x0FC00000`); see `../reference/roms/ND100/README.md`.
+- ND-06.031.1 EN, "ND-110 and ND-120 Microprogrammer's Guide", chapter 4, "Writing Microprogram" (printed page 36): "Note that for ND-110 only, bits 22-27 of the microinstruction word are inverted after the word is assembled." and, in the mnemonic list introduction, "the microcode assembler for ND-110 inverts bits 22-27."
+- ND-06.018.01 EN, "NORD-100 Microprogramming Description", chapter 4 "Writing the Microprogram" (printed page 4-1; bits 22-27 active low on pages 3-7 and 3-8): "It is important to be aware that bits 22 - 27 are inverted after the word is assembled." The ND-100 PROMs therefore have the same mask (`ND100_XOR_MASK = 0x0FC00000`); see `../reference/roms/ND100/README.md`.
 
 ### Practical consequence
 

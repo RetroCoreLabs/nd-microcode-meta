@@ -113,6 +113,12 @@ form flips back (`assembleSource` with model `nd100` does this).
   bits 22-27 of the microinstruction word are inverted after the word is
   assembled." Chapter 3 lists bits 21-25 of the ND-110 word as "logic sense
   inverted" against the ND-100. The ND-120 stores the canonical form.
+- Page numbers: ND-06.018.01 printed pages 3-7 (bits 26, 27), 3-8 (bits 22-25) and
+  4-1 (the inversion sentence); ND-06.031.1 printed page 36 (chapter 4). The OCR
+  text of both manuals can contain errors, so these sentences were read again on the
+  page images of the scans. The OCR text of the mnemonic list (Appendix A, pages A-1
+  to A-6) of ND-06.018.01 is not usable (the OCR invented tables); that list has to
+  be read from the scan.
 - The text of both manuals is in the NDInsight reference manuals
   (`ND-06.031.1 EN ND-110 and ND-120 Microprogrammer's Guide.md`); the
   ND-100 manual is ND-06.018.01 (OCR text, not part of this repository).
